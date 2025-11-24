@@ -51,7 +51,7 @@ const ProductDetailsPreview = () => {
 
                     {selectedMedia.type === "model" && (
                         <model-viewer
-                            src="/models/orm-model.glb"
+                            src="/model/orm-model.glb"
                             alt="3D Model"
                             auto-rotate
                             camera-controls
@@ -82,7 +82,7 @@ const ProductDetailsPreview = () => {
                             onClick={() =>
                                 setSelectedMedia({
                                     type: "model",
-                                    src: "/models/orm-model.glb",
+                                    src: "/model/orm-model.glb",
                                 })
                             }
                         >
