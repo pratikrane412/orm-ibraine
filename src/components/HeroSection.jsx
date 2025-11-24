@@ -38,7 +38,7 @@ const HeroSection = () => {
                 <div className="hero-right">
                     <div className="model-circle">
                         <model-viewer
-                            src="src/assets/orm-model.glb"
+                            src="/model/orm-model.glb"
                             alt="Thar ORM Leveling Kit 3D Model"
                             auto-rotate
                             camera-controls

@@ -11,15 +11,15 @@ import {
 } from "react-icons/fa";
 import { BsCart2, BsDash, BsPlus } from "react-icons/bs";
 
-import productVideo from "../assets/video.mp4";        // your MP4
-import videoThumb from "../assets/videothumb.jpg";   // video thumbnail image
-import modelThumb from "../assets/modelthumb.jpg"; // 3D model thumbnail image
+import productVideo from "/video/video.mp4";        // your MP4
+import videoThumb from "/image/videothumb.jpg";   // video thumbnail image
+import modelThumb from "/image/modelthumb.jpg"; // 3D model thumbnail image
 
 // Example image URLs – replace with your own
 const images = [
-    "src/assets/1.jpeg",
-    "src/assets/2.jpeg",
-    "src/assets/1.jpeg",
+    "/image/1.jpeg",
+    "/image/2.jpeg",
+    "/image/1.jpeg",
 ];
 
 const ProductDetailsPreview = () => {
@@ -57,7 +57,7 @@ const ProductDetailsPreview = () => {
 
                     {selectedMedia.type === "model" && (
                         <model-viewer
-                            src="src/assets/orm-model.glb" // your GLB path in public folder
+                            src="/model/orm-model.glb" // your GLB path in public folder
                             alt="ORM Leveling Kit 3D Model"
                             class="main-display"
                             auto-rotate

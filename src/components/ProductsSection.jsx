@@ -10,7 +10,7 @@ const products = [
         price: "3,990.00",
         original: "9,900.00",
         rating: 4,
-        image: "src/assets/1.jpeg",
+        image: "/image/1.jpeg",
     },
     {
         id: 2,
@@ -18,7 +18,7 @@ const products = [
         price: "3,990.00",
         original: "9,900.00",
         rating: 5,
-        image: "src/assets/2.jpeg",
+        image: "/image/2.jpeg",
     },
     {
         id: 3,
@@ -26,7 +26,7 @@ const products = [
         price: "1,790.00",
         original: "9,900.00",
         rating: 5,
-        image: "src/assets/1.jpeg",
+        image: "/image/1.jpeg",
     },
 ];
 
