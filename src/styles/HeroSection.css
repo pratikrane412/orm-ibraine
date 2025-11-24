@@ -1,0 +1,102 @@
+.hero {
+    width: 100%;
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    color: #fff;
+    padding: 4rem 0;
+}
+
+.hero-container {
+    width: 90%;
+    max-width: 1400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+}
+
+.hero-left {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-title span {
+    color: #f5a623;
+}
+
+.hero-text {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: #e2e2e2;
+}
+
+.hero-btn {
+    margin-top: 1.5rem;
+    padding: 0.9rem 2.4rem;
+    font-size: 1rem;
+    font-weight: 700;
+    background: #f5a623;
+    color: #000;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+}
+
+.hero-btn:hover {
+    opacity: 0.85;
+}
+
+.hero-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 3D Model Circle Styling */
+.model-circle {
+    width: 470px;
+    height: 470px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #f5a623;
+    box-shadow: 0 0 35px rgba(245, 166, 35, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #c0c0c0, #1a1a1a);
+    object-fit: cover;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .hero-right {
+        justify-content: center;
+    }
+
+    .model-circle {
+        width: 350px;
+        height: 350px;
+    }
+}
