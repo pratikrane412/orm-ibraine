@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/ProductsSection.css";
 import { FaStar, FaRegHeart } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
