@@ -1,5 +1,5 @@
 import "../styles/HeroInfoSection.css";
-import sampleImg from "/image/car.jpg";  
+import sampleImg from "/image/car.jpg";
 
 const HeroInfoSection = () => {
   return (
@@ -10,13 +10,14 @@ const HeroInfoSection = () => {
         </h2>
 
         <p className="info-text">
-          At <strong>Off-Road Mutants (ORM)</strong>, we believe every vehicle has the
-          potential to become a true off-road powerhouse. Our modification
-          process goes far beyond adding accessories — it’s a transformation of
-          strength, performance, and style. Each build begins with precision
-          engineering and a passion for adventure. From heavy-duty bumpers and
-          roof racks to running boards and custom lighting systems, every product
-          is crafted for durability and tested in extreme conditions.
+          At <strong>Off-Road Mutants (ORM)</strong>, we believe every vehicle
+          has the potential to become a true off-road powerhouse. Our
+          modification process goes far beyond adding accessories — it’s a
+          transformation of strength, performance, and style. Each build begins
+          with precision engineering and a passion for adventure. From
+          heavy-duty bumpers and roof racks to running boards and custom
+          lighting systems, every product is crafted for durability and tested
+          in extreme conditions.
         </p>
 
         <p className="info-text">

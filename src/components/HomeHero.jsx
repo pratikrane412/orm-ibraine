@@ -1,5 +1,5 @@
 import "../styles/HomeHero.css";
-import bgImg from "/image/car.jpg"; 
+import bgImg from "/image/car.jpg";
 
 const HomeHero = () => {
   return (
