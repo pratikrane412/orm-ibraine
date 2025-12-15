@@ -8,6 +8,7 @@ import VideoSection from "./components/VideoSection";
 import Footer from "./components/Footer";
 import CarSelector from "./components/CarSelector";
 import TechSpecs from "./components/TechSpecs";
+import ProductShowcase from "./components/ProductShowcase";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <TechSpecs />
       <HeroInfoSection />
       <VideoSection />
+      <ProductShowcase />
       <Footer />
     </div>
   );
