@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
+
+.tech-specs-section {
+  background-color: #000;
+  color: #fff;
+  padding: 60px 0 40px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 90vh;
+}
+
+/* --- ADDED TITLE STYLING --- */
+.specs-main-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.8rem; /* Matches the large header size */
+  text-transform: capitalize;
+  margin-bottom: 40px; /* Space between title and tabs */
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* The yellow highlight for "Road Collection." */
+.highlight {
+  color: #fbb03b;
+}
+
+/* --- TAB STYLING --- */
+.specs-tabs-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 60px;
+  width: 95%;
+  max-width: 1400px;
+}
+
+.specs-tab-btn {
+  background: transparent;
+  border: 1px solid #fff; 
+  border-radius: 4px;
+  color: #fff;
+  padding: 10px 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.specs-tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.specs-tab-btn.active {
+  background-color: #fbb03b;
+  border-color: #fbb03b;
+  color: #000;
+  font-weight: 500;
+  box-shadow: 0 0 10px rgba(251, 176, 59, 0.3);
+}
+
+/* --- VISUAL AREA --- */
+.specs-visual-area {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.specs-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Oswald', sans-serif;
+  font-size: 13rem;
+  color: rgba(255, 255, 255, 0.04);
+  z-index: 1;
+  pointer-events: none;
+  margin: 0;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.specs-car-wrapper {
+  position: relative;
+  z-index: 5;
+  width: 800px;
+  max-width: 95%;
+}
+
+.specs-car-img {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+  animation: carFadeIn 0.5s ease-out;
+}
+
+@keyframes carFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* --- HOTSPOTS --- */
+.hotspot-point {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hotspot-center {
+  width: 10px;
+  height: 10px;
+  background-color: #fbb03b;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 10px #fbb03b;
+}
+
+.hotspot-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #fbb03b;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.hotspot-point.active .hotspot-center {
+  background-color: #fff;
+  box-shadow: 0 0 10px #fff;
+}
+.hotspot-point.active .hotspot-ring {
+  border-color: #fff;
+}
+
+/* --- INFO CARD --- */
+.specs-info-card {
+  position: absolute;
+  background-color: #fcfcfc;
+  color: #000;
+  width: 250px;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 20;
+  animation: floatIn 0.3s ease-out;
+}
+
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-text h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  margin: 0 0 5px 0;
+  text-transform: uppercase;
+}
+
+.card-text p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.8rem;
+  color: #555;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* --- FOOTER --- */
+.specs-footer {
+  margin-top: 30px;
+  z-index: 10;
+}
+
+.view-specs-link {
+  color: #fbb03b;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.2s;
+}
+
+.view-specs-link:hover {
+  gap: 12px;
+  color: #ffc107;
+}
+
+.arrow-icon { font-size: 0.9rem; }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .specs-bg-text { font-size: 8rem; }
+  .specs-car-wrapper { width: 90%; }
+}
+
+@media (max-width: 768px) {
+  .specs-bg-text { font-size: 4rem; opacity: 0.1; }
+  .specs-main-title { font-size: 2rem; }
+  .specs-tab-btn {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+}

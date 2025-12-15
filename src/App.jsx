@@ -7,6 +7,7 @@ import HeroInfoSection from "./components/HeroInfoSection";
 import VideoSection from "./components/VideoSection";
 import Footer from "./components/Footer";
 import CarSelector from "./components/CarSelector";
+import TechSpecs from "./components/TechSpecs";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <HeroSection />
       <OffRoadCollection />
       <CarSelector />
+      <TechSpecs />
       <HeroInfoSection />
       <VideoSection />
       <Footer />
