@@ -1,9 +1,11 @@
 import "../styles/HomeHero.css";
-import bgImg from "/image/car.jpg";
+// Make sure this path is correct based on your folder structure
+import bgImg from "/image/car-ai.png"; 
 
 const HomeHero = () => {
   return (
     <section className="home-hero" style={{ backgroundImage: `url(${bgImg})` }}>
+      {/* Overlay div handles the darkening of the background */}
       <div className="overlay"></div>
 
       <div className="hero-content">
@@ -14,10 +16,12 @@ const HomeHero = () => {
           terrain. Rugged. Reliable. Ready for Anything.
         </p>
 
-        <button className="hero-btn">Shop Now →</button>
+        <button className="hero-btn">
+          Shop Now <span>&rarr;</span>
+        </button>
       </div>
     </section>
   );
 };
 
-export default HomeHero;
+export default HomeHero;  

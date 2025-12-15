@@ -1,5 +1,5 @@
 import "../styles/Navbar.css";
-import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
+import { FaRegHeart, FaUser, FaShoppingBag } from "react-icons/fa";
 
 const Navbar = () => {
   return (
@@ -7,8 +7,8 @@ const Navbar = () => {
       <div className="nav-container">
         {/* LOGO */}
         <div className="nav-logo">
-          <h1>ORM</h1>
-          <span className="tagline">OFF-ROAD MUTANTS</span>
+          <h1 className="orm-text">ORM</h1>
+          <span className="mutant-text">OFF-ROAD MUTANTS</span>
         </div>
 
         {/* LINKS */}
@@ -24,9 +24,16 @@ const Navbar = () => {
 
         {/* ICONS */}
         <div className="nav-icons">
-          <FaSearch className="icon" />
-          <FaUser className="icon" />
-          <FaShoppingCart className="icon" />
+          <div className="icon-circle">
+            <FaRegHeart />
+          </div>
+          {/* User Icon - Remove this block if you only want 2 icons */}
+          <div className="icon-circle">
+            <FaUser />
+          </div>
+          <div className="icon-circle">
+            <FaShoppingBag />
+          </div>
         </div>
       </div>
     </nav>
