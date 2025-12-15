@@ -1,88 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
+
 .info-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 120px 90px;
-  background: #000;
+  background-color: #000; /* Deep Black Background */
   color: #fff;
-  width: 100%;
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Optional: Subtle vignette to give depth like the screenshot */
+.info-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at left, rgba(20,20,20,0.8) 0%, #000 60%);
+  pointer-events: none;
+}
+
+.info-container {
+  width: 90%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center; /* Vertically center image and text */
+  justify-content: space-between;
+  gap: 60px;
+  position: relative;
+  z-index: 2;
+}
+
+/* --- LEFT SIDE (TEXT) --- */
 .info-left {
-  width: 48%;
+  flex: 1;
+  max-width: 650px;
 }
 
 .info-title {
-  font-size: 48px;
-  font-weight: 800;
-  margin-bottom: 25px;
-  line-height: 1.2;
+  font-family: 'Oswald', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 30px;
+  color: #fff;
+  text-transform: capitalize;
 }
 
-.info-title span {
-  color: #ffb321;
+.highlight-text {
+  color: #fbb03b; /* ORM Gold */
 }
 
-.info-text {
-  font-size: 17px;
+.info-desc {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
   line-height: 1.6;
-  margin-bottom: 18px;
-  opacity: 0.9;
+  color: #cccccc; /* Light grey text for readability on black */
+  margin-bottom: 20px;
 }
 
+/* Button Styling */
 .info-btn {
-  margin-top: 20px;
-  padding: 14px 38px;
-  background: #ffb321;
+  background-color: #fbb03b;
   color: #000;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 14px 40px;
   border: none;
-  border-radius: 30px;
-  font-size: 18px;
-  font-weight: 600;
+  border-radius: 50px;
   cursor: pointer;
-  transition: 0.3s ease;
+  margin-top: 20px;
+  transition: transform 0.2s ease, background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .info-btn:hover {
-  background: #ffc94d;
+  background-color: #ffc107;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(251, 176, 59, 0.3);
 }
 
-/* RIGHT IMAGE WRAPPER */
+/* --- RIGHT SIDE (IMAGE) --- */
 .info-right {
-  width: 48%;
+  flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end; /* Pushes image to the right */
 }
 
 .img-frame {
-  width: 620px;
-  height: 420px;
-  border-radius: 35px;
-  border: 6px solid #ffb321;
-  overflow: hidden;
+  position: relative;
+  /* The Golden Border */
+  border: 3px solid #fbb03b; 
+  /* Large rounded corners matches the screenshot */
+  border-radius: 30px; 
+  padding: 8px; /* Space between border and image */
+  width: 100%;
+  max-width: 600px;
+  /* Optional glow effect */
+  box-shadow: 0 0 20px rgba(251, 176, 59, 0.1); 
 }
 
 .img-frame img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  display: block;
+  /* Inner radius matches outer radius minus padding */
+  border-radius: 22px; 
   object-fit: cover;
 }
 
-/* RESPONSIVE */
+/* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 1024px) {
-  .info-section {
+  .info-container {
     flex-direction: column;
-    text-align: center;
-    padding: 60px 20px;
+    text-align: left;
+    gap: 40px;
   }
 
-  .info-left, .info-right {
+  .info-left {
+    max-width: 100%;
+    order: 1; /* Keep text on top, or change to 2 to put image on top */
+  }
+
+  .info-right {
     width: 100%;
+    justify-content: center;
+    order: 2;
+  }
+
+  .info-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-title {
+    font-size: 2rem;
+  }
+  
+  .info-desc {
+    font-size: 0.95rem;
   }
 
   .img-frame {
-    margin-top: 30px;
-    width: 100%;
-    max-width: 600px;
+    border-width: 2px;
+    border-radius: 20px;
+  }
+  
+  .img-frame img {
+    border-radius: 15px;
   }
 }
