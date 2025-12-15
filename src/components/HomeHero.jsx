@@ -1,5 +1,4 @@
 import "../styles/HomeHero.css";
-// Make sure this path is correct based on your folder structure
 import bgImg from "/image/car-ai.png"; 
 
 const HomeHero = () => {

@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap');
+
+.car-selector-section {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full screen height */
+  background-color: #000;
+  overflow: hidden;
+}
+
+/* --- BACKGROUND IMAGE --- */
+.main-bg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.5s ease-in-out; /* Smooth transition */
+}
+
+/* Dark overlay to ensure text/thumbnails pop */
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 100%);
+  pointer-events: none;
+}
+
+/* --- THUMBNAILS POSITIONING --- */
+.thumbnails-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Let clicks pass through empty spaces */
+}
+
+.thumb-wrapper {
+  position: absolute;
+  pointer-events: auto; /* Enable clicking on bubbles */
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.thumb-wrapper:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+/* SPECIFIC POSITIONS (Adjust % to match your exact image composition) */
+.thumb-wrapper.top-left {
+  top: 20%;
+  left: 15%;
+}
+
+.thumb-wrapper.top-right {
+  top: 25%;
+  right: 15%;
+}
+
+.thumb-wrapper.bottom-left {
+  bottom: 25%;
+  left: 18%;
+}
+
+.thumb-wrapper.bottom-right {
+  bottom: 25%;
+  right: 18%;
+}
+
+.thumb-wrapper.bottom-center {
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* Fix hover for centered element to keep it centered */
+.thumb-wrapper.bottom-center:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+/* --- CIRCLE STYLING --- */
+.thumb-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.3); /* Default faded border */
+  background: #000;
+  transition: border-color 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.thumb-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7; /* Faded when not active */
+  transition: opacity 0.3s;
+}
+
+/* --- ACTIVE STATE --- */
+.thumb-wrapper.active .thumb-circle {
+  border-color: #fbb03b; /* ORM Yellow */
+  width: 85px; /* Slightly larger */
+  height: 85px;
+}
+
+.thumb-wrapper.active .thumb-circle img {
+  opacity: 1;
+}
+
+/* --- TOOLTIP (The Yellow Label) --- */
+.tooltip {
+  background-color: #fbb03b;
+  color: #000;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 6px 16px;
+  border-radius: 4px;
+  margin-bottom: 12px; /* Spacing above circle */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  pointer-events: none;
+}
+
+/* The little triangle arrow pointing down */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -6px; /* Position at bottom of tooltip */
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #fbb03b; /* Color matches tooltip */
+}
+
+/* Show Tooltip when Active */
+.tooltip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .thumb-circle {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .thumb-wrapper.active .thumb-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Move positions closer to edge on mobile */
+  .thumb-wrapper.top-left { left: 5%; top: 15%; }
+  .thumb-wrapper.top-right { right: 5%; top: 15%; }
+  .thumb-wrapper.bottom-left { left: 5%; bottom: 20%; }
+  .thumb-wrapper.bottom-right { right: 5%; bottom: 20%; }
+}
