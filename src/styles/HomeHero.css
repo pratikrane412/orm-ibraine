@@ -3,21 +3,36 @@
 .home-hero {
   position: relative;
   width: 100%;
-  height: 100vh; /* Fills the entire screen height */
+  /* Fix height calculations */
+  margin-top: 80px; 
+  height: calc(100vh - 80px); 
+  display: flex;
+  align-items: flex-end; 
+  justify-content: flex-start;
+  padding-bottom: 50px;
+  overflow: hidden; 
+}
+
+/* --- NEW: Background Layers for Smooth Fading --- */
+.hero-bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
-  align-items: flex-end; /* Aligns content to the bottom */
-  justify-content: flex-start;
-  padding-bottom: 50px; /* Adjusts how high the text sits from bottom */
-  margin: 0;
-  overflow: hidden; /* Prevents scrollbars if image bleeds */
-  margin-top: 80px; /* Pushes the image down so it starts AFTER the navbar */
-  height: calc(100vh - 80px); /* Adjust height to fill remaining screen */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 1s ease-in-out; /* Smooth fade transition */
+  z-index: 0;
 }
 
-/* Gradient Overlay - Subtle darkening at the bottom for text readability */
+.hero-bg-layer.active {
+  opacity: 1; /* Show active image */
+}
+
+/* Gradient Overlay */
 .overlay {
   position: absolute;
   top: 0;
@@ -37,20 +52,21 @@
   position: relative;
   z-index: 2;
   max-width: 800px;
-  padding-left: 5%; /* Aligns with the logo on the left */
+  padding-left: 5%;
   padding-right: 20px;
   color: #fff;
-  margin-bottom: 20px; /* Fine-tune bottom spacing */
+  margin-bottom: 20px; 
 }
 
+/* --- TYPOGRAPHY --- */
 .hero-title {
   font-family: 'Oswald', sans-serif;
-  font-size: 5rem; /* Larger font size */
+  font-size: 5rem;
   font-weight: 700;
-  text-transform: uppercase; /* Forces text to CAPS */
-  line-height: 0.95; /* Tighter line height for stacking */
+  text-transform: uppercase;
+  line-height: 0.95;
   margin-bottom: 20px;
-  max-width: 10ch; /* Forces the line break after "UNLEASH THE" */
+  max-width: 10ch;
   text-shadow: 2px 2px 15px rgba(0,0,0,0.7);
 }
 
@@ -58,13 +74,14 @@
   font-family: 'Roboto', sans-serif;
   font-size: 1.1rem;
   line-height: 1.5;
-  color: #d1d1d1; /* Light gray to match screenshot */
+  color: #d1d1d1;
   margin-bottom: 35px;
   max-width: 600px;
 }
 
+/* --- BUTTON --- */
 .hero-btn {
-  background-color: #fbb03b; /* Exact golden yellow */
+  background-color: #fbb03b;
   color: #000;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
@@ -84,6 +101,39 @@
   transform: scale(1.05);
 }
 
+/* --- NEW: DOTS NAVIGATION --- */
+.hero-dots {
+  position: absolute;
+  bottom: 30px; /* Position from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px; /* Space between dots */
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5); /* Inactive grey/white */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.dot:hover {
+  background-color: #fff;
+}
+
+/* Active Dot Styling (Yellow/Gold with ring effect) */
+.dot.active {
+  background-color: #fbb03b; /* Gold center */
+  border: 2px solid #000; /* Subtle contrast border */
+  box-shadow: 0 0 0 2px #fbb03b; /* Outer gold ring */
+  transform: scale(1.2);
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .hero-title {
@@ -97,6 +147,10 @@
   }
   
   .home-hero {
-    height: 80vh; /* Slightly shorter on mobile if needed */
+    height: 80vh;
+  }
+  
+  .hero-dots {
+    bottom: 20px;
   }
 }
