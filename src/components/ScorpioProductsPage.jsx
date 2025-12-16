@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { fetchTharProducts } from "../api/mockData"; // Import Scorpio API
+import { fetchTharProducts } from "../api/mockData"; 
 import { FaShoppingCart, FaHeart, FaSearch, FaStar } from "react-icons/fa";
 import "../styles/ScorpioProductsPage.css"; 
 
-// Sidebar Categories (Scorpio is active)
 const categories = [
   { name: "Mahindra Thar & Roxx", count: 20, active: false },
-  { name: "Scorpio", count: 20, active: true }, // Active!
+  { name: "Scorpio", count: 20, active: true }, // Active
   { name: "Toyota Hilux", count: 20, active: false },
   { name: "Toyota Fortuner", count: 20, active: false },
   { name: "Suzuki Jimny", count: 20, active: false },
+  { name: "Range Rover Defender", count: 20, active: false },
 ];
 
 const ScorpioProductsPage = () => {
@@ -29,11 +29,11 @@ const ScorpioProductsPage = () => {
     <div className="page-wrapper">
       <Navbar />
 
-      {/* HEADER */}
+      {/* HEADER - Same as Thar Page */}
       <div className="scorpio-header">
         <div className="header-overlay"></div>
         <div className="header-content">
-          <h1>Scorpio <span className="highlight">Accessories</span></h1>
+          <h1>Our <span className="highlight">Product</span></h1>
         </div>
       </div>
 
@@ -57,7 +57,7 @@ const ScorpioProductsPage = () => {
           </ul>
         </aside>
 
-        {/* GRID */}
+        {/* PRODUCT GRID */}
         <main className="product-content">
           <div className="results-bar">
             <span>Showing {products.length} Results</span>
@@ -71,7 +71,7 @@ const ScorpioProductsPage = () => {
           <hr className="divider" />
 
           {loading ? (
-            <div className="loading">Loading Scorpio Gear...</div>
+            <div className="loading">Loading Scorpio Products...</div>
           ) : (
             <div className="shop-grid">
               {products.map((item) => (

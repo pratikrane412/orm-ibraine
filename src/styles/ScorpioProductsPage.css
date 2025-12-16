@@ -1,17 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
 
-/* Reuse the wrapper style */
 .page-wrapper {
   background-color: #000;
   color: #fff;
   min-height: 100vh;
 }
 
-/* SCORPIO HEADER - Different BG Image */
+/* HEADER - Same styling and image as Thar Page */
 .scorpio-header {
-  height: 350px;
-  /* Make sure you have this image or use existing one */
-  background-image: url('/image/scorpio-bg.jpg'); 
+  height: 300px;
+  /* Use the SAME image as TharProductsPage.css */
+  background-image: url('/image/banner.jpg'); 
   background-size: cover;
   background-position: center;
   position: relative;
@@ -37,12 +36,12 @@
   font-family: 'Oswald', sans-serif;
   font-size: 4rem;
   color: #fff;
-  text-transform: uppercase;
+  text-transform: capitalize; /* Ensures "Our Product" capitalization */
 }
 
 .highlight { color: #fbb03b; }
 
-/* --- REUSE LAYOUT STYLES (Same as Thar) --- */
+/* MAIN LAYOUT */
 .main-layout {
   display: flex;
   width: 90%;
@@ -54,7 +53,7 @@
 .sidebar { flex: 1; max-width: 300px; }
 .product-content { flex: 3; }
 
-/* Search Box */
+/* SIDEBAR & SEARCH */
 .search-box {
   display: flex;
   align-items: center;
@@ -72,7 +71,6 @@
   outline: none;
 }
 
-/* Sidebar Categories */
 .sidebar-title {
   font-family: 'Oswald', sans-serif;
   font-size: 1.5rem;
@@ -90,6 +88,7 @@
   cursor: pointer;
   transition: 0.3s;
 }
+/* Active/Hover State */
 .category-list li:hover, .category-list li.active {
   background-color: #fbb03b;
   padding-left: 15px;
@@ -98,7 +97,7 @@
   font-weight: 500;
 }
 
-/* Shop Grid & Cards */
+/* GRID & CARDS */
 .results-bar {
   display: flex;
   justify-content: space-between;
@@ -163,7 +162,6 @@
 }
 .cart-btn:hover { background: #fbb03b; }
 
-/* Responsive */
 @media(max-width: 1024px) {
   .shop-grid { grid-template-columns: repeat(2, 1fr); }
 }

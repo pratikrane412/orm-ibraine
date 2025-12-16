@@ -11,6 +11,7 @@ const categories = [
   { name: "Toyota Hilux", count: 20, active: false },
   { name: "Toyota Fortuner", count: 20, active: false },
   { name: "Suzuki Jimny", count: 20, active: false },
+  { name: "Range Rover Defender", count: 20, active: false },
 ];
 
 const TharProductsPage = () => {
@@ -32,7 +33,9 @@ const TharProductsPage = () => {
       <div className="product-page-header">
         <div className="header-overlay"></div>
         <div className="header-content">
-          <h1>Our <span className="highlight">Product</span></h1>
+          <h1>
+            Our <span className="highlight">Product</span>
+          </h1>
         </div>
       </div>
 
@@ -44,8 +47,10 @@ const TharProductsPage = () => {
             <input type="text" placeholder="Search Product" />
           </div>
 
-          <h3 className="sidebar-title">Product <span className="highlight">Categories:</span></h3>
-          
+          <h3 className="sidebar-title">
+            Product <span className="highlight">Categories:</span>
+          </h3>
+
           <ul className="category-list">
             {categories.map((cat, index) => (
               <li key={index} className={cat.active ? "active" : ""}>
@@ -76,17 +81,23 @@ const TharProductsPage = () => {
               {products.map((item) => (
                 <div key={item.id} className="shop-card">
                   {item.isSale && <span className="tag sale">Sale</span>}
-                  
+
                   <div className="card-img">
                     <img src={item.image} alt={item.title} />
-                    <button className="wishlist-icon"><FaHeart /></button>
+                    <button className="wishlist-icon">
+                      <FaHeart />
+                    </button>
                   </div>
 
                   <div className="card-details">
                     <h4>{item.title}</h4>
                     <div className="price-row">
-                      <span className="price">Rs. {item.price.toLocaleString()}</span>
-                      <span className="old-price">Rs. {item.oldPrice.toLocaleString()}</span>
+                      <span className="price">
+                        Rs. {item.price.toLocaleString()}
+                      </span>
+                      <span className="old-price">
+                        Rs. {item.oldPrice.toLocaleString()}
+                      </span>
                     </div>
                     <div className="stars">
                       {[...Array(5)].map((_, i) => (
