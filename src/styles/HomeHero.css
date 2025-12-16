@@ -2,8 +2,8 @@
 
 .home-hero {
   position: relative;
-  width: 100%;
-  /* Fix height calculations */
+  width: 100vw; /* Forces element to touch screen edges */
+  max-width: 100%; /* Prevents overflow */
   margin-top: 80px; 
   height: calc(100vh - 80px); 
   display: flex;
@@ -11,6 +11,8 @@
   justify-content: flex-start;
   padding-bottom: 50px;
   overflow: hidden; 
+  margin-left: 0; /* Reset margins */
+  margin-right: 0;
 }
 
 /* --- NEW: Background Layers for Smooth Fading --- */

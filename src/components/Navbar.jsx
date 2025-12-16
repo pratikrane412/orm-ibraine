@@ -1,41 +1,52 @@
+import React, { useState } from "react";
 import "../styles/Navbar.css";
-import { FaRegHeart, FaUser, FaShoppingBag } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Import Link
+import { FaRegHeart, FaUser, FaShoppingBag, FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [click, setClick] = useState(false);
+
+  const handleClick = () => setClick(!click);
+  const closeMobileMenu = () => setClick(false);
+
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* LOGO */}
-        <div className="nav-logo">
-          <h1 className="orm-text">ORM</h1>
-          <span className="mutant-text">OFF-ROAD MUTANTS</span>
+        
+        {/* 1. LEFT: LOGO */}
+        <div className="nav-logo" onClick={closeMobileMenu}>
+          <Link to="/">
+            <h1 className="orm-text">ORM</h1>
+            <span className="mutant-text">OFF-ROAD MUTANTS</span>
+          </Link>
         </div>
 
-        {/* LINKS */}
-        <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/products/thar">Mahindra Thar & Roxx</Link></li>
-          <li><Link to="/products/scorpio">Scorpio</Link></li>
-          <li><Link to="/products/hilux">Toyota Hilux</Link></li>
-          <li><Link to="/products/fortuner">Toyota Fortuner</Link></li>
-          <li><Link to="/products/jimny">Suzuki Jimny</Link></li>
-          <li><Link to="/products/defender">Range Rover Defender</Link></li>
+        {/* 2. CENTER: LINKS (Hidden on Mobile) */}
+        <ul className={click ? "nav-links active" : "nav-links"}>
+          <li><Link to="/" onClick={closeMobileMenu}>Home</Link></li>
+          <li><Link to="/products/thar" onClick={closeMobileMenu}>Mahindra Thar & Roxx</Link></li>
+          <li><Link to="/products/scorpio" onClick={closeMobileMenu}>Scorpio</Link></li>
+          <li><Link to="/products/hilux" onClick={closeMobileMenu}>Toyota Hilux</Link></li>
+          <li><Link to="/products/fortuner" onClick={closeMobileMenu}>Toyota Fortuner</Link></li>
+          <li><Link to="/products/jimny" onClick={closeMobileMenu}>Suzuki Jimny</Link></li>
+          <li><Link to="/products/defender" onClick={closeMobileMenu}>Range Rover Defender</Link></li>
         </ul>
 
-        {/* ICONS */}
-        <div className="nav-icons">
-          <div className="icon-circle">
-            <FaRegHeart />
+        {/* 3. RIGHT: ICONS + HAMBURGER */}
+        <div className="nav-actions">
+          {/* User Icons */}
+          <div className="nav-icons">
+            <div className="icon-circle"><FaRegHeart /></div>
+            <div className="icon-circle"><FaUser /></div>
+            <div className="icon-circle"><FaShoppingBag /></div>
           </div>
-          {/* User Icon - Remove this block if you only want 2 icons */}
-          <div className="icon-circle">
-            <FaUser />
-          </div>
-          <div className="icon-circle">
-            <FaShoppingBag />
+
+          {/* Hamburger Menu (Visible only on Mobile) */}
+          <div className="menu-icon" onClick={handleClick}>
+            {click ? <FaTimes /> : <FaBars />}
           </div>
         </div>
+
       </div>
     </nav>
   );
