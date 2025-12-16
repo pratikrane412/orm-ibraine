@@ -3,20 +3,22 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { fetchTharProducts } from "../api/mockData"; // Import your API
 import { FaShoppingCart, FaHeart, FaSearch, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import "../styles/TharProductsPage.css"; // We will create this next
 
 const categories = [
-  { name: "Mahindra Thar & Roxx", count: 20, active: true },
-  { name: "Scorpio", count: 20, active: false },
-  { name: "Toyota Hilux", count: 20, active: false },
-  { name: "Toyota Fortuner", count: 20, active: false },
-  { name: "Suzuki Jimny", count: 20, active: false },
-  { name: "Range Rover Defender", count: 20, active: false },
+  { name: "Mahindra Thar & Roxx", count: 20, active: true, path: "/products/thar" },
+  { name: "Scorpio", count: 20, active: false, path: "/products/scorpio" },
+  { name: "Toyota Hilux", count: 20, active: false, path: "/products/hilux" },
+  { name: "Toyota Fortuner", count: 20, active: false, path: "/products/fortuner" },
+  { name: "Suzuki Jimny", count: 20, active: false, path: "/products/jimny" },
+  { name: "Range Rover Defender", count: 20, active: false, path: "/products/defender" },
 ];
 
 const TharProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchTharProducts().then((data) => {
@@ -24,6 +26,12 @@ const TharProductsPage = () => {
       setLoading(false);
     });
   }, []);
+
+  const handleCategoryClick = (path) => {
+    navigate(path);
+    // Scroll to top of new page
+    window.scrollTo(0, 0);
+  };
 
   return (
     <div className="page-wrapper">
@@ -53,7 +61,7 @@ const TharProductsPage = () => {
 
           <ul className="category-list">
             {categories.map((cat, index) => (
-              <li key={index} className={cat.active ? "active" : ""}>
+              <li key={index} className={cat.active ? "active" : ""} onClick={() => handleCategoryClick(cat.path)}>
                 <span>{cat.name}</span>
                 <span className="count">{cat.count}</span>
               </li>
