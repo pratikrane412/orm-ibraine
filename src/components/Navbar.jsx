@@ -17,10 +17,10 @@ const Navbar = () => {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/products/thar">Mahindra Thar & Roxx</Link></li>
           <li><Link to="/products/scorpio">Scorpio</Link></li>
-          <li>Toyota Hilux</li>
-          <li>Toyota Fortuner</li>
-          <li>Suzuki Jimny</li>
-          <li>Range Rover Defender</li>
+          <li><Link to="/products/hilux">Toyota Hilux</Link></li>
+          <li><Link to="/products/fortuner">Toyota Fortuner</Link></li>
+          <li><Link to="/products/jimny">Suzuki Jimny</Link></li>
+          <li><Link to="/products/defender">Range Rover Defender</Link></li>
         </ul>
 
         {/* ICONS */}

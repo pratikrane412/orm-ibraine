@@ -11,6 +11,10 @@ import TechSpecs from "./components/TechSpecs";
 import ProductShowcase from "./components/ProductShowcase";
 import TharProductsPage from "./components/TharProductsPage";
 import ScorpioProductsPage from "./components/ScorpioProductsPage";
+import HiluxProductsPage from "./components/HiluxProductsPage";
+import FortunerProductsPage from "./components/FortunerProductsPage";
+import JimnyProductsPage from "./components/JimnyProductsPage";
+import DefenderProductsPage from "./components/DefenderProductsPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Home = () => (
@@ -38,8 +42,20 @@ function App() {
         {/* Route for Thar Page */}
         <Route path="/products/thar" element={<TharProductsPage />} />
 
-        {/* Route for Thar Page */}
+        {/* Route for Scorpio Page */}
         <Route path="/products/scorpio" element={<ScorpioProductsPage />} />
+
+        {/* Route for Hilux Page */}
+        <Route path="/products/hilux" element={<HiluxProductsPage />} />
+
+        {/* Route for Fortuner Page */}
+        <Route path="/products/fortuner" element={<FortunerProductsPage />} />
+
+        {/* Route for Jimny Page */}
+        <Route path="/products/jimny" element={<JimnyProductsPage />} />
+
+        {/* Route for Defender Page */}
+        <Route path="/products/defender" element={<DefenderProductsPage />} />
       </Routes>
     </Router>
   );
