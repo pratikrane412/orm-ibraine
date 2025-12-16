@@ -1,5 +1,6 @@
 import "../styles/Navbar.css";
 import { FaRegHeart, FaUser, FaShoppingBag } from "react-icons/fa";
+import { Link } from "react-router-dom"; // Import Link
 
 const Navbar = () => {
   return (
@@ -13,9 +14,9 @@ const Navbar = () => {
 
         {/* LINKS */}
         <ul className="nav-links">
-          <li className="active">Home</li>
-          <li>Mahindra Thar & Roxx</li>
-          <li>Scorpio</li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/products/thar">Mahindra Thar & Roxx</Link></li>
+          <li><Link to="/products/scorpio">Scorpio</Link></li>
           <li>Toyota Hilux</li>
           <li>Toyota Fortuner</li>
           <li>Suzuki Jimny</li>

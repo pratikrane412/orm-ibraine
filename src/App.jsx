@@ -9,21 +9,39 @@ import Footer from "./components/Footer";
 import CarSelector from "./components/CarSelector";
 import TechSpecs from "./components/TechSpecs";
 import ProductShowcase from "./components/ProductShowcase";
+import TharProductsPage from "./components/TharProductsPage";
+import ScorpioProductsPage from "./components/ScorpioProductsPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+const Home = () => (
+  <>
+    <Navbar />
+    <HomeHero />
+    <HeroSection />
+    <OffRoadCollection />
+    <CarSelector />
+    <TechSpecs />
+    <HeroInfoSection />
+    <VideoSection />
+    <ProductShowcase />
+    <Footer />
+  </>
+);
 
 function App() {
   return (
-    <div className="app">
-      <Navbar />
-      <HomeHero />
-      <HeroSection />
-      <OffRoadCollection />
-      <CarSelector />
-      <TechSpecs />
-      <HeroInfoSection />
-      <VideoSection />
-      <ProductShowcase />
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        {/* Route for Home Page */}
+        <Route path="/" element={<Home />} />
+        
+        {/* Route for Thar Page */}
+        <Route path="/products/thar" element={<TharProductsPage />} />
+
+        {/* Route for Thar Page */}
+        <Route path="/products/scorpio" element={<ScorpioProductsPage />} />
+      </Routes>
+    </Router>
   );
 }
 

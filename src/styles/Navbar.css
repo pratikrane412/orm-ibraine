@@ -79,6 +79,26 @@
 .nav-links li:hover {
   color: #fbb03b;
 }
+/* TARGET THE LINK (<a> tag) DIRECTLY */
+.nav-links a {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  color: #fff !important; /* Forces White */
+  text-decoration: none; /* Removes Underline */
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+/* HOVER STATE */
+.nav-links a:hover {
+  color: #fbb03b !important; /* Forces Yellow */
+}
+
+/* ACTIVE STATE (Optional class if you add it) */
+.nav-links a.active {
+  color: #fbb03b !important;
+}
 
 /* --- ICONS STYLING --- */
 .nav-icons {
