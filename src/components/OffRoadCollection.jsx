@@ -29,7 +29,7 @@ const cars = [
     tabLabel: "Toyota Fortuner",
     bgName: "FORTUNER",
     img: "/image/fortuner.png",
-    modelSrc: "/model/fortuner.glb",
+    modelSrc: "/model/fortuner-v1.glb",
   },
   {
     id: "defender", // Changed ID to string to match previous examples or keep number if consistent
@@ -43,7 +43,7 @@ const cars = [
     tabLabel: "Mahindra Thar & Roxx",
     bgName: "THAR",
     img: "/image/thar.png",
-    modelSrc: "/model/thar.glb",
+    modelSrc: "/model/thar-v1.glb",
   },
   {
     id: 7,
