@@ -8,21 +8,21 @@ const cars = [
     tabLabel: "Scorpio",
     bgName: "SCORPIO",
     img: "/image/scorpio.png",
-    modelSrc: "/model/scorpio.glb",
+    modelSrc: "/model/scorpio-v1.glb",
   },
   {
     id: 2,
     tabLabel: "Suzuki Jimny",
     bgName: "JIMNY",
     img: "/image/jimny.png",
-    modelSrc: "/model/jimny.glb",
+    modelSrc: "/model/jimny-v1.glb",
   },
   {
     id: 3,
     tabLabel: "Toyota Hilux",
     bgName: "HILUX",
     img: "/image/hilux.png",
-    modelSrc: "/model/hilux.glb",
+    modelSrc: "/model/hilux-v1.glb",
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ const cars = [
     tabLabel: "Range Rover Defender",
     bgName: "DEFENDER",
     img: "/image/defender.png",
-    modelSrc: "/model/defender.glb",
+    modelSrc: "/model/defender-v1.glb",
   },
   {
     id: 6,
@@ -50,7 +50,7 @@ const cars = [
     tabLabel: "Jeep Rubicon Wrangler",
     bgName: "WRANGLER",
     img: "/image/jeep.png",
-    modelSrc: "/model/jeep.glb",
+    modelSrc: "/model/jeep-v1.glb",
   },
 ];
 
