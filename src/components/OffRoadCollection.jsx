@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Import useEffect
 import "../styles/OffRoadCollection.css";
-// Make sure you have react-icons installed: npm install react-icons
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const cars = [
@@ -8,54 +7,77 @@ const cars = [
     id: 1,
     tabLabel: "Scorpio",
     bgName: "SCORPIO",
-    img: "/image/scorpio.png", // Ensure this is a transparent PNG
+    img: "/image/scorpio.png",
+    modelSrc: "/model/scorpio.glb",
   },
   {
     id: 2,
     tabLabel: "Suzuki Jimny",
     bgName: "JIMNY",
     img: "/image/jimny.png",
+    modelSrc: "/model/jimny.glb",
   },
   {
     id: 3,
     tabLabel: "Toyota Hilux",
     bgName: "HILUX",
     img: "/image/hilux.png",
+    modelSrc: "/model/hilux.glb",
   },
   {
     id: 4,
     tabLabel: "Toyota Fortuner",
     bgName: "FORTUNER",
     img: "/image/fortuner.png",
+    modelSrc: "/model/fortuner.glb",
   },
   {
-    id: 5,
+    id: "defender", // Changed ID to string to match previous examples or keep number if consistent
     tabLabel: "Range Rover Defender",
     bgName: "DEFENDER",
     img: "/image/defender.png",
+    modelSrc: "/model/defender.glb",
   },
   {
     id: 6,
     tabLabel: "Mahindra Thar & Roxx",
     bgName: "THAR",
     img: "/image/thar.png",
+    modelSrc: "/model/thar.glb",
   },
   {
     id: 7,
     tabLabel: "Jeep Rubicon Wrangler",
     bgName: "WRANGLER",
     img: "/image/jeep.png",
+    modelSrc: "/model/jeep.glb",
   },
 ];
 
 const OffRoadCollection = () => {
-  // Default to index 4 (Defender) to match screenshot, or 0
   const [index, setIndex] = useState(4);
-
-  const nextCar = () => setIndex((prev) => (prev + 1) % cars.length);
   
-  const prevCar = () =>
-    setIndex((prev) => (prev - 1 + cars.length) % cars.length);
+  // 1. STATE FOR ROTATION (Starts at 45deg)
+  const [orbitAngle, setOrbitAngle] = useState(45);
+
+  // Switch Cars (Side Arrows / Tabs)
+  const nextCar = () => setIndex((prev) => (prev + 1) % cars.length);
+  const prevCar = () => setIndex((prev) => (prev - 1 + cars.length) % cars.length);
+
+  // 2. ROTATION FUNCTIONS (For Bottom Buttons)
+  const rotateLeft = () => {
+    setOrbitAngle((prev) => prev - 45); // Rotate Left by 45 degrees
+  };
+
+  const rotateRight = () => {
+    setOrbitAngle((prev) => prev + 45); // Rotate Right by 45 degrees
+  };
+
+  // 3. RESET ROTATION WHEN CAR CHANGES
+  // This ensures the new car starts at the correct front-facing angle
+  useEffect(() => {
+    setOrbitAngle(45);
+  }, [index]);
 
   return (
     <section className="collection-section">
@@ -65,7 +87,6 @@ const OffRoadCollection = () => {
         </h2>
       </div>
 
-      {/* TABS ROW */}
       <div className="tabs-container">
         {cars.map((car, i) => (
           <button
@@ -78,12 +99,10 @@ const OffRoadCollection = () => {
         ))}
       </div>
 
-      {/* MAIN VISUAL AREA */}
       <div className="showcase-area">
-        {/* Large Background Text */}
         <h1 className="bg-text">{cars[index].bgName}</h1>
 
-        {/* Side Navigation Arrows (Large Chevrons) */}
+        {/* Side Arrows still change the CAR */}
         <button className="side-arrow left" onClick={prevCar}>
           <FaChevronLeft />
         </button>
@@ -91,35 +110,63 @@ const OffRoadCollection = () => {
           <FaChevronRight />
         </button>
 
-        {/* Car Image & Platform */}
         <div className="car-wrapper">
-          <img 
-            src={cars[index].img} 
-            alt={cars[index].tabLabel} 
-            className="car-image"
-          />
           
-          {/* The Floor Ring */}
+          <model-viewer
+            key={cars[index].id} 
+            src={cars[index].modelSrc}
+            poster={cars[index].img} 
+            alt={`3D model of ${cars[index].tabLabel}`}
+            
+            // --- SETTINGS ---
+            camera-controls
+            disable-zoom
+            disable-pan
+            
+            // Bounds tight for consistent sizing
+            bounds="tight" 
+
+            // 4. DYNAMIC CAMERA ORBIT
+            // We inject the 'orbitAngle' state here.
+            // 75deg locks vertical. 85% is the zoom level.
+            camera-orbit={`${orbitAngle}deg 75deg 85%`}
+            
+            // Lock vertical movement so they can't look under the car
+            min-camera-orbit="auto 75deg auto"
+            max-camera-orbit="auto 75deg auto"
+
+            field-of-view="30deg"
+            shadow-intensity="1"
+            exposure="1"
+            
+            // Add interpolation for smooth button rotation
+            interpolation-decay="200"
+            
+            className="collection-model-viewer"
+          >
+            <div slot="poster" className="model-poster-loader">
+              Loading {cars[index].tabLabel}...
+            </div>
+          </model-viewer>
+
           <div className="floor-ring"></div>
           
-          {/* 360 Label */}
-          <span className="label-360">360<sup style={{ fontSize: '0.6em' }}>o</sup></span>
+          {/* Changed text to reflect new functionality */}
+          <span className="label-360">Rotate View</span>
         </div>
       </div>
 
-      {/* BOTTOM CONTROLS */}
       <div className="bottom-controls">
-        {/* Circular Nav Buttons */}
+        {/* 5. BOTTOM BUTTONS NOW ROTATE THE CAR */}
         <div className="circle-nav-wrapper">
-          <button className="circle-nav-btn" onClick={prevCar}>
+          <button className="circle-nav-btn" onClick={rotateLeft}>
             <FaChevronLeft />
           </button>
-          <button className="circle-nav-btn" onClick={nextCar}>
+          <button className="circle-nav-btn" onClick={rotateRight}>
             <FaChevronRight />
           </button>
         </div>
 
-        {/* Shop Now Button */}
         <button className="shop-cta-btn">
           Shop Now &rarr;
         </button>
@@ -128,4 +175,4 @@ const OffRoadCollection = () => {
   );
 };
 
-export default OffRoadCollection;
+export default OffRoadCollection; 

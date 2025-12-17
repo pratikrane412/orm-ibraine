@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
 
+/* --- MAIN SECTION --- */
 .collection-section {
   background-color: #000;
   color: #fff;
@@ -64,7 +65,7 @@
   position: relative;
   width: 100%;
   max-width: 1400px;
-  height: 500px; /* Adjust based on image aspect ratio */
+  height: 600px; /* Increased height to fit bigger cars */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,24 +107,46 @@
 .side-arrow.left { left: 5%; }
 .side-arrow.right { right: 5%; }
 
-/* Car Wrapper */
+/* --- CAR WRAPPER (Holds 3D Model) --- */
 .car-wrapper {
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 700px;
+  max-width: 1000px; /* Wider for bigger cars */
+  height: 550px;     /* Taller for bigger cars */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
+/* 3D Model Viewer Style */
+.collection-model-viewer {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  outline: none;
+}
+
+/* Loading State Text */
+.model-poster-loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fbb03b;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  background: rgba(0,0,0,0.5); 
+}
+
+/* Fallback Image Style (if img tag is used) */
 .car-image {
   width: 100%;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
-  /* Tiny animation for switching */
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -135,23 +158,27 @@
 /* The Floor Ring Perspective */
 .floor-ring {
   position: absolute;
-  bottom: -40px; /* Moves ring to bottom of car tires */
-  width: 120%; /* Wider than the car */
-  height: 250px;
+  bottom: 20px; 
+  width: 90%; 
+  height: 220px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  transform: rotateX(70deg); /* Flattens the circle to look like a floor */
+  transform: rotateX(75deg); /* Flattens it */
   z-index: -1;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  pointer-events: none;
 }
 
+/* 360 Label Style */
 .label-360 {
-  margin-top: 40px; /* Push below car */
+  margin-top: 10px;
   color: #fbb03b;
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 1px;
+  z-index: 10;
+  pointer-events: none;
 }
 
 /* --- BOTTOM CONTROLS --- */
@@ -172,7 +199,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #6c757d; /* Grey color from screenshot */
+  background-color: #6c757d;
   border: none;
   color: #000;
   display: flex;
@@ -205,15 +232,16 @@
   transform: translateY(-2px);
 }
 
-/* RESPONSIVENESS */
+/* --- RESPONSIVENESS --- */
 @media (max-width: 1024px) {
   .bg-text { font-size: 8rem; }
   .floor-ring { width: 100%; bottom: -20px; }
+  .car-wrapper { max-width: 90%; height: 450px; }
 }
 
 @media (max-width: 768px) {
   .bg-text { font-size: 5rem; opacity: 0.1; }
-  .side-arrow { display: none; /* Hide side arrows on mobile, use bottom circles */ }
+  .side-arrow { display: none; }
   .title-text { font-size: 1.8rem; }
-  .car-wrapper { max-width: 90%; }
+  .car-wrapper { height: 400px; width: 100%; }
 }
