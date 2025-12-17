@@ -9,8 +9,7 @@
 
 /* HEADER SECTION */
 .product-page-header {
-  height: 300px;
-  background-image: url('/image/banner.jpg'); /* Use a dirt/tire background */
+  height: 300px;    
   background-size: cover;
   background-position: center;
   position: relative;
