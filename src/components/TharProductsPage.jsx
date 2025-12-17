@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { fetchTharProducts } from "../api/mockData"; // Import your API
+import { fetchProductsByCategory } from "../api/client"; 
 import { FaShoppingCart, FaHeart, FaSearch, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import "../styles/TharProductsPage.css"; // We will create this next
+import "../styles/TharProductsPage.css";
 
 const categories = [
   { name: "Mahindra Thar & Roxx", count: 20, active: true, path: "/products/thar" },
@@ -21,7 +21,8 @@ const TharProductsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchTharProducts().then((data) => {
+    // 2. FETCH "THAR" CATEGORY FROM DJANGO
+    fetchProductsByCategory("Thar").then((data) => {
       setProducts(data);
       setLoading(false);
     });
@@ -29,7 +30,6 @@ const TharProductsPage = () => {
 
   const handleCategoryClick = (path) => {
     navigate(path);
-    // Scroll to top of new page
     window.scrollTo(0, 0);
   };
 
@@ -61,7 +61,11 @@ const TharProductsPage = () => {
 
           <ul className="category-list">
             {categories.map((cat, index) => (
-              <li key={index} className={cat.active ? "active" : ""} onClick={() => handleCategoryClick(cat.path)}>
+              <li 
+                key={index} 
+                className={cat.active ? "active" : ""} 
+                onClick={() => handleCategoryClick(cat.path)}
+              >
                 <span>{cat.name}</span>
                 <span className="count">{cat.count}</span>
               </li>
@@ -88,10 +92,19 @@ const TharProductsPage = () => {
             <div className="shop-grid">
               {products.map((item) => (
                 <div key={item.id} className="shop-card">
-                  {item.isSale && <span className="tag sale">Sale</span>}
+                  {/* DJANGO FIELD: is_sale (snake_case) */}
+                  {item.is_sale && <span className="tag sale">Sale</span>}
 
                   <div className="card-img">
-                    <img src={item.image} alt={item.title} />
+                    {/* DJANGO IMAGE URL FIX */}
+                    <img 
+                      src={
+                        item.image.startsWith("http") 
+                          ? item.image 
+                          : `http://127.0.0.1:8000${item.image}`
+                      } 
+                      alt={item.title} 
+                    />
                     <button className="wishlist-icon">
                       <FaHeart />
                     </button>
@@ -101,17 +114,25 @@ const TharProductsPage = () => {
                     <h4>{item.title}</h4>
                     <div className="price-row">
                       <span className="price">
-                        Rs. {item.price.toLocaleString()}
+                        {/* Ensure number format */}
+                        Rs. {Number(item.price).toLocaleString()}
                       </span>
-                      <span className="old-price">
-                        Rs. {item.oldPrice.toLocaleString()}
-                      </span>
+                      
+                      {/* DJANGO FIELD: old_price */}
+                      {item.old_price && (
+                        <span className="old-price">
+                          Rs. {Number(item.old_price).toLocaleString()}
+                        </span>
+                      )}
                     </div>
+                    
                     <div className="stars">
-                      {[...Array(5)].map((_, i) => (
+                      {/* Using item.rating if available, else defaulting to 5 */}
+                      {[...Array(Math.round(item.rating || 5))].map((_, i) => (
                         <FaStar key={i} color="#fbb03b" size={12} />
                       ))}
                     </div>
+                    
                     <button className="cart-btn">
                       <FaShoppingCart /> Add to Cart
                     </button>

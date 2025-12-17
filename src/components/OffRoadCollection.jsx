@@ -32,7 +32,7 @@ const cars = [
     modelSrc: "/model/fortuner-v1.glb",
   },
   {
-    id: "defender", // Changed ID to string to match previous examples or keep number if consistent
+    id: "defender", 
     tabLabel: "Range Rover Defender",
     bgName: "DEFENDER",
     img: "/image/defender.png",
