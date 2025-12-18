@@ -11,6 +11,7 @@ import TechSpecs from "./components/TechSpecs";
 import ProductShowcase from "./components/ProductShowcase";
 import ProductCategoryPage from "./components/ProductCategoryPage";
 import ProductDetailsPage from "./components/ProductDetailsPage";
+import CartPage from "./components/CartPage";
 import { CartProvider } from "./context/CartContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -42,6 +43,9 @@ function App() {
 
         {/* Product Details Page Route */}
         <Route path="/product/:id" element={<ProductDetailsPage />} />
+
+        {/* Cart Page Route */}
+        <Route path="/cart" element={<CartPage />} /> 
       </Routes>
     </Router>
     </CartProvider>
