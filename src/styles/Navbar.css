@@ -7,12 +7,12 @@
   left: 0;
   width: 100%;
   height: 80px;
-  background-color: #000;
-  border-bottom: 3px solid #fbb03b;
+  background-color: #000; /* Solid Black Background */
+  border-bottom: 3px solid #fbb03b; /* The Yellow Line */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Highest priority */
+  z-index: 9999; /* Highest priority to stay on top */
 }
 
 .nav-container {
@@ -25,7 +25,7 @@
   position: relative;
 }
 
-/* --- LOGO --- */
+/* --- LOGO STYLING --- */
 .nav-logo a {
   text-decoration: none;
   display: flex;
@@ -37,7 +37,7 @@
 .orm-text {
   font-family: 'Oswald', sans-serif;
   font-size: 2.8rem;
-  color: #fbb03b;
+  color: #fbb03b; /* Golden Yellow */
   margin: 0;
   line-height: 0.8;
   letter-spacing: 1px;
@@ -71,14 +71,14 @@
 .nav-links a {
   font-family: 'Roboto', sans-serif;
   font-size: 0.95rem;
-  color: #fff !important;
+  color: #fff !important; /* Force White */
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-  color: #fbb03b !important;
+  color: #fbb03b !important; /* Force Yellow on Hover */
 }
 
 /* --- RIGHT SIDE ACTIONS (Icons + Hamburger) --- */
@@ -93,10 +93,11 @@
   gap: 12px;
 }
 
+/* Circular Icon Background */
 .icon-circle {
   width: 40px;
   height: 40px;
-  background-color: #1a1a1a;
+  background-color: #1a1a1a; /* Dark Grey */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -110,6 +111,27 @@
 .icon-circle:hover {
   background-color: #333;
   color: #fff;
+  transform: translateY(-2px);
+}
+
+/* --- CART BADGE (The Red Number) --- */
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff0000; /* Red Alert Color */
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.75rem;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000; /* Black border to separate from icon */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
 /* Hamburger Icon (Hidden by default) */
@@ -120,7 +142,7 @@
   cursor: pointer;
 }
 
-/* --- MOBILE RESPONSIVENESS (Below 1100px) --- */
+/* --- MOBILE RESPONSIVENESS (Tablets & Phones) --- */
 @media (max-width: 1100px) {
   
   /* Show Hamburger */
@@ -128,44 +150,52 @@
     display: block;
   }
 
-  /* Adjust icons for mobile */
+  /* Adjust icons spacing for mobile */
   .nav-icons {
-    gap: 8px; /* Tighter spacing */
+    gap: 8px; 
   }
   .icon-circle {
     width: 35px;
     height: 35px;
     font-size: 0.9rem;
   }
+  .cart-badge {
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+    top: -4px;
+    right: -4px;
+  }
 
   /* --- MOBILE MENU DRAWER --- */
   .nav-links {
     display: flex;
     flex-direction: column;
-    position: fixed; /* Changed from absolute to fixed to lock it to screen */
+    position: fixed; /* Fixed prevents scrolling gaps */
     top: 80px;       /* Starts exactly below navbar */
     left: -100%;     /* Hidden to the left */
-    width: 100%;     /* Forces full width */
+    width: 100%;     /* Full Width */
     height: calc(100vh - 80px); /* Full height minus header */
     background-color: #000;
-    transition: left 0.5s ease; /* Smooth slide */
+    transition: left 0.5s ease; /* Smooth slide animation */
     align-items: center;
     justify-content: flex-start;
     padding-top: 40px;
     border-top: 1px solid #222;
+    margin: 0;
     z-index: 998;
-    margin: 0; /* Ensures no extra margins */
   }
 
-  /* Slide in Animation */
+  /* Slide in Animation - Active State */
   .nav-links.active {
-    left: 0; /* Snaps perfectly to the left edge */
+    left: 0; /* Snaps to screen */
   }
 
   .nav-links li {
-    height: 60px; /* Height for touch targets */
+    height: 60px; /* Taller touch targets */
     width: 100%;
     text-align: center;
+    border-bottom: 1px solid #111; /* Subtle separator */
   }
 
   .nav-links a {
@@ -181,12 +211,11 @@
   }
 }
 
-/* --- EXTRA SMALL SCREENS (Phones) --- */
+/* --- EXTRA SMALL SCREENS (Small Phones) --- */
 @media (max-width: 480px) {
-  /* Optionally hide Icons on very small screens to fit Logo + Hamburger */
-  /* Uncomment below if you want to hide cart/user on small phones */
-  /* .nav-icons { display: none; } */
-  
   .orm-text { font-size: 2.2rem; }
   .mutant-text { letter-spacing: 1px; font-size: 0.45rem; }
+  
+  /* Optional: Hide non-essential icons if space is tight */
+  /* .nav-icons { display: none; } */
 }

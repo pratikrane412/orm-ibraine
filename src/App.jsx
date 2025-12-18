@@ -10,6 +10,8 @@ import CarSelector from "./components/CarSelector";
 import TechSpecs from "./components/TechSpecs";
 import ProductShowcase from "./components/ProductShowcase";
 import ProductCategoryPage from "./components/ProductCategoryPage";
+import ProductDetailsPage from "./components/ProductDetailsPage";
+import { CartProvider } from "./context/CartContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Home = () => (
@@ -29,6 +31,7 @@ const Home = () => (
 
 function App() {
   return (
+    <CartProvider>
     <Router>
       <Routes>
         {/* Route for Home Page */}
@@ -36,8 +39,12 @@ function App() {
 
         {/* Generic Product Category Page Route */}
         <Route path="/products/:categoryName" element={<ProductCategoryPage />} />
+
+        {/* Product Details Page Route */}
+        <Route path="/product/:id" element={<ProductDetailsPage />} />
       </Routes>
     </Router>
+    </CartProvider>
   );
 }
 

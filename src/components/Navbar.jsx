@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import "../styles/Navbar.css";
 import { FaRegHeart, FaUser, FaShoppingBag, FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext"; 
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
+  
+  // Get the dynamic cart count from global context
+  const { cartCount } = useCart(); 
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -36,9 +40,23 @@ const Navbar = () => {
         <div className="nav-actions">
           {/* User Icons */}
           <div className="nav-icons">
-            <div className="icon-circle"><FaRegHeart /></div>
-            <div className="icon-circle"><FaUser /></div>
-            <div className="icon-circle"><FaShoppingBag /></div>
+            
+            <div className="icon-circle">
+              <FaRegHeart />
+            </div>
+            
+            <div className="icon-circle">
+              <FaUser />
+            </div>
+            
+            {/* SHOPPING BAG WITH DYNAMIC BADGE */}
+            <div className="icon-circle" style={{ position: 'relative' }}>
+              <FaShoppingBag />
+              {cartCount > 0 && (
+                <span className="cart-badge">{cartCount}</span>
+              )}
+            </div>
+
           </div>
 
           {/* Hamburger Menu (Visible only on Mobile) */}

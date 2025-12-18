@@ -3,21 +3,21 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { fetchProductsByCategory } from "../api/client";
 import { FaShoppingCart, FaHeart, FaSearch, FaStar } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom"; // Import useParams
-import "../styles/ProductCategoryPage.css"; // We will rename the CSS file
+import { useNavigate, useParams } from "react-router-dom";
+import { useCart } from "../context/CartContext"; // 1. Import Cart Context
+import "../styles/ProductCategoryPage.css";
 
 // --- CONFIGURATION OBJECT ---
-// Maps the URL slug to the Display Title, Backend Value, and Background Image
 const categoryConfig = {
   thar: {
     title: "Mahindra Thar & Roxx",
-    backendCategory: "Thar", // Exact spelling in Django Database
+    backendCategory: "Thar",
     headerBg: "/image/banner.jpg",
   },
   scorpio: {
     title: "Scorpio",
     backendCategory: "Scorpio",
-    headerBg: "/image/banner.jpg", // Ensure you have this or use default
+    headerBg: "/image/banner.jpg",
   },
   hilux: {
     title: "Toyota Hilux",
@@ -41,7 +41,6 @@ const categoryConfig = {
   },
 };
 
-// Sidebar List Data
 const sidebarCategories = [
   { name: "Mahindra Thar & Roxx", slug: "thar" },
   { name: "Scorpio", slug: "scorpio" },
@@ -54,26 +53,42 @@ const sidebarCategories = [
 const ProductCategoryPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-  // 1. Get the dynamic part of the URL (e.g., "thar", "scorpio")
-  const { categoryName } = useParams(); 
-  const navigate = useNavigate();
 
-  // 2. Get current page config based on URL, or default to Thar if not found
-  const currentCategory = categoryConfig[categoryName] || categoryConfig["thar"];
+  const { categoryName } = useParams();
+  const navigate = useNavigate();
+  
+  // 2. Get the addToCart function from Context
+  const { addToCart } = useCart();
+
+  const currentCategory =
+    categoryConfig[categoryName] || categoryConfig["thar"];
 
   useEffect(() => {
     setLoading(true);
-    // 3. Fetch data using the specific Backend Name
     fetchProductsByCategory(currentCategory.backendCategory).then((data) => {
       setProducts(data);
       setLoading(false);
     });
-  }, [categoryName]); // Re-run this when the URL changes
+  }, [categoryName]);
 
   const handleCategoryClick = (slug) => {
     navigate(`/products/${slug}`);
     window.scrollTo(0, 0);
+  };
+
+  const handleProductClick = (id) => {
+    navigate(`/product/${id}`);
+  };
+
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
+
+  // 3. Handle Add to Cart Click
+  const handleAddToCartBtn = (e, item) => {
+    e.stopPropagation(); // Prevent navigating to details page
+    addToCart(item);     // Add to global state
+    alert(`${item.title} added to cart!`); // Optional feedback
   };
 
   return (
@@ -81,14 +96,15 @@ const ProductCategoryPage = () => {
       <Navbar />
 
       {/* DYNAMIC HEADER */}
-      <div 
+      <div
         className="product-page-header"
         style={{ backgroundImage: `url(${currentCategory.headerBg})` }}
       >
         <div className="header-overlay"></div>
         <div className="header-content">
           <h1>
-            {currentCategory.title} <span className="highlight">Accessories</span>
+            {currentCategory.title}{" "}
+            <span className="highlight">Accessories</span>
           </h1>
         </div>
       </div>
@@ -107,15 +123,13 @@ const ProductCategoryPage = () => {
 
           <ul className="category-list">
             {sidebarCategories.map((cat, index) => (
-              <li 
-                key={index} 
-                // Check if this sidebar item matches current URL
-                className={cat.slug === categoryName ? "active" : ""} 
+              <li
+                key={index}
+                className={cat.slug === categoryName ? "active" : ""}
                 onClick={() => handleCategoryClick(cat.slug)}
               >
                 <span>{cat.name}</span>
-                {/* You can add dynamic counts later if you fetch stats */}
-                <span className="count">20</span> 
+                <span className="count">20</span>
               </li>
             ))}
           </ul>
@@ -135,24 +149,31 @@ const ProductCategoryPage = () => {
           <hr className="divider" />
 
           {loading ? (
-            <div className="loading">Loading {currentCategory.title} Products...</div>
+            <div className="loading">
+              Loading {currentCategory.title} Products...
+            </div>
           ) : (
             <div className="shop-grid">
               {products.length > 0 ? (
                 products.map((item) => (
-                  <div key={item.id} className="shop-card">
+                  <div 
+                    key={item.id} 
+                    className="shop-card"
+                    onClick={() => handleProductClick(item.id)}
+                    style={{ cursor: "pointer" }}
+                  >
                     {item.is_sale && <span className="tag sale">Sale</span>}
 
                     <div className="card-img">
-                      <img 
+                      <img
                         src={
-                          item.image.startsWith("http") 
-                            ? item.image 
+                          item.image.startsWith("http")
+                            ? item.image
                             : `http://127.0.0.1:8000${item.image}`
-                        } 
-                        alt={item.title} 
+                        }
+                        alt={item.title}
                       />
-                      <button className="wishlist-icon">
+                      <button className="wishlist-icon" onClick={stopPropagation}>
                         <FaHeart />
                       </button>
                     </div>
@@ -170,18 +191,27 @@ const ProductCategoryPage = () => {
                         )}
                       </div>
                       <div className="stars">
-                        {[...Array(Math.round(item.rating || 5))].map((_, i) => (
-                          <FaStar key={i} color="#fbb03b" size={12} />
-                        ))}
+                        {[...Array(Math.round(item.rating || 5))].map(
+                          (_, i) => (
+                            <FaStar key={i} color="#fbb03b" size={12} />
+                          )
+                        )}
                       </div>
-                      <button className="cart-btn">
+                      
+                      {/* 4. ATTACH HANDLER TO BUTTON */}
+                      <button 
+                        className="cart-btn" 
+                        onClick={(e) => handleAddToCartBtn(e, item)}
+                      >
                         <FaShoppingCart /> Add to Cart
                       </button>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="no-products">No products found for this category.</div>
+                <div className="no-products">
+                  No products found for this category.
+                </div>
               )}
             </div>
           )}
