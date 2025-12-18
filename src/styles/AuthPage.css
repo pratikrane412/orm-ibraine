@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap');
+
+.auth-container {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  background-image: url('/image/hero-bg-2.jpg'); /* Reuse existing bg */
+  background-size: cover;
+  position: relative;
+}
+
+/* Dark overlay */
+.auth-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+}
+
+.auth-box {
+  position: relative;
+  z-index: 2;
+  background: #000;
+  border: 1px solid #333;
+  padding: 40px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+
+.auth-box h2 {
+  font-family: 'Oswald', sans-serif;
+  color: #fbb03b;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: #ccc;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  background: #111;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 5px;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #fbb03b;
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #fbb03b;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.auth-btn:hover {
+  background-color: #ffc107;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.auth-link a {
+  color: #fbb03b;
+  font-weight: bold;
+}
+
+.error-msg {
+  color: #ff4d4d;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}

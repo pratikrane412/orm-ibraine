@@ -12,7 +12,10 @@ import ProductShowcase from "./components/ProductShowcase";
 import ProductCategoryPage from "./components/ProductCategoryPage";
 import ProductDetailsPage from "./components/ProductDetailsPage";
 import CartPage from "./components/CartPage";
+import LoginPage from "./components/LoginPage";
+import SignupPage from "./components/SignupPage";
 import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Home = () => (
@@ -32,11 +35,18 @@ const Home = () => (
 
 function App() {
   return (
+    <AuthProvider>
     <CartProvider>
     <Router>
       <Routes>
         {/* Route for Home Page */}
         <Route path="/" element={<Home />} />
+
+        {/* Login Page Route */}
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Signup Page Route */}
+        <Route path="/signup" element={<SignupPage />} />
 
         {/* Generic Product Category Page Route */}
         <Route path="/products/:categoryName" element={<ProductCategoryPage />} />
@@ -49,6 +59,7 @@ function App() {
       </Routes>
     </Router>
     </CartProvider>
+    </AuthProvider>
   );
 }
 

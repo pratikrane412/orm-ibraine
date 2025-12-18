@@ -9,12 +9,15 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
 
   // Get the dynamic cart count from global context
   const { cartCount } = useCart();
+
+  const { user, logout } = useAuth();
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -78,7 +81,20 @@ const Navbar = () => {
             </div>
 
             <div className="icon-circle">
-              <FaUser />
+              {user ? (
+                <span
+                  onClick={logout}
+                  style={{ fontSize: "0.8rem", cursor: "pointer" }}
+                  title="Logout"
+                >
+                  {user.username.charAt(0).toUpperCase()}{" "}
+                  {/* Show First Initial */}
+                </span>
+              ) : (
+                <Link to="/login" style={{ color: "inherit" }}>
+                  <FaUser />
+                </Link>
+              )}
             </div>
 
             {/* SHOPPING BAG WITH DYNAMIC BADGE */}
