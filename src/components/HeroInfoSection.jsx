@@ -1,6 +1,6 @@
 import "../styles/HeroInfoSection.css";
 // Replace with your actual image path
-import carImg from "/image/vehicle-move.jpg"; 
+import carImg from "/image/car.jpg"; 
 
 const HeroInfoSection = () => {
   return (

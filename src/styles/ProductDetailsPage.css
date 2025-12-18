@@ -1,5 +1,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
 
+/* --- NEW BANNER STYLES --- */
+.pdp-banner {
+  height: 300px; /* Adjust height to match screenshot */
+  /* Use your banner image here */
+  background-image: url('/image/banner.jpg'); 
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 10%;
+  margin-top: 80px; /* Push down below fixed Navbar */
+}
+
+.pdp-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5); /* Darken image slightly */
+}
+
+.pdp-banner-content {
+  position: relative;
+  z-index: 2;
+}
+
+.pdp-banner-content h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 4rem;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.highlight {
+  color: #fbb03b;
+}
+
+/* --- ADJUST CONTAINER --- */
+.pdp-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* Reduced top padding since banner is now there */
+  padding: 60px 0 80px 0; 
+  gap: 60px;
+  color: #fff;
+}
+
 .pdp-loading {
   background: #000;
   color: #fbb03b;
@@ -9,18 +59,6 @@
   align-items: center;
   font-family: 'Oswald', sans-serif;
   font-size: 2rem;
-  padding-top: 80px;
-}
-
-.pdp-container {
-  display: flex;
-  flex-wrap: wrap;
-  width: 90%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 120px 0 80px 0; /* Space for Navbar */
-  gap: 60px;
-  color: #fff;
 }
 
 /* --- LEFT: GALLERY --- */
@@ -31,7 +69,7 @@
 
 .main-image-frame {
   width: 100%;
-  border: 3px solid #fbb03b; /* The Yellow Border */
+  border: 3px solid #fbb03b; /* Yellow Border */
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 20px;
@@ -57,6 +95,12 @@
   border: 1px solid #444;
   cursor: pointer;
   position: relative;
+  transition: 0.3s;
+}
+
+.thumb-box.active {
+  border: 2px solid #fbb03b;
+  opacity: 1;
 }
 
 .thumb-box img {
@@ -64,23 +108,9 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.7;
-  transition: 0.3s;
 }
 
-.thumb-box:hover img {
-  opacity: 1;
-}
-
-.play-icon {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fbb03b;
-  background: rgba(0,0,0,0.7);
-  border-radius: 50%;
-  width: 30px; height: 30px;
-  display: flex; align-items: center; justify-content: center;
-}
+.thumb-box:hover img { opacity: 1; }
 
 /* --- RIGHT: INFO --- */
 .pdp-info {
@@ -130,7 +160,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto; /* Pushes rating to the right */
+  margin-left: auto;
 }
 
 .review-count {
@@ -151,9 +181,10 @@
   color: #ccc;
   line-height: 1.6;
   margin-bottom: 30px;
+  white-space: pre-line; /* Preserves paragraphs */
 }
 
-/* FEATURES GRID */
+/* FEATURES */
 .features-grid {
   display: flex;
   justify-content: space-between;
@@ -171,7 +202,7 @@
 .feat-icon {
   width: 50px;
   height: 50px;
-  border: 1px solid #fbb03b; /* Yellow Circle */
+  border: 1px solid #fbb03b;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -235,14 +266,9 @@
   transition: 0.3s;
 }
 
-.btn-add-cart:hover {
-  background-color: #ffc107;
-}
+.btn-add-cart:hover { background-color: #ffc107; }
 
-.icon-actions {
-  display: flex;
-  gap: 10px;
-}
+.icon-actions { display: flex; gap: 10px; }
 
 .circle-btn {
   width: 45px;
@@ -258,10 +284,7 @@
   transition: 0.3s;
 }
 
-.circle-btn:hover {
-  border-color: #fbb03b;
-  color: #fbb03b;
-}
+.circle-btn:hover { border-color: #fbb03b; color: #fbb03b; }
 
 .btn-buy-now {
   width: 100%;
@@ -277,21 +300,10 @@
   transition: 0.3s;
 }
 
-.btn-buy-now:hover {
-  border-color: #fbb03b;
-  color: #fbb03b;
-}
+.btn-buy-now:hover { border-color: #fbb03b; color: #fbb03b; }
 
 /* RESPONSIVE */
 @media (max-width: 1024px) {
-  .pdp-container {
-    flex-direction: column;
-    padding-top: 100px;
-  }
-  .pdp-gallery, .pdp-info {
-    width: 100%;
-  }
-  .main-image-frame {
-    width: 100%;
-  }
+  .pdp-container { flex-direction: column; }
+  .pdp-gallery, .pdp-info { width: 100%; }
 }

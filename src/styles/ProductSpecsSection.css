@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap');
+
+.specs-section {
+  background-color: #000;
+  color: #fff;
+  padding: 60px 0 100px 0; /* Reduced top padding slightly */
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.specs-container {
+  width: 90%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+/* --- LEFT SIDE: CONTENT --- */
+.specs-content {
+  flex: 1;
+  max-width: 650px;
+}
+
+.specs-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.5rem; /* Reduced from 3rem */
+  line-height: 1.2;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+  color: #fff;
+}
+
+.specs-desc {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem; /* Reduced from 1rem for a sharper look */
+  line-height: 1.7;
+  color: #ccc;
+  margin-bottom: 25px;
+  white-space: pre-line;
+}
+
+.specs-subtitle {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem; /* Reduced from 1.5rem */
+  color: #fbb03b; 
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.specs-list {
+  list-style: none;
+  padding: 0;
+}
+
+.specs-list li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem; /* Reduced from 1rem */
+  color: #e0e0e0;
+  line-height: 1.5;
+}
+
+/* Custom Bullet Point */
+.specs-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #fbb03b;
+  font-size: 1.2rem; /* Adjusted bullet size */
+  line-height: 1rem;
+  top: 3px;
+}
+
+/* --- RIGHT SIDE: IMAGE --- */
+.specs-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.specs-frame {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* Slightly smaller max width for balance */
+  border: 2px solid #fbb03b; /* Thinner elegant border */
+  border-radius: 25px; 
+  padding: 8px; 
+  box-shadow: 0 0 20px rgba(251, 176, 59, 0.1);
+}
+
+.specs-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px; 
+  object-fit: cover;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+  .specs-container {
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .specs-image-wrapper {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .specs-title {
+    font-size: 2rem; /* Smaller on tablet/mobile */
+  }
+}
