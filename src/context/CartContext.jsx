@@ -58,6 +58,12 @@ export const CartProvider = ({ children }) => {
   // 5. Total Count (for Badge)
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
+  // 1. Add this function
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("orm_cart");
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -65,6 +71,7 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart, // <--- Export this
         cartCount,
         cartTotal,
       }}

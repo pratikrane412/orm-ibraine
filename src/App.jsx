@@ -15,6 +15,7 @@ import CartPage from "./components/CartPage";
 import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import ProfilePage from "./components/ProfilePage";
+import CheckoutPage from "./components/CheckoutPage";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -60,6 +61,9 @@ function App() {
 
         {/* Cart Page Route */}
         <Route path="/cart" element={<CartPage />} /> 
+
+        {/* Checkout Page Route */}
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
     </Router>
     </CartProvider>

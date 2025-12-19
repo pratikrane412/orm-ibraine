@@ -35,7 +35,9 @@ const CartPage = () => {
         {cartItems.length === 0 ? (
           <div className="empty-cart-msg">
             <h3>Your Cart is Empty.</h3>
-            <Link to="/products/thar" className="btn-shop-now">Start Shopping</Link>
+            <Link to="/products/thar" className="btn-shop-now">
+              Start Shopping
+            </Link>
           </div>
         ) : (
           <div className="cart-layout">
@@ -97,11 +99,15 @@ const CartPage = () => {
                   Rs. {cartTotal.toLocaleString()}.00
                 </span>
               </div>
-              
-              <button className="btn-checkout">
+
+              <Link
+                to="/checkout"
+                className="btn-checkout-gold"
+                style={{ textDecoration: "none" }}
+              >
                 Process To Checkout <FaArrowRight />
-              </button>
-              
+              </Link>
+
               <p className="checkout-note">
                 Taxes, Discounts and shipping calculated at checkout
               </p>
