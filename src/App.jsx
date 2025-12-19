@@ -14,6 +14,7 @@ import ProductDetailsPage from "./components/ProductDetailsPage";
 import CartPage from "./components/CartPage";
 import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
+import ProfilePage from "./components/ProfilePage";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -47,6 +48,9 @@ function App() {
 
         {/* Signup Page Route */}
         <Route path="/signup" element={<SignupPage />} />
+
+        {/* Profile Page Route */}
+        <Route path="/profile" element={<ProfilePage />} />
 
         {/* Generic Product Category Page Route */}
         <Route path="/products/:categoryName" element={<ProductCategoryPage />} />

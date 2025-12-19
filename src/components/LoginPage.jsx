@@ -27,7 +27,16 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        login({ username: data.username, id: data.user_id }, data.token);
+        login(
+          {
+            username: data.username,
+            id: data.user_id,
+            email: data.email,
+            first_name: data.first_name,
+            last_name: data.last_name,
+          },
+          data.token
+        );
         navigate("/"); // Redirect to Home
       } else {
         setError(data.error || "Login Failed");
@@ -44,31 +53,33 @@ const LoginPage = () => {
         <div className="auth-box">
           <h2>Login to ORM</h2>
           {error && <p className="error-msg">{error}</p>}
-          
+
           <form onSubmit={handleSubmit}>
             <div className="input-group">
               <label>Username</label>
-              <input 
-                type="text" 
-                name="username" 
+              <input
+                type="text"
+                name="username"
                 placeholder="Enter Username"
-                onChange={handleChange} 
-                required 
-              />
-            </div>
-            
-            <div className="input-group">
-              <label>Password</label>
-              <input 
-                type="password" 
-                name="password" 
-                placeholder="Enter Password"
-                onChange={handleChange} 
-                required 
+                onChange={handleChange}
+                required
               />
             </div>
 
-            <button type="submit" className="auth-btn">Login</button>
+            <div className="input-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter Password"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <button type="submit" className="auth-btn">
+              Login
+            </button>
           </form>
 
           <p className="auth-link">

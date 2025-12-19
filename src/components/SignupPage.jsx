@@ -6,7 +6,16 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/AuthPage.css";
 
 const SignupPage = () => {
-  const [formData, setFormData] = useState({ username: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    otp: "",
+  });
+
+  const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -28,7 +37,16 @@ const SignupPage = () => {
 
       if (response.ok) {
         // Auto login after signup
-        login({ username: data.username, id: data.user_id }, data.token);
+        login(
+          {
+            username: data.username,
+            id: data.user_id,
+            email: data.email,
+            first_name: data.first_name,
+            last_name: data.last_name,
+          },
+          data.token
+        );
         navigate("/");
       } else {
         // Handle Django validation errors (like "username exists")
@@ -46,24 +64,62 @@ const SignupPage = () => {
         <div className="auth-box">
           <h2>Create Account</h2>
           {error && <p className="error-msg">{error}</p>}
-          
+
           <form onSubmit={handleSubmit}>
+            {/* 2. NEW INPUTS FOR NAMES */}
+            <div className="input-group-row">
+              <div className="input-group">
+                <label>First Name</label>
+                <input
+                  type="text"
+                  name="first_name"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="input-group">
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  name="last_name"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
             <div className="input-group">
               <label>Username</label>
-              <input type="text" name="username" onChange={handleChange} required />
+              <input
+                type="text"
+                name="username"
+                onChange={handleChange}
+                required
+              />
             </div>
-            
+
             <div className="input-group">
               <label>Email</label>
-              <input type="email" name="email" onChange={handleChange} required />
+              <input
+                type="email"
+                name="email"
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="input-group">
               <label>Password</label>
-              <input type="password" name="password" onChange={handleChange} required />
+              <input
+                type="password"
+                name="password"
+                onChange={handleChange}
+                required
+              />
             </div>
 
-            <button type="submit" className="auth-btn">Sign Up</button>
+            <button type="submit" className="auth-btn">
+              Sign Up
+            </button>
           </form>
 
           <p className="auth-link">

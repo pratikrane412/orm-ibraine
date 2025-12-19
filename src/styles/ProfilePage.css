@@ -1,0 +1,290 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
+
+/* --- MAIN CONTAINER --- */
+.profile-page-container {
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 120px 0 80px 0; /* Space for Navbar */
+  min-height: 80vh;
+  color: #fff;
+}
+
+/* HEADER */
+.profile-header h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 3rem;
+  margin-bottom: 40px;
+  text-transform: capitalize;
+  color: #fff;
+}
+
+.highlight {
+  color: #fbb03b; /* ORM Gold */
+}
+
+/* LAYOUT GRID */
+.profile-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* --- LEFT: SIDEBAR --- */
+.profile-left {
+  flex: 1;
+  max-width: 300px;
+}
+
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Sidebar Buttons (Default Dark State) */
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 15px 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  
+  /* ORM Dark Theme */
+  background-color: #111; 
+  color: #ccc;
+  border: 1px solid #333;
+}
+
+/* Sidebar Hover */
+.sidebar-btn:hover {
+  border-color: #fbb03b;
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Active State (Gold) */
+.sidebar-btn.active {
+  background-color: #fbb03b; /* Gold Background */
+  color: #000; /* Black Text for contrast */
+  border-color: #fbb03b;
+  box-shadow: 0 0 15px rgba(251, 176, 59, 0.2);
+  font-weight: 700;
+}
+
+.sidebar-btn .icon {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Logout Button */
+.sidebar-btn.logout {
+  margin-top: 20px;
+  border-color: #333;
+  color: #ff4d4d; /* Red text for logout */
+}
+
+.sidebar-btn.logout:hover {
+  background-color: #ff4d4d;
+  color: #fff;
+  border-color: #ff4d4d;
+}
+
+/* --- RIGHT: CONTENT BOX --- */
+.profile-right {
+  flex: 3;
+  background-color: #0a0a0a; /* Very Dark Grey */
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Content Headings */
+.profile-content-box h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #fff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #fbb03b; /* Gold Underline */
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.profile-content-box h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  color: #fbb03b;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
+}
+
+.section-desc {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.section-container {
+  margin-bottom: 30px;
+}
+
+.divider-line {
+  width: 100%;
+  height: 1px;
+  background-color: #222;
+  margin: 40px 0;
+}
+
+/* --- FORMS --- */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  color: #ccc;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+}
+
+/* Active Input Fields */
+.form-group input {
+  padding: 15px;
+  background: #111;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #fbb03b;
+  box-shadow: 0 0 10px rgba(251, 176, 59, 0.1);
+  background: #151515;
+}
+
+/* Read Only Inputs (Name/Email) */
+.readonly-input {
+  background-color: #0d0d0d !important; /* Very dark background */
+  border: 1px solid #222 !important; /* Subtle border */
+  color: #777 !important; /* Dimmed text color */
+  cursor: not-allowed;
+  font-weight: bold;
+  opacity: 0.8;
+  pointer-events: none; /* Prevent clicks */
+}
+
+/* Save Button (Gold) */
+.save-btn {
+  background-color: #fbb03b;
+  color: #000;
+  padding: 14px 40px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 10px;
+  transition: 0.3s;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.save-btn:hover {
+  background-color: #ffc107;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(251, 176, 59, 0.3);
+}
+
+/* Status Messages */
+.status-msg {
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.status-msg.success {
+  background-color: rgba(44, 255, 44, 0.1);
+  color: #2cff7b;
+  border: 1px solid #2cff7b;
+}
+
+.status-msg.error {
+  background-color: rgba(255, 68, 68, 0.1);
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+}
+
+/* Placeholder for empty tabs (Orders, etc.) */
+.placeholder-content {
+  text-align: center;
+  padding: 80px;
+  color: #555;
+}
+
+.placeholder-content h2 {
+  font-family: 'Oswald', sans-serif;
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .profile-layout {
+    flex-direction: column;
+  }
+  .profile-left {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-right {
+    padding: 25px;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
