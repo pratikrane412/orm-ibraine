@@ -80,6 +80,8 @@ function App() {
 
                 {/* Functionality Pages */}
                 <Route path="add-product" element={<AddProduct />} />
+                {/* Edit Product (Reusing same component) */}
+                <Route path="edit-product/:id" element={<AddProduct />} />
                 <Route path="products" element={<AllProducts />} />
                 <Route path="orders" element={<h2>Orders Management</h2>} />
                 <Route path="coupons" element={<h2>Coupon Management</h2>} />

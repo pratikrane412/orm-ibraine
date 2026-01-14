@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus, FaSearch } from "react-icons/fa";
 import "../../styles/admin/AllProducts.css";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   // Filter States
   const [searchTerm, setSearchTerm] = useState("");
@@ -196,7 +199,13 @@ const AllProducts = () => {
                     </td>
                     <td align="right">
                       <div className="actions-cell">
-                        <button className="action-btn edit">
+                        <button
+                          className="action-btn edit"
+                          title="Edit Product"
+                          onClick={() =>
+                            navigate(`/react-admin/edit-product/${product.id}`)
+                          }
+                        >
                           <FaEdit />
                         </button>
                         <button
