@@ -24,6 +24,7 @@ import AdminLogin from "./components/admin/AdminLogin";
 import AllProducts from "./components/admin/AllProducts";
 import Orders from "./components/admin/Orders";
 import OrderDetails from "./components/admin/OrderDetails";
+import Customers from "./components/admin/Customers";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
 import { CartProvider } from "./context/CartContext";
@@ -87,7 +88,7 @@ function App() {
                 <Route path="products" element={<AllProducts />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="orders/:id" element={<OrderDetails />} />
-                <Route path="coupons" element={<h2>Coupon Management</h2>} />
+                <Route path="customers" element={<Customers />} />
               </Route>
             </Route>
           </Routes>

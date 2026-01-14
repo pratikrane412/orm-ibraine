@@ -4,6 +4,7 @@ import {
   FaBox,
   FaShoppingBag,
   FaTags,
+  FaUsers,
   FaSignOutAlt,
   FaChartLine,
   FaUserCircle,
@@ -63,6 +64,12 @@ const AdminSidebar = () => {
           className={`nav-item ${isActive("/react-admin/orders")}`}
         >
           <FaShoppingBag /> Orders
+        </Link>
+        <Link
+          to="/react-admin/customers"
+          className={`nav-item ${isActive("/react-admin/customers")}`}
+        >
+          <FaUsers /> <span>Customers</span>
         </Link>
       </nav>
 
