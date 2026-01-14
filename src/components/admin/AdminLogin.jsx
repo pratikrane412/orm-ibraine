@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/AdminLogin.css"; // We will create this
+import { FaLock, FaUserShield } from "react-icons/fa"; // Icons for trust
+import "../../styles/admin/AdminLogin.css"; // New dedicated CSS file
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -14,9 +16,10 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/admin/", {
+      const response = await fetch("http://127.0.0.1:8000/api/admin-login/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -26,8 +29,6 @@ const AdminLogin = () => {
 
       if (response.ok) {
         localStorage.setItem("orm_admin_token", data.token);
-
-        // SAVE USER DETAILS
         localStorage.setItem(
           "orm_admin_user",
           JSON.stringify({
@@ -35,47 +36,74 @@ const AdminLogin = () => {
             email: data.email,
           })
         );
-
-        navigate("/react-admin/dashboard");
+        navigate("/react-admin/products"); // Go to dashboard
       } else {
-        setError(data.error || "Login Failed");
+        setError(data.error || "Invalid Credentials");
       }
     } catch (err) {
-      setError("Server Error");
+      setError("Server connection failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="admin-login-wrapper">
-      <div className="admin-login-box">
-        <h1>
-          ORM <span>Admin</span>
-        </h1>
-        <p>Restricted Access</p>
+    <div className="admin-auth-wrapper">
+      {/* BACKGROUND DECORATION (Optional circles) */}
+      <div className="bg-circle c1"></div>
+      <div className="bg-circle c2"></div>
 
-        {error && <div className="admin-error">{error}</div>}
+      <div className="admin-auth-card">
+        {/* HEADER */}
+        <div className="auth-header">
+          <div className="icon-wrapper">
+            <FaUserShield />
+          </div>
+          <h1>
+            ORM <span>Admin</span>
+          </h1>
+          <p>Secure Dashboard Access</p>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-field">
+        {/* ERROR MESSAGE */}
+        {error && (
+          <div className="auth-error">
+            <FaLock /> {error}
+          </div>
+        )}
+
+        {/* FORM */}
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="input-group">
+            <label>Username</label>
             <input
               type="text"
               name="username"
-              placeholder="Admin Username"
+              placeholder="Enter admin ID"
               onChange={handleChange}
               required
             />
           </div>
-          <div className="input-field">
+
+          <div className="input-group">
+            <label>Password</label>
             <input
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="••••••••"
               onChange={handleChange}
               required
             />
           </div>
-          <button type="submit">Access Dashboard</button>
+
+          <button type="submit" className="auth-btn" disabled={loading}>
+            {loading ? "Verifying..." : "Sign In to Dashboard"}
+          </button>
         </form>
+
+        <div className="auth-footer">
+          <p>Protected by ORM Security Systems</p>
+        </div>
       </div>
     </div>
   );

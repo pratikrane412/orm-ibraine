@@ -1,0 +1,319 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* --- PAGE LAYOUT & TYPOGRAPHY --- */
+.orders-page-wrapper {
+  font-family: "Inter", sans-serif;
+  color: #111827; /* Deep Black/Grey */
+}
+
+/* --- HEADER --- */
+.orders-page-wrapper .admin-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.orders-page-wrapper .header-text h2 {
+  font-family: "Oswald", sans-serif;
+  font-size: 2.2rem;
+  color: #111;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.orders-page-wrapper .subtitle {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+/* --- MODERN BUTTONS --- */
+.orders-page-wrapper .header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.orders-page-wrapper .admin-btn-primary {
+  background: linear-gradient(135deg, #fbb03b 0%, #f59e0b 100%);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(251, 176, 59, 0.3);
+  transition: all 0.2s ease;
+}
+.orders-page-wrapper .admin-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(251, 176, 59, 0.4);
+}
+
+.orders-page-wrapper .admin-btn-secondary {
+  background: #fff;
+  color: #374151;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.orders-page-wrapper .admin-btn-secondary:hover {
+  border-color: #d1d5db;
+  background-color: #f9fafb;
+}
+
+/* --- STATS CARDS (Floating Effect) --- */
+.orders-page-wrapper .stats-grid {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.orders-page-wrapper .stat-card {
+  flex: 1;
+  background: #fff;
+  border: 1px solid rgba(229, 231, 235, 0.5);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05); /* Premium Shadow */
+  transition: transform 0.2s ease;
+}
+
+.orders-page-wrapper .stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.08);
+}
+
+.orders-page-wrapper .stat-card .label {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.orders-page-wrapper .stat-card .value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1f2937;
+  font-family: "Oswald", sans-serif;
+  letter-spacing: -0.5px;
+}
+
+/* --- MAIN CONTAINER (Glass-ish Border) --- */
+.orders-page-wrapper .table-controls-wrapper {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+  padding: 10px 24px 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+/* --- MODERN TABS (Pills) --- */
+.orders-page-wrapper .tabs-row {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.orders-page-wrapper .tab-item {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 20px; /* Pill Shape */
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.orders-page-wrapper .tab-item:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+.orders-page-wrapper .tab-item.active {
+  background-color: #1f2937; /* Black Pill */
+  color: #fbb03b; /* Gold Text */
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* --- FILTERS ROW --- */
+.orders-page-wrapper .filters-row {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+
+.orders-page-wrapper .search-wrapper {
+  flex: 1;
+  max-width: 380px;
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: 0.2s;
+}
+
+.orders-page-wrapper .search-wrapper:focus-within {
+  border-color: #fbb03b;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(251, 176, 59, 0.1);
+}
+
+.orders-page-wrapper .search-wrapper input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  margin-left: 10px;
+  font-size: 0.95rem;
+  outline: none;
+  color: #1f2937;
+}
+
+.orders-page-wrapper .filter-btn {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 0 16px;
+  border-radius: 10px;
+  color: #374151;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* --- TABLE (Clean & Spacious) --- */
+.orders-page-wrapper .table-wrapper {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+}
+
+.orders-page-wrapper .modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.orders-page-wrapper .modern-table th {
+  padding: 16px 24px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #9ca3af;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: #fff;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.orders-page-wrapper .modern-table td {
+  padding: 18px 24px; /* More breathing room */
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+/* Hover row effect */
+.orders-page-wrapper .modern-table tr:hover {
+  background-color: #fffbf0; /* Subtle Gold Tint */
+}
+
+/* --- CELL STYLES --- */
+.orders-page-wrapper .order-id {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  color: #fbb03b; /* Gold ID */
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.orders-page-wrapper .customer-info .name {
+  font-weight: 600;
+  color: #111;
+  display: block;
+}
+.orders-page-wrapper .customer-info .email {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* Modern Status Pills */
+.orders-page-wrapper .status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.orders-page-wrapper .status-badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.orders-page-wrapper .status-badge.paid {
+  background: #ecfdf5;
+  color: #047857;
+}
+.orders-page-wrapper .status-badge.paid .dot {
+  background: #10b981;
+}
+
+.orders-page-wrapper .status-badge.pending {
+  background: #fff7ed;
+  color: #c2410c;
+}
+.orders-page-wrapper .status-badge.pending .dot {
+  background: #f97316;
+}
+
+.orders-page-wrapper .status-badge.unfulfilled {
+  background: #fefce8;
+  color: #854d0e;
+}
+.orders-page-wrapper .status-badge.unfulfilled .dot {
+  background: #eab308;
+}
+
+.orders-page-wrapper .price-cell {
+  font-weight: 700;
+  color: #111;
+  font-family: "Inter", sans-serif;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .orders-page-wrapper .filters-row {
+    flex-direction: column;
+  }
+  .orders-page-wrapper .search-wrapper {
+    max-width: 100%;
+  }
+}

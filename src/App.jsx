@@ -22,6 +22,8 @@ import AdminLayout from "./components/admin/AdminLayout";
 import AddProduct from "./components/admin/AddProduct";
 import AdminLogin from "./components/admin/AdminLogin";
 import AllProducts from "./components/admin/AllProducts";
+import Orders from "./components/admin/Orders";
+import OrderDetails from "./components/admin/OrderDetails";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
 import { CartProvider } from "./context/CartContext";
@@ -83,7 +85,8 @@ function App() {
                 {/* Edit Product (Reusing same component) */}
                 <Route path="edit-product/:id" element={<AddProduct />} />
                 <Route path="products" element={<AllProducts />} />
-                <Route path="orders" element={<h2>Orders Management</h2>} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="orders/:id" element={<OrderDetails />} />
                 <Route path="coupons" element={<h2>Coupon Management</h2>} />
               </Route>
             </Route>
