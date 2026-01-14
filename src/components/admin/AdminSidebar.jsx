@@ -5,6 +5,8 @@ import {
   FaShoppingBag,
   FaTags,
   FaUsers,
+  FaChevronDown,
+  FaChevronUp,
   FaSignOutAlt,
   FaChartLine,
   FaUserCircle,
@@ -18,6 +20,8 @@ const AdminSidebar = () => {
     username: "Admin",
     email: "admin@orm.com",
   });
+
+  const [isCustomersOpen, setIsCustomersOpen] = useState(false);
 
   const isActive = (path) => (location.pathname === path ? "active" : "");
 
@@ -65,12 +69,32 @@ const AdminSidebar = () => {
         >
           <FaShoppingBag /> Orders
         </Link>
-        <Link
-          to="/react-admin/customers"
-          className={`nav-item ${isActive("/react-admin/customers")}`}
-        >
-          <FaUsers /> <span>Customers</span>
-        </Link>
+        <div className="nav-group">
+          <div 
+            className={`nav-item ${isActive('/react-admin/customers')}`} 
+            onClick={() => setIsCustomersOpen(!isCustomersOpen)}
+            style={{ cursor: "pointer", justifyContent: "space-between" }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <FaUsers /> <span>Customers</span>
+            </div>
+            {isCustomersOpen ? <FaChevronUp size={10} /> : <FaChevronDown size={10} />}
+          </div>
+
+          {/* Sub-menu */}
+          {isCustomersOpen && (
+            <div className="nav-sub-menu">
+               {/* Main Customers Link */}
+               <Link to="/react-admin/customers" className={`sub-nav-item ${isActive('/react-admin/customers')}`}>
+                 All Customers
+               </Link>
+               {/* New Segment Link */}
+               <Link to="/react-admin/customers/segments" className={`sub-nav-item ${isActive('/react-admin/customers/segments')}`}>
+                 Segments
+               </Link>
+            </div>
+          )}
+        </div>
       </nav>
 
       {/* ADMIN PROFILE WIDGET */}

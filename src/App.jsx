@@ -89,6 +89,7 @@ function App() {
                 <Route path="orders" element={<Orders />} />
                 <Route path="orders/:id" element={<OrderDetails />} />
                 <Route path="customers" element={<Customers />} />
+                <Route path="customers/segments" element={<h2>Customer Segments Coming Soon</h2>} />
               </Route>
             </Route>
           </Routes>

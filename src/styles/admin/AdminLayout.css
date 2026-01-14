@@ -9,6 +9,34 @@
   font-family: "Inter", sans-serif;
 }
 
+.nav-sub-menu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 40px; /* Indent sub-items */
+  margin-top: 5px;
+  gap: 5px;
+}
+
+.sub-nav-item {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+  display: block;
+}
+
+.sub-nav-item:hover {
+  background-color: #f3f4f6;
+  color: #111;
+}
+
+.sub-nav-item.active {
+  color: #fbb03b;
+  font-weight: 600;
+}
+
 /* --- SIDEBAR --- */
 .admin-sidebar {
   width: 260px;
