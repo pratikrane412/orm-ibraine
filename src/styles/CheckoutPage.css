@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap");
 
 /* HERO */
 .checkout-hero {
   position: relative;
   width: 100%;
   height: 300px;
-  background-image: url('/image/banner.jpg');
+  background-image: url("/image/banner.jpg");
   background-size: cover;
   background-position: center;
   margin-top: 80px;
@@ -17,7 +17,7 @@
 .checkout-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .checkout-content {
@@ -26,13 +26,15 @@
 }
 
 .checkout-content h1 {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 3rem;
   color: #fff;
   text-transform: uppercase;
 }
 
-.highlight { color: #fbb03b; }
+.highlight {
+  color: #fbb03b;
+}
 
 /* MAIN LAYOUT */
 .checkout-container {
@@ -59,7 +61,7 @@
 }
 
 .section-title {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 1.5rem;
   margin-bottom: 20px;
   display: flex;
@@ -70,7 +72,9 @@
   color: #fbb03b;
 }
 
-.icon-gold { color: #fbb03b; }
+.icon-gold {
+  color: #fbb03b;
+}
 
 /* INPUT STYLES */
 .input-group {
@@ -79,7 +83,7 @@
 
 .input-group label {
   display: block;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.9rem;
   margin-bottom: 8px;
   color: #ccc;
@@ -148,7 +152,7 @@
 }
 
 .pay-label {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -165,7 +169,7 @@
 }
 
 .checkout-summary h3 {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 1.8rem;
   margin-bottom: 20px;
   border-bottom: 1px solid #333;
@@ -205,11 +209,14 @@
   color: #aaa;
 }
 
-/* Discount Box */
+/* --- DISCOUNT BOX STYLES --- */
+.discount-wrapper {
+  margin-bottom: 15px;
+}
+
 .discount-box {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
 .discount-box input {
@@ -228,15 +235,50 @@
   padding: 0 20px;
   border-radius: 5px;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.discount-box button:hover {
+  background: #fbb03b;
+  color: #000;
+}
+
+/* Coupon Feedback Messages */
+.coupon-feedback {
+  font-size: 0.85rem;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.coupon-feedback.success {
+  color: #2cff7b; /* Bright Green for Success */
+}
+
+.coupon-feedback.error {
+  color: #ff4d4d; /* Red for Error */
+}
+
+.coupon-feedback.neutral {
+  color: #ccc;
 }
 
 /* Totals */
+.totals-box {
+  margin-top: 10px;
+}
+
 .total-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   color: #ccc;
+}
+
+/* Style for the Discount Row */
+.total-row.discount-row {
+  color: #fbb03b; /* Gold Color */
+  font-weight: bold;
 }
 
 .total-row.final {
@@ -248,7 +290,9 @@
   padding-top: 15px;
 }
 
-.free-text { color: #fbb03b; }
+.free-text {
+  color: #fbb03b;
+}
 
 .btn-pay-now {
   width: 100%;
@@ -281,9 +325,14 @@
   .checkout-layout {
     flex-direction: column;
   }
-  .checkout-summary { width: 100%; }
+  .checkout-summary {
+    width: 100%;
+  }
 }
 
 @media (max-width: 600px) {
-  .input-row { flex-direction: column; gap: 0; }
+  .input-row {
+    flex-direction: column;
+    gap: 0;
+  }
 }

@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap");
+
+/* --- LAYOUT WRAPPER --- */
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9fafb; /* Light Grey Background */
+  color: #1f2937; /* Dark Grey Text */
+  font-family: "Inter", sans-serif;
+}
+
+/* --- SIDEBAR --- */
+.admin-sidebar {
+  width: 260px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-logo h1 {
+  font-family: "Oswald", sans-serif;
+  color: #111;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  padding-left: 10px;
+  letter-spacing: 1px;
+}
+
+.admin-logo span {
+  color: #fbb03b; /* ORM Gold */
+}
+
+/* NAVIGATION */
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: #6b7280;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: #fffbeb;
+  color: #d97706;
+}
+
+.nav-item.active {
+  background-color: #fbb03b;
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(251, 176, 59, 0.3);
+}
+
+/* PROFILE SECTION (Bottom Sidebar) */
+.admin-profile-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 15px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.admin-avatar {
+  font-size: 2.2rem;
+  color: #d1d5db;
+}
+
+.admin-text h4 {
+  font-size: 0.9rem;
+  margin: 0;
+  color: #111;
+  font-weight: 600;
+}
+
+.admin-text p {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #fef2f2;
+}
+
+/* --- MAIN CONTENT AREA --- */
+.admin-content {
+  flex: 1;
+  margin-left: 260px; /* Matches Sidebar Width */
+  padding: 30px; /* Slightly reduced padding for more space */
+  width: calc(100% - 260px); /* Ensure it takes full remaining width */
+  box-sizing: border-box;
+}
+
+/* Common Page Container */
+.admin-page-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+
+  /* FORCE FULL WIDTH */
+  width: 100%;
+  max-width: none; /* Removes the 1400px limit */
+  min-height: 85vh; /* Ensures it looks substantial even with few items */
+}
+/* Header Row for Pages */
+.admin-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.admin-page-container h2 {
+  font-family: "Oswald", sans-serif;
+  font-size: 2rem;
+  color: #111;
+  margin: 0;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-top: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 70px;
+    padding: 15px 10px;
+  }
+  .admin-content {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+    padding: 15px;
+  }
+}
