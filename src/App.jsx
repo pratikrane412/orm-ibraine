@@ -19,9 +19,10 @@ import CheckoutPage from "./components/CheckoutPage";
 
 // --- ADMIN IMPORTS ---
 import AdminLayout from "./components/admin/AdminLayout";
-import AddProduct from "./components/admin/AddProduct";
 import AdminLogin from "./components/admin/AdminLogin";
+import AddProduct from "./components/admin/AddProduct";
 import AllProducts from "./components/admin/AllProducts";
+import Collections from "./components/admin/Collections";
 import Orders from "./components/admin/Orders";
 import OrderDetails from "./components/admin/OrderDetails";
 import Customers from "./components/admin/Customers";
@@ -87,7 +88,7 @@ function App() {
                 {/* Edit Product (Reusing same component) */}
                 <Route path="edit-product/:id" element={<AddProduct />} />
                 <Route path="products" element={<AllProducts />} />
-                <Route path="products/collections" element={<h2>Collections Page Coming Soon</h2>} />
+                <Route path="products/collections" element={<Collections />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="orders/:id" element={<OrderDetails />} />
                 <Route path="customers" element={<Customers />} />
