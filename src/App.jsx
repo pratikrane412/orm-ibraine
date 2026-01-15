@@ -25,6 +25,7 @@ import AllProducts from "./components/admin/AllProducts";
 import Orders from "./components/admin/Orders";
 import OrderDetails from "./components/admin/OrderDetails";
 import Customers from "./components/admin/Customers";
+import CustomerSegments from "./components/admin/CustomerSegments";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
 import { CartProvider } from "./context/CartContext";
@@ -86,10 +87,11 @@ function App() {
                 {/* Edit Product (Reusing same component) */}
                 <Route path="edit-product/:id" element={<AddProduct />} />
                 <Route path="products" element={<AllProducts />} />
+                <Route path="products/collections" element={<h2>Collections Page Coming Soon</h2>} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="orders/:id" element={<OrderDetails />} />
                 <Route path="customers" element={<Customers />} />
-                <Route path="customers/segments" element={<h2>Customer Segments Coming Soon</h2>} />
+                <Route path="customers/segments" element={<CustomerSegments />} />
               </Route>
             </Route>
           </Routes>

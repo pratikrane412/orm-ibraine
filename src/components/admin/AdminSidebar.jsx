@@ -22,6 +22,7 @@ const AdminSidebar = () => {
   });
 
   const [isCustomersOpen, setIsCustomersOpen] = useState(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
 
   const isActive = (path) => (location.pathname === path ? "active" : "");
 
@@ -57,12 +58,50 @@ const AdminSidebar = () => {
         >
           <FaChartLine /> Dashboard
         </Link>
-        <Link
-          to="/react-admin/products"
-          className={`nav-item ${isActive("/react-admin/products")}`}
-        >
-          <FaBox /> Products
-        </Link>
+        <div className="nav-group">
+          <div
+            className={`nav-item ${isActive("/react-admin/products")}`}
+            onClick={() => setIsProductsOpen(!isProductsOpen)}
+            style={{ cursor: "pointer", justifyContent: "space-between" }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <FaBox /> <span>Products</span>
+            </div>
+            {isProductsOpen ? (
+              <FaChevronUp size={10} />
+            ) : (
+              <FaChevronDown size={10} />
+            )}
+          </div>
+
+          {/* Sub-menu */}
+          {isProductsOpen && (
+            <div className="nav-sub-menu">
+              <Link
+                to="/react-admin/products"
+                className={`sub-nav-item ${isActive("/react-admin/products")}`}
+              >
+                All Products
+              </Link>
+              <Link
+                to="/react-admin/add-product"
+                className={`sub-nav-item ${isActive(
+                  "/react-admin/add-product"
+                )}`}
+              >
+                Add Product
+              </Link>
+              <Link
+                to="/react-admin/products/collections"
+                className={`sub-nav-item ${isActive(
+                  "/react-admin/products/collections"
+                )}`}
+              >
+                Collections
+              </Link>
+            </div>
+          )}
+        </div>
         <Link
           to="/react-admin/orders"
           className={`nav-item ${isActive("/react-admin/orders")}`}
@@ -70,28 +109,40 @@ const AdminSidebar = () => {
           <FaShoppingBag /> Orders
         </Link>
         <div className="nav-group">
-          <div 
-            className={`nav-item ${isActive('/react-admin/customers')}`} 
+          <div
+            className={`nav-item ${isActive("/react-admin/customers")}`}
             onClick={() => setIsCustomersOpen(!isCustomersOpen)}
             style={{ cursor: "pointer", justifyContent: "space-between" }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <FaUsers /> <span>Customers</span>
             </div>
-            {isCustomersOpen ? <FaChevronUp size={10} /> : <FaChevronDown size={10} />}
+            {isCustomersOpen ? (
+              <FaChevronUp size={10} />
+            ) : (
+              <FaChevronDown size={10} />
+            )}
           </div>
 
           {/* Sub-menu */}
           {isCustomersOpen && (
             <div className="nav-sub-menu">
-               {/* Main Customers Link */}
-               <Link to="/react-admin/customers" className={`sub-nav-item ${isActive('/react-admin/customers')}`}>
-                 All Customers
-               </Link>
-               {/* New Segment Link */}
-               <Link to="/react-admin/customers/segments" className={`sub-nav-item ${isActive('/react-admin/customers/segments')}`}>
-                 Segments
-               </Link>
+              {/* Main Customers Link */}
+              <Link
+                to="/react-admin/customers"
+                className={`sub-nav-item ${isActive("/react-admin/customers")}`}
+              >
+                All Customers
+              </Link>
+              {/* New Segment Link */}
+              <Link
+                to="/react-admin/customers/segments"
+                className={`sub-nav-item ${isActive(
+                  "/react-admin/customers/segments"
+                )}`}
+              >
+                Segments
+              </Link>
             </div>
           )}
         </div>
