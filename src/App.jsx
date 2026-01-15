@@ -28,6 +28,8 @@ import Orders from "./components/admin/Orders";
 import OrderDetails from "./components/admin/OrderDetails";
 import Customers from "./components/admin/Customers";
 import CustomerSegments from "./components/admin/CustomerSegments";
+import Discounts from "./components/admin/Discounts";
+import CreateDiscount from "./components/admin/CreateDiscount";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
 import { CartProvider } from "./context/CartContext";
@@ -95,6 +97,8 @@ function App() {
                 <Route path="orders/:id" element={<OrderDetails />} />
                 <Route path="customers" element={<Customers />} />
                 <Route path="customers/segments" element={<CustomerSegments />} />
+                <Route path="discount" element={<Discounts />} />
+                <Route path="discounts/new" element={<CreateDiscount />} />
               </Route>
             </Route>
           </Routes>

@@ -10,6 +10,7 @@ import {
   FaSignOutAlt,
   FaChartLine,
   FaUserCircle,
+  FaTag
 } from "react-icons/fa";
 import "../../styles/admin/AdminLayout.css";
 
@@ -153,6 +154,12 @@ const AdminSidebar = () => {
               </Link>
             </div>
           )}
+          <Link
+            to="/react-admin/discount"
+            className={`nav-item ${isActive("/react-admin/discount")}`}
+          >
+            <FaTag /> Discount
+          </Link>
         </div>
       </nav>
 
