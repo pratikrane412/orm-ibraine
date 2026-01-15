@@ -99,6 +99,14 @@ const AdminSidebar = () => {
               >
                 Collections
               </Link>
+              <Link
+                to="/react-admin/products/inventory"
+                className={`sub-nav-item ${isActive(
+                  "/react-admin/products/inventory"
+                )}`}
+              >
+                Inventory
+              </Link>
             </div>
           )}
         </div>
