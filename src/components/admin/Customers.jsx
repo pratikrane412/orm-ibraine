@@ -4,15 +4,19 @@ import {
   FaFileExport,
   FaSort,
   FaUser,
-  FaEnvelope,
   FaMapMarkerAlt,
 } from "react-icons/fa";
+import { useSearchParams } from "react-router-dom"; // Import useSearchParams
 import "../../styles/admin/Customers.css";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+
+  // FIX: Read URL params for filtering
+  const [searchParams] = useSearchParams();
+  const segmentFilter = searchParams.get("segment");
 
   useEffect(() => {
     const token = localStorage.getItem("orm_admin_token");
@@ -27,15 +31,25 @@ const Customers = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const filteredCustomers = customers.filter(
-    (c) =>
+  const filteredCustomers = customers.filter((c) => {
+    // 1. Search Logic
+    const matchesSearch =
       (c.first_name + " " + c.last_name)
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      c.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      c.email.toLowerCase().includes(searchTerm.toLowerCase());
 
-  // Stats Calculation
+    // 2. FIX: Segment Filtering Logic
+    let matchesSegment = true;
+    if (segmentFilter === "purchased_once")
+      matchesSegment = c.orders_count >= 1;
+    if (segmentFilter === "purchased_more") matchesSegment = c.orders_count > 1;
+    if (segmentFilter === "never_purchased")
+      matchesSegment = c.orders_count === 0;
+
+    return matchesSearch && matchesSegment;
+  });
+
   const totalSpent = customers.reduce(
     (acc, c) => acc + Number(c.total_spent || 0),
     0
@@ -43,13 +57,18 @@ const Customers = () => {
 
   return (
     <div className="admin-page-container customers-page-wrapper">
-      {/* HEADER */}
       <div className="admin-header-row">
         <div className="header-text">
           <h2>Customers</h2>
-          <p className="subtitle">
-            View and manage your customer relationships
-          </p>
+          {segmentFilter ? (
+            <p className="subtitle" style={{ color: "#fbb03b" }}>
+              Filter: {segmentFilter.replace("_", " ").toUpperCase()}
+            </p>
+          ) : (
+            <p className="subtitle">
+              View and manage your customer relationships
+            </p>
+          )}
         </div>
         <div className="header-actions">
           <button className="admin-btn-secondary">
@@ -59,7 +78,6 @@ const Customers = () => {
         </div>
       </div>
 
-      {/* STATS OVERVIEW (New) */}
       <div className="stats-grid">
         <div className="stat-card">
           <span className="label">Total Customers</span>
@@ -71,14 +89,11 @@ const Customers = () => {
         </div>
         <div className="stat-card">
           <span className="label">Subscribers</span>
-          <div className="value">{(customers.length / 2).toFixed(0)}</div>{" "}
-          {/* Mocked stat */}
+          <div className="value">{(customers.length / 2).toFixed(0)}</div>
         </div>
       </div>
 
-      {/* TABLE SECTION */}
       <div className="table-wrapper">
-        {/* FILTERS */}
         <div className="customer-filters">
           <div className="search-wrapper">
             <FaSearch className="search-icon" />
@@ -94,7 +109,6 @@ const Customers = () => {
           </button>
         </div>
 
-        {/* TABLE */}
         {loading ? (
           <div className="loading-state">Loading...</div>
         ) : (
@@ -118,8 +132,6 @@ const Customers = () => {
                     <td>
                       <input type="checkbox" />
                     </td>
-
-                    {/* AVATAR + NAME + EMAIL */}
                     <td>
                       <div className="customer-profile">
                         <div className="avatar">
@@ -133,9 +145,7 @@ const Customers = () => {
                         </div>
                       </div>
                     </td>
-
                     <td>
-                      {/* Subscription Status */}
                       <span
                         className={`status-pill ${
                           cust.id % 2 === 0 ? "active" : "inactive"
@@ -145,19 +155,16 @@ const Customers = () => {
                         {cust.id % 2 === 0 ? "Subscribed" : "Not Subscribed"}
                       </span>
                     </td>
-
                     <td>
                       <div className="location-cell">
                         <FaMapMarkerAlt className="icon" /> {cust.location}
                       </div>
                     </td>
-
                     <td>
                       <span className="orders-badge">
                         {cust.orders_count} Orders
                       </span>
                     </td>
-
                     <td className="price-cell">
                       Rs. {Number(cust.total_spent || 0).toLocaleString()}
                     </td>

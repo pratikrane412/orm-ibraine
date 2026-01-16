@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import "../../styles/admin/Customers.css"; // Reusing the same premium styles
+import { useNavigate } from "react-router-dom";
+import "../../styles/admin/Customers.css";
 
 const CustomerSegments = () => {
+  const navigate = useNavigate();
   const [segments, setSegments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("orm_admin_token");
 
-    // 1. Fetch All Customers to calculate segments
     fetch("http://127.0.0.1:8000/api/customers/", {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => res.json())
       .then((customers) => {
-        const total = customers.length || 1; // Avoid division by zero
+        const total = customers.length || 1;
 
-        // 2. Logic to categorize customers
         const purchasedOnce = customers.filter(
           (c) => c.orders_count >= 1
         ).length;
@@ -27,8 +27,6 @@ const CustomerSegments = () => {
         const neverPurchased = customers.filter(
           (c) => c.orders_count === 0
         ).length;
-
-        // Mock data for things we don't track yet (Email list / Abandoned carts)
         const emailSubscribers = Math.floor(total * 0.4);
 
         const generatedSegments = [
@@ -44,14 +42,14 @@ const CustomerSegments = () => {
             name: "Email subscribers",
             count: emailSubscribers,
             percent: "40%",
-            updated: "Created on Nov 8, 2024",
+            updated: "Updated just now",
           },
           {
             id: 3,
             name: "Abandoned checkouts in the last 30 days",
             count: 0,
             percent: "0%",
-            updated: "Created on Nov 8, 2024",
+            updated: "Updated just now",
           },
           {
             id: 4,
@@ -75,9 +73,21 @@ const CustomerSegments = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  const getFilterType = (id) => {
+    switch (id) {
+      case 1:
+        return "purchased_once";
+      case 4:
+        return "purchased_more";
+      case 5:
+        return "never_purchased";
+      default:
+        return "all";
+    }
+  };
+
   return (
     <div className="admin-page-container customers-page-wrapper">
-      {/* HEADER */}
       <div className="admin-header-row">
         <div className="header-text">
           <h2>Segments</h2>
@@ -88,9 +98,7 @@ const CustomerSegments = () => {
         </div>
       </div>
 
-      {/* TABLE CARD */}
       <div className="table-wrapper">
-        {/* SEARCH BAR (Full Width like image) */}
         <div className="customer-filters" style={{ padding: "16px 20px" }}>
           <div className="search-wrapper" style={{ maxWidth: "100%" }}>
             <FaSearch className="search-icon" />
@@ -98,7 +106,6 @@ const CustomerSegments = () => {
           </div>
         </div>
 
-        {/* SEGMENTS LIST */}
         <table className="modern-table">
           <thead>
             <tr>
@@ -119,9 +126,21 @@ const CustomerSegments = () => {
               </tr>
             ) : (
               segments.map((seg) => (
-                <tr key={seg.id}>
+                <tr
+                  key={seg.id}
+                  // FIX: CLICK HANDLER IS NOW CORRECTLY PLACED HERE
+                  onClick={() =>
+                    navigate(
+                      `/react-admin/customers?segment=${getFilterType(seg.id)}`
+                    )
+                  }
+                  style={{ cursor: "pointer" }}
+                >
                   <td>
-                    <input type="checkbox" />
+                    <input
+                      type="checkbox"
+                      onClick={(e) => e.stopPropagation()}
+                    />
                   </td>
                   <td>
                     <span
