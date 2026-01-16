@@ -30,6 +30,21 @@ const CreateDiscount = () => {
     e.preventDefault();
     const token = localStorage.getItem("orm_admin_token");
 
+    // Create a copy of the data
+    const payload = { ...formData };
+
+    // --- PROPER TIMEZONE FIX ---
+    // Convert the HTML "datetime-local" string (Local Time) to a UTC ISO String
+    // This tells Django exactly what time it is, accounting for your Timezone.
+
+    if (payload.valid_from) {
+      payload.valid_from = new Date(payload.valid_from).toISOString();
+    }
+
+    if (payload.valid_to) {
+      payload.valid_to = new Date(payload.valid_to).toISOString();
+    }
+
     try {
       const res = await fetch("http://127.0.0.1:8000/api/coupons/", {
         method: "POST",
@@ -37,13 +52,13 @@ const CreateDiscount = () => {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
-        alert("Discount Created Successfully");
+        alert("Discount Created Successfully!");
         navigate("/react-admin/discount");
       } else {
-        alert("Failed. Please check all fields.");
+        alert("Failed. Check inputs.");
       }
     } catch (err) {
       console.error(err);

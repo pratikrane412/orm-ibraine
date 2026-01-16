@@ -24,13 +24,19 @@ const Discounts = () => {
 
   // Determine Status (Active, Scheduled, Expired)
   const getStatus = (coupon) => {
+    // 1. Get current time
     const now = new Date();
+    
+    // 2. Parse Coupon Dates (Ensure they are treated as valid date objects)
     const start = new Date(coupon.valid_from);
     const end = new Date(coupon.valid_to);
 
     if (!coupon.active) return "Inactive";
-    if (now > end) return "Expired";
-    if (now < start) return "Scheduled";
+    
+    // 3. Compare Milliseconds to be precise
+    if (now.getTime() > end.getTime()) return "Expired";
+    if (now.getTime() < start.getTime()) return "Scheduled";
+    
     return "Active";
   };
 
