@@ -1,42 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus, FaImage } from "react-icons/fa";
-import "../../styles/admin/Collections.css"; // Create this next
+import { useNavigate, Link } from "react-router-dom";
+import "../../styles/admin/Collections.css";
 
 const Collections = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // 1. Fetch Products
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/products/")
+    // 1. Fetch from REAL Collections API (Not Products)
+    fetch("http://127.0.0.1:8000/api/collections/")
       .then((res) => res.json())
-      .then((products) => {
-        // 2. Group By Category
-        const grouped = {};
-
-        products.forEach((p) => {
-          if (!grouped[p.category]) {
-            grouped[p.category] = {
-              title: p.category, // e.g., "Thar"
-              count: 0,
-              image: p.image, // Use first product image as collection thumbnail
-            };
-          }
-          grouped[p.category].count += 1;
-        });
-
-        // Convert object to array
-        setCollections(Object.values(grouped));
+      .then((data) => {
+        setCollections(data); // This will be empty [] initially
         setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    return imagePath.startsWith("http")
-      ? imagePath
-      : `http://127.0.0.1:8000${imagePath}`;
+  const getImageUrl = (collection) => {
+    // 1. Priority: Collection's own image
+    if (collection.image) {
+      return collection.image.startsWith("http")
+        ? collection.image
+        : `http://127.0.0.1:8000${collection.image}`;
+    }
+
+    // 2. Fallback: First Product Image (from new serializer field)
+    if (collection.first_product_image) {
+      return `http://127.0.0.1:8000${collection.first_product_image}`;
+    }
+
+    return null;
   };
 
   return (
@@ -45,12 +44,16 @@ const Collections = () => {
       <div className="admin-header-row">
         <div className="header-text">
           <h2>Collections</h2>
-          <p className="subtitle">Group your products into categories</p>
+          <p className="subtitle">Manage product groups and categories</p>
         </div>
         <div className="header-actions">
-          <button className="admin-btn-primary">
+          {/* Link to Create Page */}
+          <Link
+            to="/react-admin/products/collections/new"
+            className="admin-btn-primary"
+          >
             <FaPlus /> Create collection
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -63,7 +66,7 @@ const Collections = () => {
         </div>
 
         {loading ? (
-          <div className="loading-state">Loading Collections...</div>
+          <div className="loading-state">Loading...</div>
         ) : (
           <table className="modern-table">
             <thead>
@@ -78,15 +81,25 @@ const Collections = () => {
             </thead>
             <tbody>
               {collections.length > 0 ? (
-                collections.map((col, idx) => (
-                  <tr key={idx}>
+                collections.map((col) => (
+                  <tr
+                    key={col.id}
+                    onClick={() =>
+                      navigate(`/react-admin/products/collections/${col.id}`)
+                    }
+                    style={{ cursor: "pointer" }}
+                  >
                     <td>
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        onClick={(e) => e.stopPropagation()}
+                      />
                     </td>
                     <td>
                       <div className="collection-thumb">
-                        {col.image ? (
-                          <img src={getImageUrl(col.image)} alt={col.title} />
+                        {/* Use the helper */}
+                        {getImageUrl(col) ? (
+                          <img src={getImageUrl(col)} alt={col.title} />
                         ) : (
                           <div className="no-img-icon">
                             <FaImage />
@@ -95,24 +108,27 @@ const Collections = () => {
                       </div>
                     </td>
                     <td>
-                      <span className="collection-title">
-                        {/* Map backend keys to readable names if needed */}
-                        {col.title === "Thar"
-                          ? "Mahindra Thar Accessories"
-                          : col.title === "Jimny"
-                          ? "Suzuki Jimny Accessories"
-                          : col.title + " Accessories"}
-                      </span>
+                      <span className="collection-title">{col.title}</span>
                     </td>
                     <td align="right" style={{ color: "#6b7280" }}>
-                      {col.count}
+                      {/* Using the field from serializer */}
+                      {col.product_count || 0} products
                     </td>
                   </tr>
                 ))
               ) : (
+                // This is what shows initially (Empty State)
                 <tr>
                   <td colSpan="4" className="no-data">
-                    No collections found
+                    <div style={{ padding: "40px", textAlign: "center" }}>
+                      <p>You haven't created any collections yet.</p>
+                      <Link
+                        to="/react-admin/products/collections/new"
+                        style={{ color: "#fbb03b", fontWeight: "bold" }}
+                      >
+                        Create one now
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               )}

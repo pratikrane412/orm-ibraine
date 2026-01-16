@@ -23,6 +23,7 @@ import AdminLogin from "./components/admin/AdminLogin";
 import AddProduct from "./components/admin/AddProduct";
 import AllProducts from "./components/admin/AllProducts";
 import Collections from "./components/admin/Collections";
+import EditCollection from "./components/admin/EditCollection";
 import Inventory from "./components/admin/Inventory";
 import Orders from "./components/admin/Orders";
 import OrderDetails from "./components/admin/OrderDetails";
@@ -92,6 +93,7 @@ function App() {
                 <Route path="edit-product/:id" element={<AddProduct />} />
                 <Route path="products" element={<AllProducts />} />
                 <Route path="products/collections" element={<Collections />} />
+                <Route path="products/collections/:id" element={<EditCollection />} />
                 <Route path="products/inventory" element={<Inventory />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="orders/:id" element={<OrderDetails />} />
