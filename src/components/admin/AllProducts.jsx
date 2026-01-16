@@ -154,6 +154,7 @@ const AllProducts = () => {
                 <th width="70">Image</th>
                 <th>Product Information</th>
                 <th>Category</th>
+                <th>Inventory</th>
                 <th>Price</th>
                 <th>Status</th>
                 <th align="right">Actions</th>
@@ -180,6 +181,17 @@ const AllProducts = () => {
                     {/* Render the Readable Category Label if needed, or just the backend key */}
                     <td>
                       <span className="category-tag">{product.category}</span>
+                    </td>
+                    <td>
+                      <span
+                        className={`inventory-badge ${
+                          product.stock_quantity > 0 ? "instock" : "outofstock"
+                        }`}
+                      >
+                        {product.stock_quantity > 0
+                          ? `${product.stock_quantity} in stock`
+                          : "Out of stock"}
+                      </span>
                     </td>
                     <td>
                       <div className="price-tag">

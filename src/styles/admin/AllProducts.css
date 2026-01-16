@@ -257,6 +257,27 @@
   color: #64748b;
 }
 
+/* INVENTORY BADGE */
+.inventory-badge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.inventory-badge.instock {
+  color: #374151; /* Dark Grey */
+  background-color: #f3f4f6; /* Light Grey background */
+  border: 1px solid #e5e7eb;
+}
+
+.inventory-badge.outofstock {
+  color: #ef4444; /* Red Text */
+  background-color: #fef2f2; /* Light Red BG */
+  border: 1px solid #fecaca;
+}
+
 /* Responsive Header */
 @media (max-width: 1024px) {
   .admin-header-row {
