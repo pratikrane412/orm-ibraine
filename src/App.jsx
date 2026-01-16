@@ -101,6 +101,7 @@ function App() {
                 <Route path="customers/segments" element={<CustomerSegments />} />
                 <Route path="discount" element={<Discounts />} />
                 <Route path="discounts/new" element={<CreateDiscount />} />
+                <Route path="discounts/:id" element={<CreateDiscount />} />
               </Route>
             </Route>
           </Routes>

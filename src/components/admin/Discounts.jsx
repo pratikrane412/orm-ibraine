@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus, FaSearch, FaTag, FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import "../../styles/admin/Discounts.css"; // We will create this
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import "../../styles/admin/Discounts.css";
 
 const Discounts = () => {
+  const navigate = useNavigate();
   const [coupons, setCoupons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,26 +23,21 @@ const Discounts = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  // Determine Status (Active, Scheduled, Expired)
   const getStatus = (coupon) => {
-    // 1. Get current time
     const now = new Date();
-    
-    // 2. Parse Coupon Dates (Ensure they are treated as valid date objects)
     const start = new Date(coupon.valid_from);
     const end = new Date(coupon.valid_to);
 
     if (!coupon.active) return "Inactive";
-    
-    // 3. Compare Milliseconds to be precise
     if (now.getTime() > end.getTime()) return "Expired";
     if (now.getTime() < start.getTime()) return "Scheduled";
-    
     return "Active";
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation(); // Prevents row click when clicking delete
     if (!window.confirm("Delete this coupon?")) return;
+
     const token = localStorage.getItem("orm_admin_token");
     await fetch(`http://127.0.0.1:8000/api/coupons/${id}/`, {
       method: "DELETE",
@@ -61,7 +57,6 @@ const Discounts = () => {
 
   return (
     <div className="admin-page-container discount-wrapper">
-      {/* HEADER */}
       <div className="admin-header-row">
         <div className="header-text">
           <h2>Discounts</h2>
@@ -74,9 +69,7 @@ const Discounts = () => {
         </div>
       </div>
 
-      {/* MAIN CARD */}
       <div className="table-wrapper">
-        {/* TABS */}
         <div className="tabs-row">
           {["All", "Active", "Scheduled", "Expired"].map((tab) => (
             <button
@@ -89,7 +82,6 @@ const Discounts = () => {
           ))}
         </div>
 
-        {/* FILTERS */}
         <div className="discount-filters">
           <div className="search-box">
             <FaSearch className="icon" />
@@ -102,7 +94,6 @@ const Discounts = () => {
           </div>
         </div>
 
-        {/* TABLE */}
         {loading ? (
           <div className="loading-state">Loading Discounts...</div>
         ) : (
@@ -122,9 +113,17 @@ const Discounts = () => {
             <tbody>
               {filteredCoupons.length > 0 ? (
                 filteredCoupons.map((c) => (
-                  <tr key={c.id}>
+                  <tr
+                    key={c.id}
+                    // ADDED CLICK HANDLER HERE ON THE ROW ITSELF
+                    onClick={() => navigate(`/react-admin/discounts/${c.id}`)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <td>
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        onClick={(e) => e.stopPropagation()}
+                      />
                     </td>
                     <td>
                       <div className="code-cell">
@@ -142,12 +141,12 @@ const Discounts = () => {
                       </span>
                     </td>
                     <td>{c.discount_percentage}%</td>
-                    <td>0 used</td>{" "}
-                    {/* Backend needs 'used_count' field for real data */}
+                    <td>0 used</td>
                     <td align="right">
                       <button
                         className="action-btn delete"
-                        onClick={() => handleDelete(c.id)}
+                        // Pass 'e' to stop propagation
+                        onClick={(e) => handleDelete(e, c.id)}
                       >
                         <FaTrash />
                       </button>

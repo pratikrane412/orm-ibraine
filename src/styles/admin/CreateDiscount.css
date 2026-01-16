@@ -13,6 +13,7 @@
 .page-header {
   margin-bottom: 25px;
   display: flex;
+  justify-content: space-between; /* This pushes Delete button to the far right */
   align-items: center;
 }
 
@@ -125,7 +126,26 @@
   border-color: #fbb03b;
   box-shadow: 0 0 0 1px #fbb03b;
 }
+/* DELETE BUTTON STYLING */
+.delete-btn-header {
+  background-color: #fef2f2;
+  color: #dc2626; /* Strong Red */
+  border: 1px solid #fecaca;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
 
+.delete-btn-header:hover {
+  background-color: #fee2e2;
+  border-color: #ef4444;
+}
 .bold-text {
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -278,16 +298,16 @@ input[type="datetime-local"] {
 /* --- FORCE WHITE INPUTS --- */
 
 .text-input,
-.dc-input, 
+.dc-input,
 input[type="text"],
 input[type="number"],
 input[type="datetime-local"] {
   background-color: #ffffff !important; /* Override global dark mode */
-  color: #111827 !important;            /* Force Black Text */
+  color: #111827 !important; /* Force Black Text */
   border: 1px solid #d1d5db !important; /* Visible Grey Border */
   border-radius: 8px !important;
   padding: 12px !important;
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 /* Fix Focus State */
@@ -301,6 +321,6 @@ input:focus {
 
 /* Specifically Fix Date Picker Icon */
 ::-webkit-calendar-picker-indicator {
-    filter: invert(0) !important; /* Force icon to be black */
-    cursor: pointer;
+  filter: invert(0) !important; /* Force icon to be black */
+  cursor: pointer;
 }

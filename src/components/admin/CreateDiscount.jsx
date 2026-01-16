@@ -1,21 +1,50 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom"; // Import useParams
 import {
   FaArrowLeft,
   FaTag,
   FaCalendarAlt,
   FaCheckCircle,
+  FaTrash,
 } from "react-icons/fa";
 import "../../styles/admin/CreateDiscount.css";
 
 const CreateDiscount = () => {
   const navigate = useNavigate();
+  const { id } = useParams(); // Get ID from URL
+  const isEditMode = !!id; // Boolean flag
+
   const [formData, setFormData] = useState({
     code: "",
     discount_percentage: "",
     valid_from: "",
     valid_to: "",
   });
+
+  // --- FETCH DATA IF EDITING ---
+  useEffect(() => {
+    if (isEditMode) {
+      const token = localStorage.getItem("orm_admin_token");
+      fetch(`http://127.0.0.1:8000/api/coupons/${id}/`, {
+        headers: { Authorization: `Token ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          // Format dates for input (remove the 'Z' or offset if needed for datetime-local)
+          // Simple slice works if format is standard ISO
+          const formatForInput = (isoString) =>
+            isoString ? isoString.slice(0, 16) : "";
+
+          setFormData({
+            code: data.code,
+            discount_percentage: data.discount_percentage,
+            valid_from: formatForInput(data.valid_from),
+            valid_to: formatForInput(data.valid_to),
+          });
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [id, isEditMode]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,24 +59,22 @@ const CreateDiscount = () => {
     e.preventDefault();
     const token = localStorage.getItem("orm_admin_token");
 
-    // Create a copy of the data
     const payload = { ...formData };
-
-    // --- PROPER TIMEZONE FIX ---
-    // Convert the HTML "datetime-local" string (Local Time) to a UTC ISO String
-    // This tells Django exactly what time it is, accounting for your Timezone.
-
-    if (payload.valid_from) {
+    if (payload.valid_from)
       payload.valid_from = new Date(payload.valid_from).toISOString();
-    }
-
-    if (payload.valid_to) {
+    if (payload.valid_to)
       payload.valid_to = new Date(payload.valid_to).toISOString();
-    }
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/coupons/", {
-        method: "POST",
+      // Dynamic URL & Method
+      const url = isEditMode
+        ? `http://127.0.0.1:8000/api/coupons/${id}/`
+        : "http://127.0.0.1:8000/api/coupons/";
+
+      const method = isEditMode ? "PATCH" : "POST";
+
+      const res = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`,
@@ -55,7 +82,7 @@ const CreateDiscount = () => {
         body: JSON.stringify(payload),
       });
       if (res.ok) {
-        alert("Discount Created Successfully!");
+        alert(isEditMode ? "Discount Updated!" : "Discount Created!");
         navigate("/react-admin/discount");
       } else {
         alert("Failed. Check inputs.");
@@ -65,22 +92,37 @@ const CreateDiscount = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("Delete this coupon permanently?")) return;
+    const token = localStorage.getItem("orm_admin_token");
+    await fetch(`http://127.0.0.1:8000/api/coupons/${id}/`, {
+      method: "DELETE",
+      headers: { Authorization: `Token ${token}` },
+    });
+    navigate("/react-admin/discount");
+  };
+
   return (
     <div className="admin-page-container discount-page">
-      {/* HEADER */}
       <div className="page-header">
         <div className="header-start">
-          <button onClick={() => navigate(-1)} className="back-btn-icon">
+          <button
+            onClick={() => navigate("/react-admin/discount")}
+            className="back-btn-icon"
+          >
             <FaArrowLeft />
           </button>
-          <h1>Create discount</h1>
+          <h1>{isEditMode ? "Edit discount" : "Create discount"}</h1>
         </div>
+        {isEditMode && (
+          <button className="dc-btn delete-btn-header" onClick={handleDelete}>
+            <FaTrash /> Delete
+          </button>
+        )}
       </div>
 
       <div className="discount-layout">
-        {/* --- LEFT COLUMN (FORM) --- */}
         <div className="discount-main">
-          {/* Card 1: Configuration */}
           <div className="panel-card">
             <div className="panel-header">
               <h3>Amount off order</h3>
@@ -118,16 +160,17 @@ const CreateDiscount = () => {
                   <input
                     type="number"
                     name="discount_percentage"
+                    value={formData.discount_percentage}
                     onChange={handleChange}
                     placeholder="10"
                     className="text-input"
                   />
+                  <span className="suffix">%</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Card 2: Dates */}
           <div className="panel-card">
             <div className="panel-header">
               <h3>Active dates</h3>
@@ -139,6 +182,7 @@ const CreateDiscount = () => {
                   <input
                     type="datetime-local"
                     name="valid_from"
+                    value={formData.valid_from}
                     onChange={handleChange}
                     className="text-input"
                   />
@@ -148,6 +192,7 @@ const CreateDiscount = () => {
                   <input
                     type="datetime-local"
                     name="valid_to"
+                    value={formData.valid_to}
                     onChange={handleChange}
                     className="text-input"
                   />
@@ -157,18 +202,15 @@ const CreateDiscount = () => {
           </div>
         </div>
 
-        {/* --- RIGHT COLUMN (SUMMARY) --- */}
         <div className="discount-sidebar">
           <div className="summary-card">
             <h3>Summary</h3>
-
             <div className="summary-details">
-              {formData.code ? (
-                <div className="code-preview">{formData.code}</div>
-              ) : (
-                <div className="code-placeholder">No code yet</div>
-              )}
-
+              <div
+                className={formData.code ? "code-preview" : "code-placeholder"}
+              >
+                {formData.code || "No code yet"}
+              </div>
               <ul className="summary-list">
                 <li>
                   <FaTag className="icon" />
@@ -179,23 +221,25 @@ const CreateDiscount = () => {
                   </span>
                 </li>
                 <li>
-                  <FaCheckCircle className="icon" />
+                  <FaCheckCircle className="icon" />{" "}
                   <span>Applies to entire order</span>
                 </li>
                 <li>
-                  <FaCalendarAlt className="icon" />
+                  <FaCalendarAlt className="icon" />{" "}
                   <span>
                     {formData.valid_from ? "Scheduled" : "No active dates"}
                   </span>
                 </li>
               </ul>
             </div>
-
             <div className="summary-actions">
               <button className="save-btn-full" onClick={handleSubmit}>
-                Save Discount
+                {isEditMode ? "Update Discount" : "Save Discount"}
               </button>
-              <button className="discard-btn-full" onClick={() => navigate(-1)}>
+              <button
+                className="discard-btn-full"
+                onClick={() => navigate("/react-admin/discount")}
+              >
                 Discard
               </button>
             </div>
