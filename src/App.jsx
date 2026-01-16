@@ -20,6 +20,7 @@ import CheckoutPage from "./components/CheckoutPage";
 // --- ADMIN IMPORTS ---
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminLogin from "./components/admin/AdminLogin";
+import Dashboard from "./components/admin/Dashboard";
 import AddProduct from "./components/admin/AddProduct";
 import AllProducts from "./components/admin/AllProducts";
 import Collections from "./components/admin/Collections";
@@ -82,11 +83,7 @@ function App() {
                   index
                   element={<h2>Welcome to ORM Admin Dashboard</h2>}
                 />
-                <Route
-                  path="dashboard"
-                  element={<h2>Dashboard Stats Coming Soon</h2>}
-                />
-
+                <Route path="dashboard" element={<Dashboard />} />
                 {/* Functionality Pages */}
                 <Route path="add-product" element={<AddProduct />} />
                 {/* Edit Product (Reusing same component) */}

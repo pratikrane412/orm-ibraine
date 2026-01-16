@@ -36,7 +36,7 @@ const AdminLogin = () => {
             email: data.email,
           })
         );
-        navigate("/react-admin/products"); // Go to dashboard
+        navigate("/react-admin/dashboard"); // Go to dashboard
       } else {
         setError(data.error || "Invalid Credentials");
       }
