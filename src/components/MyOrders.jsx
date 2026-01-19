@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../styles/Profile.css"; // Reuse existing styles or create new
+import "../styles/ProfilePage.css"; // Reuse existing styles or create new
 
 const MyOrders = () => {
   const { token } = useAuth();
