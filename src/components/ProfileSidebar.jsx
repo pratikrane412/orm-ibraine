@@ -11,7 +11,6 @@ const ProfileSidebar = ({ activeTab, setActiveTab, handleLogout }) => {
     { id: "orders", label: "Orders", icon: <FiShoppingBag /> },
     { id: "track", label: "Track Your Order", icon: <FiTruck /> },
     { id: "address", label: "My Address", icon: <FiMapPin /> },
-    { id: "account", label: "Account details", icon: <FiUser /> },
   ];
 
   return (
