@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaBox,
   FaShoppingBag,
+  FaPenNib,
   FaTags,
   FaUsers,
   FaChevronDown,
@@ -10,7 +11,7 @@ import {
   FaSignOutAlt,
   FaChartLine,
   FaUserCircle,
-  FaTag
+  FaTag,
 } from "react-icons/fa";
 import "../../styles/admin/AdminLayout.css";
 
@@ -47,9 +48,16 @@ const AdminSidebar = () => {
   return (
     <div className="admin-sidebar">
       <div className="admin-logo">
-        <h1>
-          ORM <span>Admin</span>
-        </h1>
+        <img
+          src="/image/orm1.png" // Make sure the file name is correct
+          alt="ORM Admin"
+          style={{
+            width: "200px" /* Adjust size as needed */,
+            height: "auto",
+            display: "block",
+            marginBottom: "5px",
+          }}
+        />
       </div>
 
       <nav className="admin-nav">
@@ -87,7 +95,7 @@ const AdminSidebar = () => {
               <Link
                 to="/react-admin/add-product"
                 className={`sub-nav-item ${isActive(
-                  "/react-admin/add-product"
+                  "/react-admin/add-product",
                 )}`}
               >
                 Add Product
@@ -95,7 +103,7 @@ const AdminSidebar = () => {
               <Link
                 to="/react-admin/products/collections"
                 className={`sub-nav-item ${isActive(
-                  "/react-admin/products/collections"
+                  "/react-admin/products/collections",
                 )}`}
               >
                 Collections
@@ -103,7 +111,7 @@ const AdminSidebar = () => {
               <Link
                 to="/react-admin/products/inventory"
                 className={`sub-nav-item ${isActive(
-                  "/react-admin/products/inventory"
+                  "/react-admin/products/inventory",
                 )}`}
               >
                 Inventory
@@ -147,7 +155,7 @@ const AdminSidebar = () => {
               <Link
                 to="/react-admin/customers/segments"
                 className={`sub-nav-item ${isActive(
-                  "/react-admin/customers/segments"
+                  "/react-admin/customers/segments",
                 )}`}
               >
                 Segments
@@ -159,6 +167,13 @@ const AdminSidebar = () => {
             className={`nav-item ${isActive("/react-admin/discount")}`}
           >
             <FaTag /> Discount
+          </Link>
+          <Link
+            to="/react-admin/blog"
+            className={`nav-item ${isActive("/react-admin/blog")}`}
+          >
+            <FaPenNib /> <span>Blog</span>{" "}
+            {/* Use FaPenNib or FaNewspaper icon */}
           </Link>
         </div>
       </nav>

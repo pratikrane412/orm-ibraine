@@ -16,6 +16,8 @@ import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import ProfilePage from "./components/ProfilePage";
 import CheckoutPage from "./components/CheckoutPage";
+import BlogPage from "./components/BlogPage";
+import BlogDetails from "./components/BlogDetails";
 
 // --- ADMIN IMPORTS ---
 import AdminLayout from "./components/admin/AdminLayout";
@@ -32,6 +34,8 @@ import Customers from "./components/admin/Customers";
 import CustomerSegments from "./components/admin/CustomerSegments";
 import Discounts from "./components/admin/Discounts";
 import CreateDiscount from "./components/admin/CreateDiscount";
+import BlogList from "./components/admin/BlogList";
+import EditBlog from "./components/admin/EditBlog";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
 import { CartProvider } from "./context/CartContext";
@@ -71,6 +75,8 @@ function App() {
             <Route path="/product/:id" element={<ProductDetailsPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:id" element={<BlogDetails />} />
 
             {/* --- ADMIN LOGIN ROUTE (PUBLIC) --- */}
             <Route path="/admin" element={<AdminLogin />} />
@@ -99,6 +105,9 @@ function App() {
                 <Route path="discount" element={<Discounts />} />
                 <Route path="discounts/new" element={<CreateDiscount />} />
                 <Route path="discounts/:id" element={<CreateDiscount />} />
+                <Route path="blog" element={<BlogList />} />
+                <Route path="blog/new" element={<EditBlog />} />
+                <Route path="blog/edit/:id" element={<EditBlog />} />
               </Route>
             </Route>
           </Routes>
