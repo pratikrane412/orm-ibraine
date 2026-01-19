@@ -36,6 +36,7 @@ import Discounts from "./components/admin/Discounts";
 import CreateDiscount from "./components/admin/CreateDiscount";
 import BlogList from "./components/admin/BlogList";
 import EditBlog from "./components/admin/EditBlog";
+import BlogCategories from "./components/admin/BlogCategories";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
 import { CartProvider } from "./context/CartContext";
@@ -106,6 +107,7 @@ function App() {
                 <Route path="discounts/new" element={<CreateDiscount />} />
                 <Route path="discounts/:id" element={<CreateDiscount />} />
                 <Route path="blog" element={<BlogList />} />
+                <Route path="blog/categories" element={<BlogCategories />} />
                 <Route path="blog/new" element={<EditBlog />} />
                 <Route path="blog/edit/:id" element={<EditBlog />} />
               </Route>

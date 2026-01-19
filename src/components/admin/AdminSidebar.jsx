@@ -11,7 +11,6 @@ import {
   FaSignOutAlt,
   FaChartLine,
   FaUserCircle,
-  FaTag,
 } from "react-icons/fa";
 import "../../styles/admin/AdminLayout.css";
 
@@ -23,12 +22,13 @@ const AdminSidebar = () => {
     email: "admin@orm.com",
   });
 
+  // TOGGLES
   const [isCustomersOpen, setIsCustomersOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isBlogOpen, setIsBlogOpen] = useState(false); // <--- NEW STATE
 
   const isActive = (path) => (location.pathname === path ? "active" : "");
 
-  // Load Admin Details from Local Storage
   useEffect(() => {
     const storedUser = localStorage.getItem("orm_admin_user");
     if (storedUser) {
@@ -36,12 +36,11 @@ const AdminSidebar = () => {
     }
   }, []);
 
-  // Logout Logic
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
       localStorage.removeItem("orm_admin_token");
       localStorage.removeItem("orm_admin_user");
-      navigate("/admin");
+      navigate("/admin-login");
     }
   };
 
@@ -49,10 +48,10 @@ const AdminSidebar = () => {
     <div className="admin-sidebar">
       <div className="admin-logo">
         <img
-          src="/image/orm1.png" // Make sure the file name is correct
+          src="/image/orm1.png"
           alt="ORM Admin"
           style={{
-            width: "200px" /* Adjust size as needed */,
+            width: "200px",
             height: "auto",
             display: "block",
             marginBottom: "5px",
@@ -67,6 +66,8 @@ const AdminSidebar = () => {
         >
           <FaChartLine /> Dashboard
         </Link>
+
+        {/* PRODUCTS GROUP */}
         <div className="nav-group">
           <div
             className={`nav-item ${isActive("/react-admin/products")}`}
@@ -82,8 +83,6 @@ const AdminSidebar = () => {
               <FaChevronDown size={10} />
             )}
           </div>
-
-          {/* Sub-menu */}
           {isProductsOpen && (
             <div className="nav-sub-menu">
               <Link
@@ -94,37 +93,34 @@ const AdminSidebar = () => {
               </Link>
               <Link
                 to="/react-admin/add-product"
-                className={`sub-nav-item ${isActive(
-                  "/react-admin/add-product",
-                )}`}
+                className={`sub-nav-item ${isActive("/react-admin/add-product")}`}
               >
                 Add Product
               </Link>
               <Link
                 to="/react-admin/products/collections"
-                className={`sub-nav-item ${isActive(
-                  "/react-admin/products/collections",
-                )}`}
+                className={`sub-nav-item ${isActive("/react-admin/products/collections")}`}
               >
                 Collections
               </Link>
               <Link
                 to="/react-admin/products/inventory"
-                className={`sub-nav-item ${isActive(
-                  "/react-admin/products/inventory",
-                )}`}
+                className={`sub-nav-item ${isActive("/react-admin/products/inventory")}`}
               >
                 Inventory
               </Link>
             </div>
           )}
         </div>
+
         <Link
           to="/react-admin/orders"
           className={`nav-item ${isActive("/react-admin/orders")}`}
         >
           <FaShoppingBag /> Orders
         </Link>
+
+        {/* CUSTOMERS GROUP */}
         <div className="nav-group">
           <div
             className={`nav-item ${isActive("/react-admin/customers")}`}
@@ -140,45 +136,68 @@ const AdminSidebar = () => {
               <FaChevronDown size={10} />
             )}
           </div>
-
-          {/* Sub-menu */}
           {isCustomersOpen && (
             <div className="nav-sub-menu">
-              {/* Main Customers Link */}
               <Link
                 to="/react-admin/customers"
                 className={`sub-nav-item ${isActive("/react-admin/customers")}`}
               >
                 All Customers
               </Link>
-              {/* New Segment Link */}
               <Link
                 to="/react-admin/customers/segments"
-                className={`sub-nav-item ${isActive(
-                  "/react-admin/customers/segments",
-                )}`}
+                className={`sub-nav-item ${isActive("/react-admin/customers/segments")}`}
               >
                 Segments
               </Link>
             </div>
           )}
-          <Link
-            to="/react-admin/discount"
-            className={`nav-item ${isActive("/react-admin/discount")}`}
-          >
-            <FaTag /> Discount
-          </Link>
-          <Link
-            to="/react-admin/blog"
+        </div>
+
+        <Link
+          to="/react-admin/discount"
+          className={`nav-item ${isActive("/react-admin/discount")}`}
+        >
+          <FaTags /> Discount
+        </Link>
+
+        {/* --- BLOG GROUP (NEW) --- */}
+        <div className="nav-group">
+          <div
             className={`nav-item ${isActive("/react-admin/blog")}`}
+            onClick={() => setIsBlogOpen(!isBlogOpen)}
+            style={{ cursor: "pointer", justifyContent: "space-between" }}
           >
-            <FaPenNib /> <span>Blog</span>{" "}
-            {/* Use FaPenNib or FaNewspaper icon */}
-          </Link>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <FaPenNib /> <span>Blog</span>
+            </div>
+            {isBlogOpen ? (
+              <FaChevronUp size={10} />
+            ) : (
+              <FaChevronDown size={10} />
+            )}
+          </div>
+
+          {isBlogOpen && (
+            <div className="nav-sub-menu">
+              <Link
+                to="/react-admin/blog"
+                className={`sub-nav-item ${isActive("/react-admin/blog")}`}
+              >
+                All Posts
+              </Link>
+              <Link
+                to="/react-admin/blog/categories"
+                className={`sub-nav-item ${isActive("/react-admin/blog/categories")}`}
+              >
+                Categories
+              </Link>{" "}
+              {/* NEW LINK */}
+            </div>
+          )}
         </div>
       </nav>
 
-      {/* ADMIN PROFILE WIDGET */}
       <div className="admin-profile-section">
         <div className="admin-info">
           <FaUserCircle className="admin-avatar" />
