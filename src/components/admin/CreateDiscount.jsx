@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom"; // Import useParams
+import { useNavigate, Link, useParams } from "react-router-dom";
 import {
   FaArrowLeft,
   FaTag,
@@ -19,6 +19,7 @@ const CreateDiscount = () => {
     discount_percentage: "",
     valid_from: "",
     valid_to: "",
+    minimum_purchase_amount: "0", // Added Field
   });
 
   // --- FETCH DATA IF EDITING ---
@@ -31,7 +32,6 @@ const CreateDiscount = () => {
         .then((res) => res.json())
         .then((data) => {
           // Format dates for input (remove the 'Z' or offset if needed for datetime-local)
-          // Simple slice works if format is standard ISO
           const formatForInput = (isoString) =>
             isoString ? isoString.slice(0, 16) : "";
 
@@ -40,6 +40,7 @@ const CreateDiscount = () => {
             discount_percentage: data.discount_percentage,
             valid_from: formatForInput(data.valid_from),
             valid_to: formatForInput(data.valid_to),
+            minimum_purchase_amount: data.minimum_purchase_amount || "0",
           });
         })
         .catch((err) => console.error(err));
@@ -66,7 +67,6 @@ const CreateDiscount = () => {
       payload.valid_to = new Date(payload.valid_to).toISOString();
 
     try {
-      // Dynamic URL & Method
       const url = isEditMode
         ? `http://127.0.0.1:8000/api/coupons/${id}/`
         : "http://127.0.0.1:8000/api/coupons/";
@@ -123,6 +123,7 @@ const CreateDiscount = () => {
 
       <div className="discount-layout">
         <div className="discount-main">
+          {/* 1. AMOUNT OFF CARD */}
           <div className="panel-card">
             <div className="panel-header">
               <h3>Amount off order</h3>
@@ -171,6 +172,28 @@ const CreateDiscount = () => {
             </div>
           </div>
 
+          {/* 2. MINIMUM PURCHASE CARD (New) */}
+          <div className="panel-card">
+            <div className="panel-header">
+              <h3>Minimum purchase requirements</h3>
+            </div>
+            <div className="panel-body">
+              <div className="form-group">
+                <label>Minimum purchase amount (Rs.)</label>
+                <input
+                  type="number"
+                  name="minimum_purchase_amount"
+                  value={formData.minimum_purchase_amount}
+                  onChange={handleChange}
+                  className="text-input"
+                  placeholder="0.00"
+                />
+                <p className="hint">Leave as 0 for no minimum requirement.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. DATES CARD */}
           <div className="panel-card">
             <div className="panel-header">
               <h3>Active dates</h3>

@@ -77,7 +77,10 @@ const CheckoutPage = () => {
       const response = await fetch("http://127.0.0.1:8000/api/verify-coupon/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: couponCode }),
+        body: JSON.stringify({ 
+            code: couponCode, 
+            cart_total: cartTotal 
+        }),
       });
 
       const data = await response.json();
