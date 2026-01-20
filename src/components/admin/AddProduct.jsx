@@ -18,6 +18,7 @@ const AddProduct = () => {
 
   const [formData, setFormData] = useState({
     title: "",
+    weight: "",
     category: "Thar",
     description: "",
     price: "",
@@ -51,6 +52,7 @@ const AddProduct = () => {
             old_price: data.old_price || "",
             rating: data.rating,
             is_sale: data.is_sale,
+            weight: data.weight || "", 
             video_url: data.video_url || "",
             benefits_title: data.benefits_title || "",
             benefits_description: data.benefits_description || "",
@@ -62,7 +64,7 @@ const AddProduct = () => {
             setMainPreview(
               data.image.startsWith("http")
                 ? data.image
-                : `http://127.0.0.1:8000${data.image}`
+                : `http://127.0.0.1:8000${data.image}`,
             );
           }
 
@@ -71,7 +73,7 @@ const AddProduct = () => {
             const previews = data.images.map((img) =>
               img.image.startsWith("http")
                 ? img.image
-                : `http://127.0.0.1:8000${img.image}`
+                : `http://127.0.0.1:8000${img.image}`,
             );
             setGalleryPreviews(previews);
           }
@@ -115,42 +117,47 @@ const AddProduct = () => {
     setLoading(true);
 
     const data = new FormData();
-    // Append Text Fields
+
+    // 1. Append All Text Fields (including weight)
     Object.keys(formData).forEach((key) => {
       data.append(key, formData[key]);
     });
 
-    // Append Files ONLY if changed (Main Image)
+    // 2. Handle Main Image (Only send if new file selected)
     if (mainImage) {
       data.append("image", mainImage);
     }
 
-    // Append Gallery Images
+    // 3. Handle Gallery Images
     galleryImages.forEach((file) => {
       data.append("gallery_images", file);
     });
 
     try {
+      // 4. Dynamic URL & Method
       let url = "http://127.0.0.1:8000/api/products/";
       let method = "POST";
 
       if (isEditMode) {
-        url = `http://127.0.0.1:8000/api/products/${id}/`; // Update URL
-        method = "PUT"; // Use PUT for update (or PATCH)
+        url = `http://127.0.0.1:8000/api/products/${id}/`;
+        method = "PATCH"; // <--- CRITICAL FIX for Editing
       }
 
       const response = await fetch(url, {
         method: method,
-        body: data,
+        body: data, // Browser sets Content-Type to multipart/form-data
       });
 
       if (response.ok) {
         alert(isEditMode ? "Product Updated!" : "Product Created!");
         navigate("/react-admin/products");
       } else {
-        alert("Operation Failed.");
+        const errData = await response.json();
+        console.error("Server Error:", errData);
+        alert("Failed to save product. Check console.");
       }
     } catch (error) {
+      console.error(error);
       alert("Server Error");
     } finally {
       setLoading(false);
@@ -350,6 +357,16 @@ const AddProduct = () => {
                 <option value="Jimny">Suzuki Jimny</option>
                 <option value="Defender">Range Rover Defender</option>
               </select>
+            </div>
+            <div className="form-group">
+              <label>Weight (kg/g)</label>
+              <input
+                type="text"
+                name="weight"
+                value={formData.weight}
+                onChange={handleChange}
+                placeholder="e.g. 2.5 kg"
+              />
             </div>
             <div className="form-group">
               <label>Rating</label>
