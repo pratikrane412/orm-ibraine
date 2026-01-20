@@ -7,26 +7,25 @@ import {
   FaMapMarkerAlt,
   FaEnvelope,
   FaPhone,
+  FaFilePdf,
+  FaReceipt,
 } from "react-icons/fa";
-import "../../styles/admin/OrderDetails.css"; // We will create this
+import "../../styles/admin/OrderDetails.css";
 
 const OrderDetails = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showPrintMenu, setShowPrintMenu] = useState(false); // Dropdown State
 
-  // 1. Fetch Order Data
   useEffect(() => {
-    // 1. Get Token
     const token = localStorage.getItem("orm_admin_token");
-
-    // 2. Fetch with Authorization Header
     fetch(`http://127.0.0.1:8000/api/orders/${id}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}` // <--- ADD THIS
-      }
+        Authorization: `Token ${token}`,
+      },
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch");
@@ -42,6 +41,11 @@ const OrderDetails = () => {
       });
   }, [id]);
 
+  // Invoice Download Handler
+  const handleDownloadInvoice = () => {
+    window.open(`http://127.0.0.1:8000/api/invoice/${id}/`, "_blank");
+    setShowPrintMenu(false);
+  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString([], {
@@ -53,7 +57,6 @@ const OrderDetails = () => {
     });
   };
 
-  // Helper for Image URLs
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "/image/placeholder.png";
     return imagePath.startsWith("http")
@@ -67,7 +70,7 @@ const OrderDetails = () => {
 
   return (
     <div className="admin-page-container order-details-wrapper">
-      {/* --- HEADER --- */}
+      {/* HEADER */}
       <div className="od-header">
         <div className="od-title-group">
           <Link to="/react-admin/orders" className="back-link">
@@ -92,9 +95,30 @@ const OrderDetails = () => {
 
         <div className="od-actions">
           <button className="btn-secondary">Restock</button>
-          <button className="btn-secondary">
-            <FaPrint /> Print
-          </button>
+
+          {/* PRINT DROPDOWN */}
+          <div className="print-dropdown-container">
+            <button
+              className="btn-secondary"
+              onClick={() => setShowPrintMenu(!showPrintMenu)}
+            >
+              <FaPrint /> Print ▼
+            </button>
+
+            {showPrintMenu && (
+              <div className="print-menu">
+                <div className="print-item" onClick={handleDownloadInvoice}>
+                  <FaFilePdf className="icon-blue" />
+                  <span>Invoice Hero PDF</span>
+                </div>
+                <div className="print-item" onClick={() => window.print()}>
+                  <FaReceipt className="icon-orange" />
+                  <span>Order Printer</span>
+                </div>
+              </div>
+            )}
+          </div>
+
           <button className="btn-secondary">
             More actions <FaEllipsisH />
           </button>
@@ -102,15 +126,14 @@ const OrderDetails = () => {
       </div>
 
       <div className="od-layout">
-        {/* --- LEFT COLUMN (Items & Payment) --- */}
+        {/* LEFT COLUMN */}
         <div className="od-main">
-          {/* 1. ITEMS CARD */}
+          {/* ITEMS */}
           <div className="od-card">
             <div className="card-header">
               <h3>Unfulfilled ({order.items.length})</h3>
               <span className="location">Location: Warehouse A</span>
             </div>
-
             <div className="order-items-list">
               {order.items.map((item, index) => (
                 <div key={index} className="order-item-row">
@@ -120,7 +143,7 @@ const OrderDetails = () => {
                       alt={item.product.title}
                     />
                   </div>
-                  <div className="item-details"> 
+                  <div className="item-details">
                     <p className="item-name">{item.product.title}</p>
                     <p className="item-sku">SKU: {item.product.id}</p>
                   </div>
@@ -133,27 +156,23 @@ const OrderDetails = () => {
                 </div>
               ))}
             </div>
-
             <div className="card-footer">
               <button className="btn-primary">Mark as fulfilled</button>
             </div>
           </div>
 
-          {/* 2. PAYMENT CARD */}
+          {/* PAYMENT */}
           <div className="od-card">
             <div className="card-header">
               <h3>
                 Payment{" "}
                 <span
-                  className={`status-text ${
-                    order.is_paid ? "paid" : "pending"
-                  }`}
+                  className={`status-text ${order.is_paid ? "paid" : "pending"}`}
                 >
                   {order.is_paid ? "Paid" : "Pending"}
                 </span>
               </h3>
             </div>
-
             <div className="payment-summary">
               <div className="summary-row">
                 <span>Subtotal</span>
@@ -175,7 +194,6 @@ const OrderDetails = () => {
                 <span>Rs. {Number(order.total_price).toLocaleString()}</span>
               </div>
             </div>
-
             <div className="payment-footer">
               <div className="paid-by">
                 <span>Paid by customer</span>
@@ -193,9 +211,8 @@ const OrderDetails = () => {
           </div>
         </div>
 
-        {/* --- RIGHT COLUMN (Customer Info) --- */}
+        {/* RIGHT COLUMN */}
         <div className="od-sidebar">
-          {/* NOTES CARD */}
           <div className="od-card">
             <div className="card-header">
               <h3>Notes</h3>
@@ -204,7 +221,6 @@ const OrderDetails = () => {
             <p className="notes-text">No notes from customer</p>
           </div>
 
-          {/* CUSTOMER CARD */}
           <div className="od-card">
             <div className="card-header">
               <h3>Customer</h3>
@@ -213,9 +229,7 @@ const OrderDetails = () => {
               <p className="cust-link">{order.full_name}</p>
               <p className="cust-orders">1 order</p>
             </div>
-
             <div className="divider"></div>
-
             <div className="contact-info">
               <h4>Contact information</h4>
               <p className="icon-row">
@@ -226,9 +240,7 @@ const OrderDetails = () => {
                 <FaPhone /> {order.phone}
               </p>
             </div>
-
             <div className="divider"></div>
-
             <div className="shipping-address">
               <h4>Shipping Address</h4>
               <p>{order.full_name}</p>

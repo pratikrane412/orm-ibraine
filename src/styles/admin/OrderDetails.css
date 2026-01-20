@@ -351,7 +351,42 @@
   background: #ffea8a;
   color: #8a6116;
 }
+/* --- PRINT DROPDOWN --- */
+.print-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
 
+.print-menu {
+  position: absolute;
+  top: 110%; /* Below button */
+  right: 0;
+  width: 200px;
+  background: #fff;
+  border: 1px solid #e1e3e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+  padding: 5px 0;
+}
+
+.print-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #202223;
+  transition: 0.2s;
+}
+
+.print-item:hover {
+  background-color: #f3f4f6;
+}
+
+.icon-blue { color: #007ace; font-size: 1.1rem; }
+.icon-orange { color: #f59e0b; font-size: 1.1rem; }
 /* Responsive */
 @media (max-width: 1024px) {
   .od-layout {
