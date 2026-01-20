@@ -4,13 +4,7 @@ import Footer from "./Footer";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import {
-  FaTruck,
-  FaCreditCard,
-  FaLock,
-  FaArrowRight,
-  FaPaypal,
-} from "react-icons/fa";
+import { FaTruck, FaCreditCard, FaArrowRight, FaPaypal } from "react-icons/fa";
 import { SiRazorpay } from "react-icons/si";
 import "../styles/CheckoutPage.css";
 
@@ -51,7 +45,6 @@ const CheckoutPage = () => {
     }
   }, [user]);
 
-
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -77,9 +70,9 @@ const CheckoutPage = () => {
       const response = await fetch("http://127.0.0.1:8000/api/verify-coupon/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-            code: couponCode, 
-            cart_total: cartTotal 
+        body: JSON.stringify({
+          code: couponCode,
+          cart_total: cartTotal,
         }),
       });
 
@@ -93,7 +86,6 @@ const CheckoutPage = () => {
         });
       } else {
         setDiscountPercent(0);
-        // Correctly display the message from backend (e.g. "Coupon starts on 16-01-2026")
         setCouponMsg({ text: data.message || "Invalid Coupon", type: "error" });
       }
     } catch (error) {
@@ -101,7 +93,7 @@ const CheckoutPage = () => {
     }
   };
 
-  // --- PLACE ORDER LOGIC ---
+  // --- 4. PLACE ORDER LOGIC (CORRECTED RAZORPAY FLOW) ---
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
@@ -110,91 +102,99 @@ const CheckoutPage = () => {
       return;
     }
 
-    // 1. Load Razorpay Script
+    // A. Load Script
     const res = await loadRazorpayScript();
     if (!res) {
-        alert("Razorpay SDK failed to load. Are you online?");
-        return;
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
     }
 
-    // 2. Start Payment (Get Order ID from Backend)
-    // We send the 'finalTotal' (discounted price)
+    // B. Start Payment (Get Order ID from Backend)
     try {
-        const initiateRes = await fetch("http://127.0.0.1:8000/api/payment/start/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: finalTotal }), 
-        });
+      const initiateRes = await fetch(
+        "http://127.0.0.1:8000/api/payment/start/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: finalTotal }), // Send Final Discounted Price
+        },
+      );
 
-        const orderData = await initiateRes.json();
-        
-        if (!orderData.order_id) {
-            alert("Error creating payment order. Check backend console.");
-            console.error(orderData);
-            return;
-        }
+      const orderData = await initiateRes.json();
 
-        // 3. Open Razorpay Popup
-        const options = {
-            key: orderData.key, 
-            amount: orderData.amount,
-            currency: "INR",
-            name: "Off-Road Mutants",
-            description: "Order Payment",
-            image: "/image/car-ai.png", 
-            order_id: orderData.order_id,
-            
-            // 4. On Success Handler
-            handler: async function (response) {
-                const paymentData = {
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_signature: response.razorpay_signature,
-                    
-                    // Send Cart & User Data to Save Order
-                    cart_items: cartItems.map(item => ({
-                        id: item.id, quantity: item.quantity, price: item.price
-                    })),
-                    form_data: formData,
-                    amount: finalTotal
-                };
+      if (!orderData.order_id) {
+        alert("Error creating payment order. Check backend console.");
+        return;
+      }
 
-                // 5. Verify & Save to DB
-                const verifyRes = await fetch("http://127.0.0.1:8000/api/payment/success/", {
-                    method: "POST",
-                    headers: { 
-                        "Content-Type": "application/json",
-                        ...(token && { "Authorization": `Token ${token}` }) 
-                    },
-                    body: JSON.stringify(paymentData),
-                });
+      // C. Open Razorpay Popup
+      const options = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: "INR",
+        name: "Off-Road Mutants",
+        description: "Car Accessories Purchase",
+        image: "/image/orm1.png", // Your Logo Path
+        order_id: orderData.order_id,
 
-                const verifyData = await verifyRes.json();
+        // D. On Success Handler
+        handler: async function (response) {
+          const paymentData = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
 
-                if (verifyData.message === "Payment Successful") {
-                    alert(`Order Placed Successfully! Order ID: #${verifyData.order_id}`);
-                    clearCart();
-                    navigate("/"); 
-                } else {
-                    alert("Payment Verification Failed");
-                }
+            // Send Cart & User Data to Save Order
+            cart_items: cartItems.map((item) => ({
+              id: item.id,
+              quantity: item.quantity,
+              price: item.price,
+            })),
+            form_data: formData,
+            amount: finalTotal,
+            discount_amount: discountAmount, // Send discount info for Invoice
+          };
+
+          // E. Verify & Save to DB
+          const headers = { "Content-Type": "application/json" };
+          if (token) headers["Authorization"] = `Token ${token}`;
+
+          const verifyRes = await fetch(
+            "http://127.0.0.1:8000/api/payment/success/",
+            {
+              method: "POST",
+              headers: headers,
+              body: JSON.stringify(paymentData),
             },
-            prefill: {
-                name: formData.full_name,
-                email: formData.email,
-                contact: formData.phone,
-            },
-            theme: {
-                color: "#fbb03b",
-            },
-        };
+          );
 
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
+          const verifyData = await verifyRes.json();
 
+          if (verifyData.message === "Payment Successful") {
+            alert(
+              `Order Placed Successfully! Order ID: #${verifyData.order_id}`,
+            );
+            clearCart();
+            navigate("/");
+          } else {
+            alert("Payment Verification Failed");
+          }
+        },
+        prefill: {
+          name: formData.full_name,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: "#fbb03b",
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
     } catch (err) {
-        console.error(err);
-        alert("Payment process failed.");
+      console.error(err);
+      alert("Payment process failed.");
     }
   };
 
