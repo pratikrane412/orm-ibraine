@@ -40,7 +40,7 @@ const AdminSidebar = () => {
     if (window.confirm("Are you sure you want to logout?")) {
       localStorage.removeItem("orm_admin_token");
       localStorage.removeItem("orm_admin_user");
-      navigate("/admin-login");
+      navigate("/admin");
     }
   };
 
