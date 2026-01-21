@@ -1,13 +1,21 @@
 import "../styles/HeroSection.css";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleShopNow = () => {
+    navigate("/products/thar"); // 3. Navigate to your products page
+    window.scrollTo(0, 0); // Scroll to top
+  };
   return (
     <section className="product-hero">
       <div className="product-hero-container">
         {/* LEFT SIDE - TEXT */}
         <div className="hero-left">
           <h2 className="section-title">
-            How We Turn Thar Into a <span className="highlight">Trail Beast</span>
+            How We Turn Thar Into a{" "}
+            <span className="highlight">Trail Beast</span>
           </h2>
 
           <p className="hero-desc">
@@ -19,11 +27,12 @@ const HeroSection = () => {
           </p>
 
           <p className="hero-desc">
-            At Off-Road Mutants (ORM), we believe every vehicle has the potential
-            to become a true off-road powerhouse. Our modification process goes
-            far beyond adding accessories. Built with precision engineering and
-            forged for endurance, the ORM 2” Lift Kit gives your Thar the
-            perfect elevation to dominate rocks, mud, and rugged trails.
+            At Off-Road Mutants (ORM), we believe every vehicle has the
+            potential to become a true off-road powerhouse. Our modification
+            process goes far beyond adding accessories. Built with precision
+            engineering and forged for endurance, the ORM 2” Lift Kit gives your
+            Thar the perfect elevation to dominate rocks, mud, and rugged
+            trails.
           </p>
 
           <p className="hero-desc">
@@ -33,7 +42,7 @@ const HeroSection = () => {
             mutant built to conquer every terrain with confidence.
           </p>
 
-          <button className="hero-btn">Shop Now &rarr;</button>
+          <button className="hero-btn" onClick={handleShopNow}>Shop Now &rarr;</button>
         </div>
 
         {/* RIGHT SIDE - 3D MODEL IN CIRCLE */}
@@ -48,8 +57,12 @@ const HeroSection = () => {
               disable-zoom
               rotation-per-second="25deg"
               shadow-intensity="1"
-              camera-orbit="45deg 55deg 105%" 
-              style={{ width: "100%", height: "100%", backgroundColor: "transparent" }}
+              camera-orbit="45deg 55deg 105%"
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor: "transparent",
+              }}
             ></model-viewer>
           </div>
         </div>

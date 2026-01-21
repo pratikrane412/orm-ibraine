@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"; // Import useEffect
 import "../styles/OffRoadCollection.css";
+import { useNavigate } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const cars = [
@@ -56,6 +57,12 @@ const cars = [
 
 const OffRoadCollection = () => {
   const [index, setIndex] = useState(4);
+  const navigate = useNavigate();
+
+  const handleShopNow = () => {
+    navigate("/products/thar"); // 3. Navigate to your products page
+    window.scrollTo(0, 0); // Scroll to top
+  };
   
   // 1. STATE FOR ROTATION (Starts at 45deg)
   const [orbitAngle, setOrbitAngle] = useState(45);
@@ -167,7 +174,7 @@ const OffRoadCollection = () => {
           </button>
         </div>
 
-        <button className="shop-cta-btn">
+        <button className="shop-cta-btn" onClick={handleShopNow}>
           Shop Now &rarr;
         </button>
       </div>

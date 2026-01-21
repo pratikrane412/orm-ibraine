@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/HomeHero.css";
+import { useNavigate } from "react-router-dom";
 
 // 1. Define your 3 background images here
 const heroImages = [
@@ -10,6 +11,12 @@ const heroImages = [
 
 const HomeHero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
+
+  const handleShopNow = () => {
+    navigate("/products/thar"); // 3. Navigate to your products page
+    window.scrollTo(0, 0); // Scroll to top
+  };
 
   // 2. Automatic Slideshow Logic (Change every 5 seconds)
   useEffect(() => {
@@ -42,7 +49,7 @@ const HomeHero = () => {
           Premium off-road accessories built for those who conquer every
           terrain. Rugged. Reliable. Ready for Anything.
         </p>
-        <button className="hero-btn">
+        <button className="hero-btn" onClick={handleShopNow}>
           Shop Now <span>&rarr;</span>
         </button>
       </div>
