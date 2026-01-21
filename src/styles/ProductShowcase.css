@@ -119,17 +119,17 @@
   font-family: 'Oswald', sans-serif;
   font-size: 1.1rem;
   margin-bottom: 15px;
-  color: #fff;
+  color: #ffffff !important; /* Force White */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none; /* Ensure no link underline */
 }
 
 /* Hover effect on title like screenshot (Yellow title) */
 .product-card:hover .product-title {
-  color: #fbb03b;
+  color: #fbb03b !important; /* Force Gold on Hover */
 }
-
 .price-rating-row {
   display: flex;
   justify-content: space-between;
@@ -145,16 +145,18 @@
 
 .current-price {
   font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  color: #fff;
+  font-weight: 700; /* Bolder */
+  color: #ffffff !important; /* Force White */
+  font-size: 1.1rem;
 }
 
 .old-price {
   font-family: 'Roboto', sans-serif;
   font-size: 0.85rem;
-  color: #777;
+  color: #888; /* Slightly lighter grey for better contrast against black */
   text-decoration: line-through;
 }
+
 
 /* Stars */
 .rating-box {
