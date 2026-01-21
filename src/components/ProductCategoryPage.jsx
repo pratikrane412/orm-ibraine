@@ -5,6 +5,7 @@ import { fetchProductsByCategory } from "../api/client";
 import { FaShoppingCart, FaHeart, FaSearch, FaStar } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext"; // 1. Import Wishlist Context
 import "../styles/ProductCategoryPage.css";
 
 // --- CONFIGURATION OBJECT ---
@@ -41,7 +42,6 @@ const categoryConfig = {
   },
 };
 
-// Updated Sidebar Data with 'dbKey' to match Backend Category names
 const sidebarCategories = [
   { name: "Mahindra Thar & Roxx", slug: "thar", dbKey: "Thar" },
   { name: "Scorpio", slug: "scorpio", dbKey: "Scorpio" },
@@ -54,18 +54,18 @@ const sidebarCategories = [
 const ProductCategoryPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // NEW STATE: Store counts like { Thar: 5, Scorpio: 2 }
   const [categoryCounts, setCategoryCounts] = useState({});
 
   const { categoryName } = useParams();
   const navigate = useNavigate();
+
   const { addToCart } = useCart();
+  // 2. Get Wishlist Functions
+  const { addToWishlist, isInWishlist } = useWishlist();
 
   const currentCategory =
     categoryConfig[categoryName] || categoryConfig["thar"];
 
-  // 1. Fetch Products for MAIN CONTENT
   useEffect(() => {
     setLoading(true);
     fetchProductsByCategory(currentCategory.backendCategory).then((data) => {
@@ -74,7 +74,6 @@ const ProductCategoryPage = () => {
     });
   }, [categoryName]);
 
-  // 2. NEW: Fetch Category Counts for SIDEBAR
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/category-counts/")
       .then((res) => res.json())
@@ -93,14 +92,16 @@ const ProductCategoryPage = () => {
     navigate(`/product/${id}`);
   };
 
-  const stopPropagation = (e) => {
-    e.stopPropagation();
-  };
-
   const handleAddToCartBtn = (e, item) => {
     e.stopPropagation();
     addToCart(item);
     alert(`${item.title} added to cart!`);
+  };
+
+  // 3. Wishlist Handler
+  const handleWishlistClick = (e, item) => {
+    e.stopPropagation(); // Stop clicking card
+    addToWishlist(item);
   };
 
   return (
@@ -121,7 +122,6 @@ const ProductCategoryPage = () => {
       </div>
 
       <div className="main-layout">
-        {/* SIDEBAR */}
         <aside className="sidebar">
           <div className="search-box">
             <FaSearch className="search-icon" />
@@ -140,14 +140,12 @@ const ProductCategoryPage = () => {
                 onClick={() => handleCategoryClick(cat.slug)}
               >
                 <span>{cat.name}</span>
-                {/* 3. DISPLAY DYNAMIC COUNT (Default to 0 if undefined) */}
                 <span className="count">{categoryCounts[cat.dbKey] || 0}</span>
               </li>
             ))}
           </ul>
         </aside>
 
-        {/* PRODUCT GRID */}
         <main className="product-content">
           <div className="results-bar">
             <span>Showing {products.length} Results</span>
@@ -185,9 +183,14 @@ const ProductCategoryPage = () => {
                         }
                         alt={item.title}
                       />
+
+                      {/* 4. WISHLIST BUTTON LOGIC */}
                       <button
                         className="wishlist-icon"
-                        onClick={stopPropagation}
+                        onClick={(e) => handleWishlistClick(e, item)}
+                        style={{
+                          color: isInWishlist(item.id) ? "#fbb03b" : "#333",
+                        }}
                       >
                         <FaHeart />
                       </button>
