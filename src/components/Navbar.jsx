@@ -9,10 +9,12 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
+   const { wishlistCount } = useWishlist();
 
   // Get dynamic cart count
   const { cartCount } = useCart();
@@ -50,9 +52,16 @@ const Navbar = () => {
           <div className="nav-icons">
             
             {/* Wishlist Icon */}
-            <div className="icon-circle">
-              <FaRegHeart />
-            </div>
+            <div className="icon-circle" style={{ position: "relative" }}>
+             <Link to="/wishlist" style={{color:'inherit', display:'flex'}}>
+                <FaRegHeart />
+                {wishlistCount > 0 && (
+                   <span className="cart-badge" style={{background: '#fbb03b', color:'#000'}}>
+                      {wishlistCount}
+                   </span>
+                )}
+             </Link>
+          </div>
 
             {/* User Icon: Logic to Switch between Login / Profile */}
             <div className="icon-circle">

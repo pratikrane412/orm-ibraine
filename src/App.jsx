@@ -16,6 +16,7 @@ import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import ProfilePage from "./components/ProfilePage";
 import CheckoutPage from "./components/CheckoutPage";
+import WishlistPage from "./components/WishlistPage";
 import BlogPage from "./components/BlogPage";
 import BlogDetails from "./components/BlogDetails";
 
@@ -41,6 +42,7 @@ import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { WishlistProvider } from "./context/WishlistContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Home = () => (
@@ -62,6 +64,7 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
+        <WishlistProvider>
         <Router>
           <Routes>
             {/* --- CUSTOMER ROUTES (PUBLIC) --- */}
@@ -75,6 +78,7 @@ function App() {
             />
             <Route path="/product/:id" element={<ProductDetailsPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:id" element={<BlogDetails />} />
@@ -114,6 +118,7 @@ function App() {
             </Route>
           </Routes>
         </Router>
+        </WishlistProvider>
       </CartProvider>
     </AuthProvider>
   );
