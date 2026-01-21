@@ -20,7 +20,7 @@ const Customers = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("orm_admin_token");
-    fetch("https://orm-backend-gejw.onrender.comejw.onrender.com/api/customers/", {
+    fetch("https://orm-backend-gejw.onrender.com/api/customers/", {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => res.json())
