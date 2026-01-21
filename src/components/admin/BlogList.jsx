@@ -13,14 +13,14 @@ const BlogList = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/blog/")
+    fetch("https://orm-backend-gejw.onrender.com/api/blog/")
       .then((res) => res.json())
       .then((data) => setPosts(data));
   }, []);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this post?")) return;
-    await fetch(`http://127.0.0.1:8000/api/blog/${id}/`, { method: "DELETE" });
+    await fetch(`https://orm-backend-gejw.onrender.com/api/blog/${id}/`, { method: "DELETE" });
     setPosts(posts.filter((p) => p.id !== id));
   };
 

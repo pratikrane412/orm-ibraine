@@ -49,7 +49,7 @@ const ProfileSettings = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/profile/update/", {
+      const response = await fetch("https://orm-backend-gejw.onrender.com/api/profile/update/", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

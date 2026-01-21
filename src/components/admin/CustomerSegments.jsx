@@ -11,7 +11,7 @@ const CustomerSegments = () => {
   useEffect(() => {
     const token = localStorage.getItem("orm_admin_token");
 
-    fetch("http://127.0.0.1:8000/api/customers/", {
+    fetch("https://orm-backend-gejw.onrender.comejw.onrender.com/api/customers/", {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => res.json())

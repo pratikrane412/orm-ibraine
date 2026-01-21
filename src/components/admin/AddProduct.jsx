@@ -40,7 +40,7 @@ const AddProduct = () => {
   useEffect(() => {
     if (id) {
       setIsEditMode(true);
-      fetch(`http://127.0.0.1:8000/api/products/${id}/`)
+      fetch(`https://orm-backend-gejw.onrender.com/api/products/${id}/`)
         .then((res) => res.json())
         .then((data) => {
           // Pre-fill form
@@ -64,7 +64,7 @@ const AddProduct = () => {
             setMainPreview(
               data.image.startsWith("http")
                 ? data.image
-                : `http://127.0.0.1:8000${data.image}`,
+                : `https://orm-backend-gejw.onrender.com${data.image}`,
             );
           }
 
@@ -73,7 +73,7 @@ const AddProduct = () => {
             const previews = data.images.map((img) =>
               img.image.startsWith("http")
                 ? img.image
-                : `http://127.0.0.1:8000${img.image}`,
+                : `https://orm-backend-gejw.onrender.com${img.image}`,
             );
             setGalleryPreviews(previews);
           }
@@ -135,11 +135,11 @@ const AddProduct = () => {
 
     try {
       // 4. Dynamic URL & Method
-      let url = "http://127.0.0.1:8000/api/products/";
+      let url = "https://orm-backend-gejw.onrender.com/api/products/";
       let method = "POST";
 
       if (isEditMode) {
-        url = `http://127.0.0.1:8000/api/products/${id}/`;
+        url = `https://orm-backend-gejw.onrender.com/api/products/${id}/`;
         method = "PATCH"; // <--- CRITICAL FIX for Editing
       }
 

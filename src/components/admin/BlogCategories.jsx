@@ -9,7 +9,7 @@ const BlogCategories = () => {
 
   // Fetch Categories
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/blog-categories/")
+    fetch("https://orm-backend-gejw.onrender.com/api/blog-categories/")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
@@ -21,7 +21,7 @@ const BlogCategories = () => {
   const handleAddCategory = async () => {
     if (!newCatName) return;
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/blog-categories/", {
+      const res = await fetch("https://orm-backend-gejw.onrender.com/api/blog-categories/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: newCatName }),
@@ -40,7 +40,7 @@ const BlogCategories = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this category?")) return;
     try {
-      await fetch(`http://127.0.0.1:8000/api/blog-categories/${id}/`, {
+      await fetch(`https://orm-backend-gejw.onrender.com/api/blog-categories/${id}/`, {
         method: "DELETE",
       });
       setCategories(categories.filter((c) => c.id !== id));

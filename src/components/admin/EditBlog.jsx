@@ -26,12 +26,12 @@ const EditBlog = () => {
 
   useEffect(() => {
     // 1. Fetch Categories
-    fetch("http://127.0.0.1:8000/api/blog-categories/")
+    fetch("https://orm-backend-gejw.onrender.com/api/blog-categories/")
       .then((res) => res.json())
       .then((data) => setCategories(data));
 
     if (isEdit) {
-      fetch(`http://127.0.0.1:8000/api/blog/${id}/`)
+      fetch(`https://orm-backend-gejw.onrender.com/api/blog/${id}/`)
         .then((res) => res.json())
         .then((data) => {
           setFormData({
@@ -44,7 +44,7 @@ const EditBlog = () => {
             setPreview(
               data.image.startsWith("http")
                 ? data.image
-                : `http://127.0.0.1:8000${data.image}`,
+                : `https://orm-backend-gejw.onrender.com${data.image}`,
             );
         });
     }
@@ -57,7 +57,7 @@ const EditBlog = () => {
   // Add New Category Inline
   const handleAddCategory = async () => {
     if (!newCatName) return;
-    const res = await fetch("http://127.0.0.1:8000/api/blog-categories/", {
+    const res = await fetch("https://orm-backend-gejw.onrender.com/api/blog-categories/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newCatName }),
@@ -79,8 +79,8 @@ const EditBlog = () => {
     if (imageFile) data.append("image", imageFile);
 
     const url = isEdit
-      ? `http://127.0.0.1:8000/api/blog/${id}/`
-      : "http://127.0.0.1:8000/api/blog/";
+      ? `https://orm-backend-gejw.onrender.com/api/blog/${id}/`
+      : "https://orm-backend-gejw.onrender.com/api/blog/";
     const method = isEdit ? "PATCH" : "POST";
 
     await fetch(url, { method, body: data });

@@ -75,7 +75,7 @@ const ProductCategoryPage = () => {
   }, [categoryName]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/category-counts/")
+    fetch("https://orm-backend-gejw.onrender.com/api/category-counts/")
       .then((res) => res.json())
       .then((data) => {
         setCategoryCounts(data);
@@ -179,7 +179,7 @@ const ProductCategoryPage = () => {
                         src={
                           item.image.startsWith("http")
                             ? item.image
-                            : `http://127.0.0.1:8000${item.image}`
+                            : `https://orm-backend-gejw.onrender.com${item.image}`
                         }
                         alt={item.title}
                       />

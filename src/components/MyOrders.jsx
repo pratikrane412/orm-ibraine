@@ -8,7 +8,7 @@ const MyOrders = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/my-orders/", {
+    fetch("https://orm-backend-gejw.onrender.com/api/my-orders/", {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => res.json())

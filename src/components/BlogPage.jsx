@@ -11,7 +11,7 @@ const BlogPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/blog/")
+    fetch("https://orm-backend-gejw.onrender.com/api/blog/")
       .then((res) => res.json())
       .then((data) => {
         setPosts(data);
@@ -32,7 +32,7 @@ const BlogPage = () => {
     if (!imagePath) return "/image/placeholder.png";
     return imagePath.startsWith("http")
       ? imagePath
-      : `http://127.0.0.1:8000${imagePath}`;
+      : `https://orm-backend-gejw.onrender.com${imagePath}`;
   };
 
   // --- NEW HELPER: Remove HTML tags for clean excerpt ---

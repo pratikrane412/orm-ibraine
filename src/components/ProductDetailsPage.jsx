@@ -33,7 +33,7 @@ const ProductDetailsPage = () => {
         setProduct(data);
         const mainImgUrl = data.image.startsWith("http") 
           ? data.image 
-          : `http://127.0.0.1:8000${data.image}`;
+          : `https://orm-backend-gejw.onrender.com${data.image}`;
         setActiveImg(mainImgUrl);
 
         let galleryImages = [];
@@ -41,7 +41,7 @@ const ProductDetailsPage = () => {
           galleryImages = data.images.map(imgObj => 
             imgObj.image.startsWith("http") 
               ? imgObj.image 
-              : `http://127.0.0.1:8000${imgObj.image}`
+              : `https://orm-backend-gejw.onrender.com${imgObj.image}`
           );
         }
         const uniqueImages = Array.from(new Set([mainImgUrl, ...galleryImages]));

@@ -13,7 +13,7 @@ const ProductSpecsSection = ({ product }) => {
   // Handle Image URL (add backend domain if needed)
   const imageUrl = product.image.startsWith("http") 
     ? product.image 
-    : `http://127.0.0.1:8000${product.image}`;
+    : `https://orm-backend-gejw.onrender.com${product.image}`;
 
   return (
     <section className="specs-section">

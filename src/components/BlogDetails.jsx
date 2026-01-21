@@ -24,7 +24,7 @@ const BlogDetails = () => {
   useEffect(() => {
     setLoading(true);
     // Fetch Current Post
-    fetch(`http://127.0.0.1:8000/api/blog/${id}/`)
+    fetch(`https://orm-backend-gejw.onrender.com/api/blog/${id}/`)
       .then((res) => {
         if (!res.ok) throw new Error("Post not found");
         return res.json();
@@ -39,7 +39,7 @@ const BlogDetails = () => {
       });
 
     // Fetch Recent Posts
-    fetch("http://127.0.0.1:8000/api/blog/")
+    fetch("https://orm-backend-gejw.onrender.com/api/blog/")
       .then((res) => res.json())
       .then((data) => setRecentPosts(data.slice(0, 5)))
       .catch(console.error);
@@ -51,7 +51,7 @@ const BlogDetails = () => {
     if (!imagePath) return "/image/placeholder.png";
     return imagePath.startsWith("http")
       ? imagePath
-      : `http://127.0.0.1:8000${imagePath}`;
+      : `https://orm-backend-gejw.onrender.com${imagePath}`;
   };
 
   // 1. Better Loading State

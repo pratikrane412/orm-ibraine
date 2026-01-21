@@ -67,7 +67,7 @@ const CheckoutPage = () => {
     setCouponMsg({ text: "Verifying...", type: "neutral" });
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/verify-coupon/", {
+      const response = await fetch("https://orm-backend-gejw.onrender.com/api/verify-coupon/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -112,7 +112,7 @@ const CheckoutPage = () => {
     // B. Start Payment (Get Order ID from Backend)
     try {
       const initiateRes = await fetch(
-        "http://127.0.0.1:8000/api/payment/start/",
+        "https://orm-backend-gejw.onrender.com/api/payment/start/",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -160,7 +160,7 @@ const CheckoutPage = () => {
           if (token) headers["Authorization"] = `Token ${token}`;
 
           const verifyRes = await fetch(
-            "http://127.0.0.1:8000/api/payment/success/",
+            "https://orm-backend-gejw.onrender.com/api/payment/success/",
             {
               method: "POST",
               headers: headers,
@@ -368,7 +368,7 @@ const CheckoutPage = () => {
                     src={
                       item.image.startsWith("http")
                         ? item.image
-                        : `http://127.0.0.1:8000${item.image}`
+                        : `https://orm-backend-gejw.onrender.com${item.image}`
                     }
                     alt={item.title}
                   />

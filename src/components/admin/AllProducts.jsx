@@ -27,7 +27,7 @@ const AllProducts = () => {
   ];
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/products/")
+    fetch("https://orm-backend-gejw.onrender.com/api/products/")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched Data:", data); // Check console to see if data arrives
@@ -66,7 +66,7 @@ const AllProducts = () => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/products/${id}/`,
+          `https://orm-backend-gejw.onrender.com/api/products/${id}/`,
           { method: "DELETE" }
         );
         if (response.ok) {
@@ -84,7 +84,7 @@ const AllProducts = () => {
     if (!imagePath) return "/image/placeholder.png";
     return imagePath.startsWith("http")
       ? imagePath
-      : `http://127.0.0.1:8000${imagePath}`;
+      : `https://orm-backend-gejw.onrender.com${imagePath}`;
   };
 
   return (

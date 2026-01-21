@@ -22,13 +22,13 @@ const EditCollection = () => {
 
   useEffect(() => {
     if (!isCreateMode) {
-      fetch(`http://127.0.0.1:8000/api/collections/${id}/`)
+      fetch(`https://orm-backend-gejw.onrender.com/api/collections/${id}/`)
         .then((res) => res.json())
         .then((data) => setCollection(data))
         .catch((err) => console.error(err));
     }
 
-    fetch("http://127.0.0.1:8000/api/products/")
+    fetch("https://orm-backend-gejw.onrender.com/api/products/")
       .then((res) => res.json())
       .then((data) => {
         setAllProducts(data);
@@ -44,8 +44,8 @@ const EditCollection = () => {
   const handleSave = async () => {
     try {
       let url = isCreateMode
-        ? "http://127.0.0.1:8000/api/collections/"
-        : `http://127.0.0.1:8000/api/collections/${id}/`;
+        ? "https://orm-backend-gejw.onrender.com/api/collections/"
+        : `https://orm-backend-gejw.onrender.com/api/collections/${id}/`;
       let method = isCreateMode ? "POST" : "PATCH";
 
       const response = await fetch(url, {
@@ -59,7 +59,7 @@ const EditCollection = () => {
         // If creating, we need to link products now
         if (isCreateMode && products.length > 0) {
           for (const p of products) {
-            await fetch(`http://127.0.0.1:8000/api/products/${p.id}/`, {
+            await fetch(`https://orm-backend-gejw.onrender.com/api/products/${p.id}/`, {
               method: "PATCH",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ collection: savedCol.id }),
@@ -77,7 +77,7 @@ const EditCollection = () => {
   const addToCollection = async (productId) => {
     const product = allProducts.find((p) => p.id === productId);
     if (!isCreateMode) {
-      await fetch(`http://127.0.0.1:8000/api/products/${productId}/`, {
+      await fetch(`https://orm-backend-gejw.onrender.com/api/products/${productId}/`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ collection: id }),
@@ -89,7 +89,7 @@ const EditCollection = () => {
 
   const removeFromCollection = async (productId) => {
     if (!isCreateMode) {
-      await fetch(`http://127.0.0.1:8000/api/products/${productId}/`, {
+      await fetch(`https://orm-backend-gejw.onrender.com/api/products/${productId}/`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ collection: null }),
@@ -198,7 +198,7 @@ const EditCollection = () => {
                         src={
                           p.image.startsWith("http")
                             ? p.image
-                            : `http://127.0.0.1:8000${p.image}`
+                            : `https://orm-backend-gejw.onrender.com${p.image}`
                         }
                         alt=""
                       />
@@ -218,7 +218,7 @@ const EditCollection = () => {
                       src={
                         p.image.startsWith("http")
                           ? p.image
-                          : `http://127.0.0.1:8000${p.image}`
+                          : `https://orm-backend-gejw.onrender.com${p.image}`
                       }
                       alt={p.title}
                     />

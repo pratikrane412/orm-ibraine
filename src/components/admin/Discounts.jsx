@@ -12,7 +12,7 @@ const Discounts = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("orm_admin_token");
-    fetch("http://127.0.0.1:8000/api/coupons/", {
+    fetch("https://orm-backend-gejw.onrender.com/api/coupons/", {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => res.json())
@@ -39,7 +39,7 @@ const Discounts = () => {
     if (!window.confirm("Delete this coupon?")) return;
 
     const token = localStorage.getItem("orm_admin_token");
-    await fetch(`http://127.0.0.1:8000/api/coupons/${id}/`, {
+    await fetch(`https://orm-backend-gejw.onrender.com/api/coupons/${id}/`, {
       method: "DELETE",
       headers: { Authorization: `Token ${token}` },
     });

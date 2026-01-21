@@ -11,7 +11,7 @@ const Inventory = () => {
   const [changes, setChanges] = useState({});
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/products/")
+    fetch("https://orm-backend-gejw.onrender.com/api/products/")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
@@ -24,7 +24,7 @@ const Inventory = () => {
     if (!imagePath) return "/image/placeholder.png";
     return imagePath.startsWith("http")
       ? imagePath
-      : `http://127.0.0.1:8000${imagePath}`;
+      : `https://orm-backend-gejw.onrender.com${imagePath}`;
   };
 
   // Handle Input Change (Updates "stock_quantity" which effectively sets "Available")
@@ -48,7 +48,7 @@ const Inventory = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/products/${id}/`,
+        `https://orm-backend-gejw.onrender.com/api/products/${id}/`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

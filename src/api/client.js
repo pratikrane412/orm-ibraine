@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000"; // Django URL
+const BASE_URL = "https://orm-backend-gejw.onrender.com/"; // Django URL
 
 export const fetchProductsByCategory = async (category) => {
   try {

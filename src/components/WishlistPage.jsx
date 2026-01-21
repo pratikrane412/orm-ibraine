@@ -16,7 +16,7 @@ const WishlistPage = () => {
     if (!imagePath) return "/image/placeholder.png";
     return imagePath.startsWith("http")
       ? imagePath
-      : `http://127.0.0.1:8000${imagePath}`;
+      : `https://orm-backend-gejw.onrender.com${imagePath}`;
   };
 
   const handleMoveToCart = (item) => {

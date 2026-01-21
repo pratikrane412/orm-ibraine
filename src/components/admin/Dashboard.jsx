@@ -40,7 +40,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("orm_admin_token");
-    fetch("http://127.0.0.1:8000/api/dashboard-stats/", {
+    fetch("https://orm-backend-gejw.onrender.com/api/dashboard-stats/", {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => res.json())

@@ -10,7 +10,7 @@ const Collections = () => {
 
   useEffect(() => {
     // 1. Fetch from REAL Collections API (Not Products)
-    fetch("http://127.0.0.1:8000/api/collections/")
+    fetch("https://orm-backend-gejw.onrender.com/api/collections/")
       .then((res) => res.json())
       .then((data) => {
         setCollections(data); // This will be empty [] initially
@@ -27,12 +27,12 @@ const Collections = () => {
     if (collection.image) {
       return collection.image.startsWith("http")
         ? collection.image
-        : `http://127.0.0.1:8000${collection.image}`;
+        : `https://orm-backend-gejw.onrender.com${collection.image}`;
     }
 
     // 2. Fallback: First Product Image (from new serializer field)
     if (collection.first_product_image) {
-      return `http://127.0.0.1:8000${collection.first_product_image}`;
+      return `https://orm-backend-gejw.onrender.com${collection.first_product_image}`;
     }
 
     return null;

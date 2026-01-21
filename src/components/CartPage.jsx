@@ -51,7 +51,7 @@ const CartPage = () => {
                       src={
                         item.image.startsWith("http")
                           ? item.image
-                          : `http://127.0.0.1:8000${item.image}`
+                          : `https://orm-backend-gejw.onrender.com${item.image}`
                       }
                       alt={item.title}
                     />

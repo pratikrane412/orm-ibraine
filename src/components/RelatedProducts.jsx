@@ -58,7 +58,7 @@ const RelatedProducts = ({ currentProduct }) => {
 
                 <div className="card-img-box">
                   <img 
-                    src={item.image.startsWith("http") ? item.image : `http://127.0.0.1:8000${item.image}`} 
+                    src={item.image.startsWith("http") ? item.image : `https://orm-backend-gejw.onrender.com${item.image}`} 
                     alt={item.title} 
                   />
                   <button className="wishlist-btn"><FaHeart /></button>

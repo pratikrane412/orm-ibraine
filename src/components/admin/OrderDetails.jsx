@@ -20,7 +20,7 @@ const OrderDetails = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("orm_admin_token");
-    fetch(`http://127.0.0.1:8000/api/orders/${id}/`, {
+    fetch(`https://orm-backend-gejw.onrender.com/api/orders/${id}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const OrderDetails = () => {
 
   // Invoice Download Handler
   const handleDownloadInvoice = () => {
-    window.open(`http://127.0.0.1:8000/api/invoice/${id}/`, "_blank");
+    window.open(`https://orm-backend-gejw.onrender.com/api/invoice/${id}/`, "_blank");
     setShowPrintMenu(false);
   };
 
@@ -61,7 +61,7 @@ const OrderDetails = () => {
     if (!imagePath) return "/image/placeholder.png";
     return imagePath.startsWith("http")
       ? imagePath
-      : `http://127.0.0.1:8000${imagePath}`;
+      : `https://orm-backend-gejw.onrender.com${imagePath}`;
   };
 
   if (loading)
