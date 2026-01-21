@@ -163,7 +163,7 @@
 }
 .product-title {
   font-weight: 600;
-  color: #0f172a;
+  color: #0f172a  !important;
   font-size: 0.95rem;
 }
 .product-sku {
