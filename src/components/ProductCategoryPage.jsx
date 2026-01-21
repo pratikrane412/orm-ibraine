@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import { fetchProductsByCategory } from "../api/client";
 import { FaShoppingCart, FaHeart, FaSearch, FaStar } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCart } from "../context/CartContext"; // 1. Import Cart Context
+import { useCart } from "../context/CartContext";
 import "../styles/ProductCategoryPage.css";
 
 // --- CONFIGURATION OBJECT ---
@@ -41,28 +41,31 @@ const categoryConfig = {
   },
 };
 
+// Updated Sidebar Data with 'dbKey' to match Backend Category names
 const sidebarCategories = [
-  { name: "Mahindra Thar & Roxx", slug: "thar" },
-  { name: "Scorpio", slug: "scorpio" },
-  { name: "Toyota Hilux", slug: "hilux" },
-  { name: "Toyota Fortuner", slug: "fortuner" },
-  { name: "Suzuki Jimny", slug: "jimny" },
-  { name: "Range Rover Defender", slug: "defender" },
+  { name: "Mahindra Thar & Roxx", slug: "thar", dbKey: "Thar" },
+  { name: "Scorpio", slug: "scorpio", dbKey: "Scorpio" },
+  { name: "Toyota Hilux", slug: "hilux", dbKey: "Hilux" },
+  { name: "Toyota Fortuner", slug: "fortuner", dbKey: "Fortuner" },
+  { name: "Suzuki Jimny", slug: "jimny", dbKey: "Jimny" },
+  { name: "Range Rover Defender", slug: "defender", dbKey: "Defender" },
 ];
 
 const ProductCategoryPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // NEW STATE: Store counts like { Thar: 5, Scorpio: 2 }
+  const [categoryCounts, setCategoryCounts] = useState({});
+
   const { categoryName } = useParams();
   const navigate = useNavigate();
-  
-  // 2. Get the addToCart function from Context
   const { addToCart } = useCart();
 
   const currentCategory =
     categoryConfig[categoryName] || categoryConfig["thar"];
 
+  // 1. Fetch Products for MAIN CONTENT
   useEffect(() => {
     setLoading(true);
     fetchProductsByCategory(currentCategory.backendCategory).then((data) => {
@@ -70,6 +73,16 @@ const ProductCategoryPage = () => {
       setLoading(false);
     });
   }, [categoryName]);
+
+  // 2. NEW: Fetch Category Counts for SIDEBAR
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/category-counts/")
+      .then((res) => res.json())
+      .then((data) => {
+        setCategoryCounts(data);
+      })
+      .catch((err) => console.error("Error fetching counts:", err));
+  }, []);
 
   const handleCategoryClick = (slug) => {
     navigate(`/products/${slug}`);
@@ -84,18 +97,16 @@ const ProductCategoryPage = () => {
     e.stopPropagation();
   };
 
-  // 3. Handle Add to Cart Click
   const handleAddToCartBtn = (e, item) => {
-    e.stopPropagation(); // Prevent navigating to details page
-    addToCart(item);     // Add to global state
-    alert(`${item.title} added to cart!`); // Optional feedback
+    e.stopPropagation();
+    addToCart(item);
+    alert(`${item.title} added to cart!`);
   };
 
   return (
     <div className="page-wrapper">
       <Navbar />
 
-      {/* DYNAMIC HEADER */}
       <div
         className="product-page-header"
         style={{ backgroundImage: `url(${currentCategory.headerBg})` }}
@@ -129,7 +140,8 @@ const ProductCategoryPage = () => {
                 onClick={() => handleCategoryClick(cat.slug)}
               >
                 <span>{cat.name}</span>
-                <span className="count">20</span>
+                {/* 3. DISPLAY DYNAMIC COUNT (Default to 0 if undefined) */}
+                <span className="count">{categoryCounts[cat.dbKey] || 0}</span>
               </li>
             ))}
           </ul>
@@ -156,8 +168,8 @@ const ProductCategoryPage = () => {
             <div className="shop-grid">
               {products.length > 0 ? (
                 products.map((item) => (
-                  <div 
-                    key={item.id} 
+                  <div
+                    key={item.id}
                     className="shop-card"
                     onClick={() => handleProductClick(item.id)}
                     style={{ cursor: "pointer" }}
@@ -173,7 +185,10 @@ const ProductCategoryPage = () => {
                         }
                         alt={item.title}
                       />
-                      <button className="wishlist-icon" onClick={stopPropagation}>
+                      <button
+                        className="wishlist-icon"
+                        onClick={stopPropagation}
+                      >
                         <FaHeart />
                       </button>
                     </div>
@@ -194,13 +209,12 @@ const ProductCategoryPage = () => {
                         {[...Array(Math.round(item.rating || 5))].map(
                           (_, i) => (
                             <FaStar key={i} color="#fbb03b" size={12} />
-                          )
+                          ),
                         )}
                       </div>
-                      
-                      {/* 4. ATTACH HANDLER TO BUTTON */}
-                      <button 
-                        className="cart-btn" 
+
+                      <button
+                        className="cart-btn"
                         onClick={(e) => handleAddToCartBtn(e, item)}
                       >
                         <FaShoppingCart /> Add to Cart
