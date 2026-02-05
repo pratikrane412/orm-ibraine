@@ -1,12 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap");
 
 .specs-section {
+  position: relative; /* Required for overlay */
   background-color: #000;
   color: #fff;
-  padding: 60px 0 100px 0; /* Reduced top padding slightly */
+  padding: 80px 0 100px 0;
   display: flex;
   justify-content: center;
-  position: relative;
+  overflow: hidden;
+
+  /* Background Image Settings */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll; /* No Parallax */
+}
+
+/* Dark Overlay to make content pop */
+.specs-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); /* Adjust opacity to match other sections */
+  z-index: 1;
 }
 
 .specs-container {
@@ -16,6 +34,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 60px;
+  position: relative;
+  z-index: 2; /* Sit above overlay */
 }
 
 /* --- LEFT SIDE: CONTENT --- */
@@ -25,8 +45,8 @@
 }
 
 .specs-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 2.5rem; /* Reduced from 3rem */
+  font-family: "Oswald", sans-serif;
+  font-size: 2.5rem;
   line-height: 1.2;
   margin-bottom: 20px;
   text-transform: capitalize;
@@ -34,8 +54,8 @@
 }
 
 .specs-desc {
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.95rem; /* Reduced from 1rem for a sharper look */
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
   line-height: 1.7;
   color: #ccc;
   margin-bottom: 25px;
@@ -43,9 +63,9 @@
 }
 
 .specs-subtitle {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.3rem; /* Reduced from 1.5rem */
-  color: #fbb03b; 
+  font-family: "Oswald", sans-serif;
+  font-size: 1.3rem;
+  color: #fbb03b;
   margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -60,19 +80,18 @@
   position: relative;
   padding-left: 20px;
   margin-bottom: 10px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.95rem; /* Reduced from 1rem */
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
   color: #e0e0e0;
   line-height: 1.5;
 }
 
-/* Custom Bullet Point */
 .specs-list li::before {
   content: "•";
   position: absolute;
   left: 0;
   color: #fbb03b;
-  font-size: 1.2rem; /* Adjusted bullet size */
+  font-size: 1.2rem;
   line-height: 1rem;
   top: 3px;
 }
@@ -87,10 +106,11 @@
 .specs-frame {
   position: relative;
   width: 100%;
-  max-width: 600px; /* Slightly smaller max width for balance */
-  border: 2px solid #fbb03b; /* Thinner elegant border */
-  border-radius: 25px; 
-  padding: 8px; 
+  max-width: 600px;
+  border: 2px solid #fbb03b;
+  border-radius: 25px;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.5); /* Slight card effect against bg */
   box-shadow: 0 0 20px rgba(251, 176, 59, 0.1);
 }
 
@@ -98,7 +118,7 @@
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 18px; 
+  border-radius: 18px;
   object-fit: cover;
 }
 
@@ -108,13 +128,13 @@
     flex-direction: column;
     text-align: left;
   }
-  
+
   .specs-image-wrapper {
     width: 100%;
     justify-content: center;
   }
 
   .specs-title {
-    font-size: 2rem; /* Smaller on tablet/mobile */
+    font-size: 2rem;
   }
 }
