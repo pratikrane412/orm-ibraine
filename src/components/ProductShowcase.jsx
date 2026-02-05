@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../styles/ProductShowcase.css";
 import { FaShoppingCart, FaHeart, FaStar, FaStarHalfAlt } from "react-icons/fa";
-import { fetchProductsByCategory } from "../api/client"; // Import Real API
+import { fetchProductsByCategory } from "../api/client";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+
+// Import your background image (using the same one from the Info section for consistency)
+import bgImg from "/image/productbg.png";
 
 const ProductShowcase = () => {
   const [products, setProducts] = useState([]);
@@ -11,12 +14,9 @@ const ProductShowcase = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
-  // --- FETCH REAL DATA ---
   useEffect(() => {
-    // You can fetch a specific category like 'Thar' or create a 'Featured' category in backend
-    // For now, let's fetch 'Thar' products and slice the top 4
     fetchProductsByCategory("Thar").then((data) => {
-      setProducts(data.slice(0, 4)); // Show only 4 items
+      setProducts(data.slice(0, 4));
       setLoading(false);
     });
   }, []);
@@ -32,10 +32,9 @@ const ProductShowcase = () => {
     alert(`${product.title} added to cart!`);
   };
 
-  // Helper to render stars
   const renderStars = (rating) => {
     const stars = [];
-    const safeRating = rating || 5; // Default to 5 if null
+    const safeRating = rating || 5;
     for (let i = 1; i <= 5; i++) {
       if (i <= safeRating) {
         stars.push(<FaStar key={i} className="star-icon filled" />);
@@ -56,7 +55,13 @@ const ProductShowcase = () => {
   };
 
   return (
-    <section className="product-section">
+    <section
+      className="product-section"
+      style={{ backgroundImage: `url(${bgImg})` }}
+    >
+      {/* Added overlay to ensure the cards and title are readable against the background */}
+      <div className="product-overlay"></div>
+
       <div className="product-container">
         <h2 className="section-title">
           Must-Have Thar <span className="highlight">Wheel Upgrade</span>
@@ -73,13 +78,9 @@ const ProductShowcase = () => {
                 onClick={() => handleCardClick(product.id)}
                 style={{ cursor: "pointer" }}
               >
-                {/* IMAGE AREA */}
                 <div className="product-img-wrapper">
                   <img src={getImageUrl(product.image)} alt={product.title} />
-
-                  {/* Django uses is_sale (snake_case) */}
                   {product.is_sale && <span className="sale-badge">Sale</span>}
-
                   <button
                     className="wishlist-btn"
                     onClick={(e) => e.stopPropagation()}
@@ -88,10 +89,8 @@ const ProductShowcase = () => {
                   </button>
                 </div>
 
-                {/* INFO AREA */}
                 <div className="product-info">
                   <h3 className="product-title">{product.title}</h3>
-
                   <div className="price-rating-row">
                     <div className="price-box">
                       <span className="current-price">
@@ -108,7 +107,6 @@ const ProductShowcase = () => {
                     </div>
                   </div>
 
-                  {/* ADD TO CART BUTTON */}
                   <button
                     className="add-cart-btn"
                     onClick={(e) => handleAddToCart(e, product)}
