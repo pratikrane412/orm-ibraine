@@ -1,15 +1,15 @@
-/* src/styles/TharProductsPage.css */
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap");
 
+/* --- PAGE WRAPPER --- */
 .page-wrapper {
   background-color: #000;
   color: #fff;
   min-height: 100vh;
 }
 
-/* HEADER SECTION */
+/* --- HEADER SECTION --- */
 .product-page-header {
-  height: 300px;    
+  height: 300px;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -17,13 +17,13 @@
   align-items: center;
   justify-content: flex-start;
   padding-left: 10%;
-  margin-top: 80px; /* Offset for fixed navbar */
+  margin-top: 80px; /* Space for Navbar */
 }
 
 .header-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .header-content {
@@ -32,50 +32,85 @@
 }
 
 .header-content h1 {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 4rem;
   color: #fff;
+  text-transform: uppercase;
 }
 
-.highlight { color: #fbb03b; }
+.highlight {
+  color: #fbb03b;
+}
 
-/* MAIN LAYOUT */
+/* --- MIDDLE SECTION (ROAD BACKGROUND) --- */
+.content-area-wrapper {
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 80px 0;
+}
+
+.content-dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); /* Dark enough to see text clearly */
+  z-index: 1;
+}
+
 .main-layout {
   display: flex;
   width: 90%;
   max-width: 1400px;
-  margin: 60px auto;
+  margin: 0 auto;
   gap: 40px;
+  position: relative;
+  z-index: 2;
 }
 
-/* SIDEBAR */
+/* --- SIDEBAR (THE FIXED PART) --- */
 .sidebar {
   flex: 1;
-  max-width: 300px;
+  max-width: 320px;
+  background: rgba(15, 15, 15, 0.95);
+  padding: 30px 20px;
+  border-radius: 12px;
+  border: 1px solid #222;
+  height: fit-content;
 }
 
 .search-box {
   display: flex;
   align-items: center;
-  border: 1px solid #444;
-  padding: 12px 15px;
-  border-radius: 5px;
-  margin-bottom: 40px;
+  background: #000;
+  border: 1px solid #333;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 30px;
 }
 
-.search-icon { color: #888; margin-right: 10px; }
+.search-icon {
+  color: #fbb03b;
+  margin-right: 12px;
+}
+
 .search-box input {
   background: transparent;
   border: none;
   color: #fff;
-  width: 100%;
   outline: none;
+  width: 100%;
 }
 
 .sidebar-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.5rem;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.4rem;
   margin-bottom: 20px;
+  color: #fff;
 }
 
 .category-list {
@@ -86,31 +121,29 @@
 .category-list li {
   display: flex;
   justify-content: space-between;
-  padding: 15px 0;
+  padding: 12px 15px;
   border-bottom: 1px solid #222;
-  font-family: 'Roboto', sans-serif;
-  color: #888;
+  font-family: "Roboto", sans-serif;
+  color: #ffffff !important; /* Force white text */
   cursor: pointer;
   transition: 0.3s;
+  border-radius: 5px;
 }
 
-.category-list li:hover, .category-list li.active {
-  color: #fff;
-  background-color: #fbb03b;
-  padding-left: 15px;
-  padding-right: 15px;
-  color: #000;
-  font-weight: 500;
+.category-list li:hover {
+  color: #fbb03b !important;
+  background: rgba(251, 176, 59, 0.05);
 }
 
-/* MAIN CONTENT */
+.category-list li.active {
+  background-color: #fbb03b !important;
+  color: #000000 !important; /* Black text on gold background */
+  font-weight: 700;
+}
+
+/* --- MAIN PRODUCT CONTENT --- */
 .product-content {
   flex: 3;
-  background-image: url('/image/road.png');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* Optional: makes it stay fixed while scrolling */
-  padding: 20px; /* Add some padding so content doesn't touch edges */
 }
 
 .results-bar {
@@ -118,21 +151,23 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  font-family: 'Roboto', sans-serif;
   color: #ccc;
 }
 
 .sort-dropdown {
-  background: transparent;
-  border: 1px solid #444;
+  background: #000;
+  border: 1px solid #333;
   color: #fff;
   padding: 8px 15px;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
-.divider { border-color: #333; margin-bottom: 30px; }
+.divider {
+  border-color: #333;
+  margin-bottom: 30px;
+}
 
-/* SHOP GRID */
+/* --- PRODUCT GRID --- */
 .shop-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -140,88 +175,132 @@
 }
 
 .shop-card {
-  background: #0f0f0f;
+  background: rgba(10, 10, 10, 0.95);
   border: 1px solid #222;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.shop-card:hover {
+  border-color: #fbb03b;
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Card Image (Dimmed until hover) */
+.card-img {
+  position: relative;
+  height: 230px;
+  opacity: 0.4; /* Dimmed */
+  transition: opacity 0.4s ease;
+}
+
+.shop-card:hover .card-img {
+  opacity: 1; /* Brightens on hover */
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- CARD DETAILS (FORCED WHITE) --- */
+.card-details {
+  padding: 20px;
+}
+
+.card-details h4 {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #ffffff !important; /* Always Pure White */
+  transition: color 0.3s;
+}
+
+.shop-card:hover h4 {
+  color: #fbb03b !important; /* Gold on hover */
+}
+
+.price {
+  color: #ffffff !important; /* Always Pure White */
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.shop-card:hover .price {
+  color: #fbb03b !important;
+}
+
+.old-price {
+  color: #666;
+  text-decoration: line-through;
+  font-size: 0.9rem;
+  margin-left: 10px;
+}
+
+/* --- BUTTONS & BADGES --- */
+.cart-btn {
+  width: 100%;
+  background: #fff;
+  padding: 12px;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  margin-top: 15px;
+  cursor: pointer;
   transition: 0.3s;
 }
 
-.shop-card:hover { border-color: #fbb03b; transform: translateY(-5px); }
-
-.tag.sale {
-  position: absolute;
-  top: 10px;
-  left: 0;
+.cart-btn:hover {
   background: #fbb03b;
-  color: #000;
-  padding: 4px 12px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  border-radius: 0 10px 10px 0;
-  z-index: 2;
 }
-
-.card-img {
-  position: relative;
-  height: 220px;
-}
-
-.card-img img { width: 100%; height: 100%; object-fit: cover; }
 
 .wishlist-icon {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   background: #fff;
   border: none;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  z-index: 3;
 }
 
-.card-details { padding: 15px; }
-
-.card-details h4 {
-  font-family: 'Oswald', sans-serif;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-}
-
-.price-row { margin-bottom: 10px; }
-.price { color: #fff; font-weight: bold; margin-right: 10px; }
-.old-price { color: #666; text-decoration: line-through; font-size: 0.9rem; }
-
-.stars { margin-bottom: 15px; }
-
-.cart-btn {
-  width: 100%;
-  background: #fff;
-  border: none;
-  padding: 10px;
+.tag.sale {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  background: #fbb03b;
+  color: #000;
+  padding: 5px 15px;
   font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 5px;
-  transition: 0.3s;
+  border-radius: 0 20px 20px 0;
+  z-index: 3;
 }
 
-.cart-btn:hover { background: #fbb03b; }
-
-/* RESPONSIVE */
-@media(max-width: 1024px) {
-  .shop-grid { grid-template-columns: repeat(2, 1fr); }
+/* --- RESPONSIVE --- */
+@media (max-width: 1100px) {
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media(max-width: 768px) {
-  .main-layout { flex-direction: column; }
-  .sidebar { width: 100%; max-width: 100%; }
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    max-width: 100%;
+  }
+  .header-content h1 {
+    font-size: 2.5rem;
+  }
 }
