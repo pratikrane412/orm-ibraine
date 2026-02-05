@@ -5,11 +5,21 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   const handleShopNow = () => {
-    navigate("/products/thar"); // 3. Navigate to your products page
-    window.scrollTo(0, 0); // Scroll to top
+    navigate("/products/thar");
+    window.scrollTo(0, 0);
   };
+
   return (
-    <section className="product-hero">
+    <section
+      className="product-hero"
+      // FIX 1: Direct String Path (Ensure file name matches exactly in public/image/)
+      style={{
+        backgroundImage: "url('/image/productbg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="product-hero-container">
         {/* LEFT SIDE - TEXT */}
         <div className="hero-left">
@@ -42,15 +52,16 @@ const HeroSection = () => {
             mutant built to conquer every terrain with confidence.
           </p>
 
-          <button className="hero-btn" onClick={handleShopNow}>Shop Now &rarr;</button>
+          <button className="hero-btn" onClick={handleShopNow}>
+            Shop Now &rarr;
+          </button>
         </div>
 
         {/* RIGHT SIDE - 3D MODEL IN CIRCLE */}
         <div className="hero-right">
           <div className="circle-window">
-            {/* The 3D Model Viewer */}
             <model-viewer
-              src="/model/orm-model.glb" // Ensure this path is correct
+              src="/model/orm-model.glb"
               alt="Thar ORM Leveling Kit"
               auto-rotate
               camera-controls

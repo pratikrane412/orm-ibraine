@@ -48,7 +48,7 @@ const AdminSidebar = () => {
     <div className="admin-sidebar">
       <div className="admin-logo">
         <img
-          src="/image/orm1.png"
+          src="/image/ORM2.png"
           alt="ORM Admin"
           style={{
             width: "200px",
