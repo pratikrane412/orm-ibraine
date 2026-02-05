@@ -1,5 +1,5 @@
 import "../styles/HeroInfoSection.css";
-// Replace with your actual image path
+import bgImage from "/image/productbg.png";
 import carImg from "/image/car.jpg";
 import { useNavigate } from "react-router-dom";
 
@@ -7,14 +7,17 @@ const HeroInfoSection = () => {
   const navigate = useNavigate();
 
   const handleShopNow = () => {
-    navigate("/products/thar"); // 3. Navigate to your products page
-    window.scrollTo(0, 0); // Scroll to top
+    navigate("/products/thar");
+    window.scrollTo(0, 0);
   };
 
   return (
-    <section className="info-section">
+    <section
+      className="info-section"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <div className="info-container">
-        {/* LEFT SIDE - TEXT */}
+        {/* LEFT SIDE - TEXT (Remains exactly the same) */}
         <div className="info-left">
           <h2 className="info-title">
             How We Turn Machines Into{" "}
@@ -38,18 +41,12 @@ const HeroInfoSection = () => {
             modified — it’s evolved into a beast built to conquer every terrain.
           </p>
 
-          <p className="info-desc">
-            At Off-Road Mutants (ORM), we believe every vehicle has the
-            potential to become a true off-road powerhouse. Our modification
-            process goes far beyond adding accessories.
-          </p>
-
           <button className="info-btn" onClick={handleShopNow}>
             Shop Now &rarr;
           </button>
         </div>
 
-        {/* RIGHT SIDE - IMAGE */}
+        {/* RIGHT SIDE - IMAGE (Remains exactly the same) */}
         <div className="info-right">
           <div className="img-frame">
             <img src={carImg} alt="Off-road car in forest" />
