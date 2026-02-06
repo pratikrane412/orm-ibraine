@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom"; // Import useParams
+import { useNavigate, useParams } from "react-router-dom";
 import {
   FaCloudUploadAlt,
   FaTimes,
   FaSave,
   FaArrowLeft,
   FaImages,
+  FaVideo,
 } from "react-icons/fa";
 import "../../styles/admin/AddProduct.css";
 
@@ -14,7 +15,7 @@ const AddProduct = () => {
   const { id } = useParams(); // Get Product ID from URL (if editing)
 
   const [loading, setLoading] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false); // Track mode
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -25,14 +26,18 @@ const AddProduct = () => {
     old_price: "",
     rating: 4.5,
     is_sale: false,
-    video_url: "",
+    video_url: "", // This remains for the YouTube Demo section
     benefits_title: "",
     benefits_description: "",
     specifications: "",
   });
 
+  // Files State
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
+  const [videoFile, setVideoFile] = useState(null); // NEW: State for PC Video Upload
+
+  // Previews State
   const [mainPreview, setMainPreview] = useState(null);
   const [galleryPreviews, setGalleryPreviews] = useState([]);
 
@@ -43,7 +48,6 @@ const AddProduct = () => {
       fetch(`https://orm-backend-gejw.onrender.com/api/products/${id}/`)
         .then((res) => res.json())
         .then((data) => {
-          // Pre-fill form
           setFormData({
             title: data.title,
             category: data.category,
@@ -52,14 +56,13 @@ const AddProduct = () => {
             old_price: data.old_price || "",
             rating: data.rating,
             is_sale: data.is_sale,
-            weight: data.weight || "", 
+            weight: data.weight || "",
             video_url: data.video_url || "",
             benefits_title: data.benefits_title || "",
             benefits_description: data.benefits_description || "",
             specifications: data.specifications || "",
           });
 
-          // Pre-fill Main Image Preview
           if (data.image) {
             setMainPreview(
               data.image.startsWith("http")
@@ -68,7 +71,6 @@ const AddProduct = () => {
             );
           }
 
-          // Pre-fill Gallery Previews (Backend must send 'images' array)
           if (data.images && data.images.length > 0) {
             const previews = data.images.map((img) =>
               img.image.startsWith("http")
@@ -105,9 +107,14 @@ const AddProduct = () => {
     setGalleryPreviews([...galleryPreviews, ...newPreviews]);
   };
 
+  const handleVideoFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setVideoFile(file);
+    }
+  };
+
   const removeGalleryImage = (index) => {
-    // Note: This only removes NEWly added images for simplicity in this demo.
-    // Removing existing backend images requires a separate API call (DELETE /api/product-images/ID/).
     setGalleryImages(galleryImages.filter((_, i) => i !== index));
     setGalleryPreviews(galleryPreviews.filter((_, i) => i !== index));
   };
@@ -118,43 +125,41 @@ const AddProduct = () => {
 
     const data = new FormData();
 
-    // 1. Append All Text Fields (including weight)
+    // Append text fields
     Object.keys(formData).forEach((key) => {
       data.append(key, formData[key]);
     });
 
-    // 2. Handle Main Image (Only send if new file selected)
-    if (mainImage) {
-      data.append("image", mainImage);
-    }
+    // Append Main Image
+    if (mainImage) data.append("image", mainImage);
 
-    // 3. Handle Gallery Images
+    // Append Video File (Direct Upload)
+    if (videoFile) data.append("video_file", videoFile);
+
+    // Append Gallery Images
     galleryImages.forEach((file) => {
       data.append("gallery_images", file);
     });
 
     try {
-      // 4. Dynamic URL & Method
       let url = "https://orm-backend-gejw.onrender.com/api/products/";
       let method = "POST";
 
       if (isEditMode) {
         url = `https://orm-backend-gejw.onrender.com/api/products/${id}/`;
-        method = "PATCH"; // <--- CRITICAL FIX for Editing
+        method = "PATCH";
       }
 
       const response = await fetch(url, {
         method: method,
-        body: data, // Browser sets Content-Type to multipart/form-data
+        body: data,
       });
 
       if (response.ok) {
         alert(isEditMode ? "Product Updated!" : "Product Created!");
         navigate("/react-admin/products");
       } else {
-        const errData = await response.json();
-        console.error("Server Error:", errData);
-        alert("Failed to save product. Check console.");
+        alert("Error saving product.");
       }
     } catch (error) {
       console.error(error);
@@ -166,7 +171,6 @@ const AddProduct = () => {
 
   return (
     <div className="admin-page-container full-width">
-      {/* PAGE HEADER */}
       <div className="admin-header-row">
         <div className="header-left">
           <button
@@ -176,12 +180,9 @@ const AddProduct = () => {
             <FaArrowLeft />
           </button>
           <div>
-            {/* Dynamic Title */}
             <h2>{isEditMode ? "Edit Product" : "Add New Product"}</h2>
             <p className="subtitle">
-              {isEditMode
-                ? `Editing ID: #${id}`
-                : "Create a new item in your catalog"}
+              {isEditMode ? `ID: #${id}` : "Create a new item"}
             </p>
           </div>
         </div>
@@ -203,12 +204,8 @@ const AddProduct = () => {
       </div>
 
       <form className="add-product-layout">
-        {/* ... (The rest of your JSX form layout remains EXACTLY the same) ... */}
-        {/* Copy the form layout from the previous AddProduct.jsx I provided */}
-        {/* I'm omitting it here to save space, but you paste the <div className="main-col">... part here */}
-
-        {/* ... LEFT COLUMN (MAIN CONTENT) ... */}
         <div className="main-col">
+          {/* GENERAL INFO */}
           <div className="card">
             <h3 className="card-title">General Information</h3>
             <div className="form-group">
@@ -218,7 +215,6 @@ const AddProduct = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                placeholder="e.g. Off-Road Bumper"
                 required
               />
             </div>
@@ -229,20 +225,21 @@ const AddProduct = () => {
                 value={formData.description}
                 rows="6"
                 onChange={handleChange}
-                placeholder="Product details..."
               ></textarea>
             </div>
           </div>
 
+          {/* MEDIA SECTION */}
           <div className="card">
-            <h3 className="card-title">Media</h3>
+            <h3 className="card-title">Media Gallery</h3>
+
+            {/* Main Image */}
             <div className="form-group">
               <label>Main Image</label>
               <div className="image-upload-zone">
                 {mainPreview ? (
                   <div className="preview-full">
                     <img src={mainPreview} alt="Main" />
-                    {/* Only show 'X' if we just uploaded it, to keep UI simple */}
                     <button
                       type="button"
                       onClick={() => {
@@ -268,13 +265,37 @@ const AddProduct = () => {
               </div>
             </div>
 
+            {/* NEW: Video File Upload */}
+            <div className="form-group">
+              <label>Gallery Video (Upload from PC)</label>
+              <div
+                className="image-upload-zone"
+                style={{
+                  height: "100px",
+                  borderStyle: "dashed",
+                  borderColor: "#fbb03b",
+                }}
+              >
+                <label className="upload-label">
+                  <FaVideo className="icon" style={{ fontSize: "1.5rem" }} />
+                  <span>{videoFile ? videoFile.name : "Select MP4 Video"}</span>
+                  <input
+                    type="file"
+                    onChange={handleVideoFileChange}
+                    accept="video/mp4"
+                    hidden
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/* Gallery Images */}
             <div className="form-group">
               <label>Gallery Images</label>
               <div className="gallery-grid">
                 {galleryPreviews.map((src, index) => (
                   <div key={index} className="gallery-item">
                     <img src={src} alt="Gallery" />
-                    {/* Note: Removing existing images logic is complex, this just removes new ones visually */}
                     <button
                       type="button"
                       onClick={() => removeGalleryImage(index)}
@@ -296,17 +317,20 @@ const AddProduct = () => {
               </div>
             </div>
 
+            {/* YouTube Demo URL */}
             <div className="form-group">
-              <label>Video URL</label>
+              <label>YouTube Demo URL (Bottom Section Video)</label>
               <input
                 type="url"
                 name="video_url"
                 value={formData.video_url}
                 onChange={handleChange}
+                placeholder="https://youtube.com/..."
               />
             </div>
           </div>
 
+          {/* TECH SPECS */}
           <div className="card">
             <h3 className="card-title">Technical Specifications</h3>
             <div className="form-group">
@@ -328,7 +352,7 @@ const AddProduct = () => {
               ></textarea>
             </div>
             <div className="form-group">
-              <label>Specifications</label>
+              <label>Specifications (One per line)</label>
               <textarea
                 name="specifications"
                 value={formData.specifications}
@@ -339,7 +363,7 @@ const AddProduct = () => {
           </div>
         </div>
 
-        {/* --- RIGHT COLUMN (SIDEBAR) --- */}
+        {/* SIDEBAR */}
         <div className="side-col">
           <div className="card">
             <h3 className="card-title">Organization</h3>
@@ -359,23 +383,13 @@ const AddProduct = () => {
               </select>
             </div>
             <div className="form-group">
-              <label>Weight (kg/g)</label>
+              <label>Weight</label>
               <input
                 type="text"
                 name="weight"
                 value={formData.weight}
                 onChange={handleChange}
                 placeholder="e.g. 2.5 kg"
-              />
-            </div>
-            <div className="form-group">
-              <label>Rating</label>
-              <input
-                type="number"
-                step="0.1"
-                name="rating"
-                value={formData.rating}
-                onChange={handleChange}
               />
             </div>
             <div className="checkbox-row">
@@ -393,7 +407,7 @@ const AddProduct = () => {
           <div className="card">
             <h3 className="card-title">Pricing</h3>
             <div className="form-group">
-              <label>Price</label>
+              <label>Price (Rs)</label>
               <input
                 type="number"
                 name="price"
@@ -403,7 +417,7 @@ const AddProduct = () => {
               />
             </div>
             <div className="form-group">
-              <label>Compare at Price</label>
+              <label>Old Price (Rs)</label>
               <input
                 type="number"
                 name="old_price"
