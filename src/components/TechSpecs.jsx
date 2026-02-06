@@ -5,31 +5,31 @@ import { FaChevronRight } from "react-icons/fa";
 
 const carData = {
   "Scorpio": {
-    img: "/image/scorpio.png",
+    img: "/image/p.png",
     bgText: "SCORPIO"
   },
   "Suzuki Jimny": {
-    img: "/image/jimny.png",
+    img: "/image/y.png",
     bgText: "JIMNY"
   },
   "Toyota Hilux": {
-    img: "/image/hilux.png",
+    img: "/image/w.png",
     bgText: "HILUX"
   },
   "Toyota Fortuner": {
-    img: "/image/fortuner.png",
+    img: "/image/t.png",
     bgText: "FORTUNER"
   },
   "Range Rover Defender": {
-    img: "/image/defender.png",
+    img: "/image/e.png",
     bgText: "DEFENDER"
   },
   "Mahindra Thar & Roxx": {
-    img: "/image/thar.png",
+    img: "/image/r.png",
     bgText: "THAR"
   },
   "Jeep Rubicon Wrangler": {
-    img: "/image/jeep.png",
+    img: "/image/i.png",
     bgText: "WRANGLER"
   }
 };
