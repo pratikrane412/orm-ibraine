@@ -7,36 +7,36 @@ const carData = [
   {
     id: "jimny",
     name: "Suzuki Jimny",
-    img: "/image/jimny-bg.jpg", // The big background image
-    thumb: "/image/jimny-bg.jpg",  // The small circle image
+    img: "/image/bg5.png", // The big background image
+    thumb: "/image/bg5.png",  // The small circle image
     position: "top-left",
   },
   {
     id: "defender",
     name: "Range Rover Defender",
-    img: "/image/defender-bg.webp",
-    thumb: "/image/defender-bg.webp",
+    img: "/image/bg3.png",
+    thumb: "/image/bg3.png",
     position: "top-right",
   },
   {
     id: "hilux",
     name: "Toyota Hilux",
-    img: "/image/hilux-bg.png",
-    thumb: "/image/hilux-bg.png",
+    img: "/image/bg2.png",
+    thumb: "/image/bg2.png",
     position: "bottom-left",
   },
   {
     id: "fortuner",
     name: "Toyota Fortuner",
-    img: "/image/fortuner-bg.webp",
-    thumb: "/image/fortuner-bg.webp",
+    img: "/image/bg4.png",
+    thumb: "/image/bg4.png",
     position: "bottom-right",
   },
   {
     id: "scorpio",
     name: "Scorpio",
-    img: "/image/scorpio-bg.jpg",
-    thumb: "/image/scorpio-bg.jpg",
+    img: "/image/bg1.png",
+    thumb: "/image/bg1.png",
     position: "bottom-center",
   },
 ];
