@@ -79,7 +79,7 @@
   transform: translate(-50%, -50%);
   font-family: 'Oswald', sans-serif;
   font-size: 14rem; /* Massive size */
-  color: rgba(255, 255, 255, 0.03); /* Very faint */
+  color: rgba(255, 255, 255, 0.06); /* Very faint */
   z-index: 1;
   white-space: nowrap;
   pointer-events: none;
