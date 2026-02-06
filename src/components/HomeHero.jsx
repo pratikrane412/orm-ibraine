@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 // 1. Define your 3 background images here
 const heroImages = [
   "/image/car-ai.png",        // Image 1 (Current)
-  "/image/car-ai2.png",     // Image 2 (Replace with your path)
-  "/image/car-ai3.png"      // Image 3 (Replace with your path)
+  "/image/car-ai4.png",     // Image 2 (Replace with your path)
+  "/image/car-ai6.png"      // Image 3 (Replace with your path)
 ];
 
 const HomeHero = () => {
