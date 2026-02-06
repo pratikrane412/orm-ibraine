@@ -170,11 +170,92 @@
   transition: background-image 0.5s ease;
 }
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
+/* --- UPDATED RESPONSIVE SECTION --- */
+
+/* For Tablets and small laptops (1024px and below) */
+@media (max-width: 1024px) {
+  .footer-top {
+    gap: 30px;
+  }
+  
+  .links-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    gap: 30px;
+  }
+
   .giant-text {
-    /* On mobile, we increase the relative size slightly so it's readable */
-    font-size: 13vw; 
+    font-size: 11vw;
+  }
+}
+
+/* For Mobile Phones (768px and below) */
+@media (max-width: 768px) {
+  .footer {
+    padding-top: 50px;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .brand-col {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .footer-logo {
+    font-size: 2.8rem;
+  }
+
+  .links-row {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr); /* Keep 2 columns or change to 1 if too tight */
+    text-align: center;
+  }
+
+  .link-col {
+    min-width: unset;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    padding-bottom: 30px;
+  }
+
+  .social-icons {
+    justify-content: center;
+    order: -1; /* Move social icons above copyright on mobile */
+  }
+
+  .giant-text {
+    font-size: 13vw; /* Larger relative size so it's readable */
+    letter-spacing: 1px;
+    white-space: normal; /* Allow it to wrap if screen is extremely narrow */
+    line-height: 1.2;
+  }
+
+  .big-text-container {
     padding: 30px 0;
+  }
+}
+
+/* For Very Small Phones (480px and below) */
+@media (max-width: 480px) {
+  .links-row {
+    grid-template-columns: 1fr; /* 1 column for very small screens */
+    gap: 25px;
+  }
+
+  .footer-logo {
+    font-size: 2.5rem;
+  }
+
+  .giant-text {
+    font-size: 14vw;
   }
 }
