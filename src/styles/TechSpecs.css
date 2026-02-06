@@ -52,7 +52,7 @@
   position: absolute;
   font-family: 'Oswald', sans-serif;
   font-size: 15rem;
-  color: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.08);
   z-index: 1;
   pointer-events: none;
   margin: 0;
