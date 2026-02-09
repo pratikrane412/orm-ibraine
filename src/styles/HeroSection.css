@@ -137,32 +137,93 @@
   background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
+/* --- OPTIMIZED MOBILE RESPONSIVENESS --- */
+
+/* Tablets and small laptops (under 1024px) */
 @media (max-width: 1024px) {
-  .product-hero-container {
-    flex-direction: column;
-    text-align: center;
-    padding-top: 50px;
+  .product-hero {
+    padding: 60px 0;
   }
+
+  .product-hero-container {
+    flex-direction: column; /* Stack text and 3D model */
+    text-align: center;
+    gap: 40px;
+  }
+
   .hero-left {
     max-width: 100%;
-    margin-bottom: 50px;
+    order: 1; /* Text on top */
   }
+
+  .hero-right {
+    order: 2; /* 3D model on bottom */
+    width: 100%;
+  }
+
   .section-title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
+    margin-bottom: 20px;
   }
+
   .circle-window {
-    width: 350px;
-    height: 350px;
+    width: 400px;
+    height: 400px;
   }
 }
 
-@media (max-width: 480px) {
-  .circle-window {
-    width: 300px;
-    height: 300px;
+/* Standard Mobile Phones (under 768px) */
+@media (max-width: 768px) {
+  .product-hero {
+    padding: 40px 0 80px 0;
   }
+
   .section-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    padding: 0 10px; /* Slight horizontal padding for text */
+  }
+
+  .circle-window {
+    width: 320px;
+    height: 320px;
+    border-width: 3px; /* Slightly thinner border for mobile */
+  }
+
+  .hero-btn {
+    padding: 12px 30px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Small Mobile Phones (under 480px) */
+@media (max-width: 480px) {
+  .product-hero {
+    padding: 30px 0 60px 0;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .circle-window {
+    /* Scaling based on screen width to ensure it fits any phone */
+    width: 280px;
+    height: 280px;
+  }
+
+  .hero-desc {
+    font-size: 0.9rem;
+  }
+  
+  /* Prevent the 3D model from being too small to interact with */
+  model-viewer {
+    min-height: 250px;
   }
 }
