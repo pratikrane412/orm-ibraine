@@ -7,12 +7,13 @@ import {
   FaArrowLeft,
   FaImages,
   FaVideo,
+  FaCube, // Added for 3D Icon
 } from "react-icons/fa";
 import "../../styles/admin/AddProduct.css";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // Get Product ID from URL (if editing)
+  const { id } = useParams();
 
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -26,22 +27,20 @@ const AddProduct = () => {
     old_price: "",
     rating: 4.5,
     is_sale: false,
-    video_url: "", // This remains for the YouTube Demo section
+    video_url: "",
     benefits_title: "",
     benefits_description: "",
     specifications: "",
   });
 
-  // Files State
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
-  const [videoFile, setVideoFile] = useState(null); // NEW: State for PC Video Upload
+  const [videoFile, setVideoFile] = useState(null);
+  const [model3dFile, setModel3dFile] = useState(null); // NEW: 3D Model State
 
-  // Previews State
   const [mainPreview, setMainPreview] = useState(null);
   const [galleryPreviews, setGalleryPreviews] = useState([]);
 
-  // --- FETCH DATA IF EDITING ---
   useEffect(() => {
     if (id) {
       setIsEditMode(true);
@@ -79,6 +78,8 @@ const AddProduct = () => {
             );
             setGalleryPreviews(previews);
           }
+
+          // Note: Logic for showing existing 3D model name can be added here if desired
         })
         .catch((err) => console.error("Error fetching product:", err));
     }
@@ -86,10 +87,7 @@ const AddProduct = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
   const handleMainImageChange = (e) => {
@@ -109,9 +107,13 @@ const AddProduct = () => {
 
   const handleVideoFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setVideoFile(file);
-    }
+    if (file) setVideoFile(file);
+  };
+
+  // NEW: Handle 3D Model Selection
+  const handleModel3dChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setModel3dFile(file);
   };
 
   const removeGalleryImage = (index) => {
@@ -124,37 +126,23 @@ const AddProduct = () => {
     setLoading(true);
 
     const data = new FormData();
+    Object.keys(formData).forEach((key) => data.append(key, formData[key]));
 
-    // Append text fields
-    Object.keys(formData).forEach((key) => {
-      data.append(key, formData[key]);
-    });
-
-    // Append Main Image
     if (mainImage) data.append("image", mainImage);
-
-    // Append Video File (Direct Upload)
     if (videoFile) data.append("video_file", videoFile);
+    if (model3dFile) data.append("model_3d", model3dFile); // NEW: Append 3D file
 
-    // Append Gallery Images
-    galleryImages.forEach((file) => {
-      data.append("gallery_images", file);
-    });
+    galleryImages.forEach((file) => data.append("gallery_images", file));
 
     try {
       let url = "https://orm-backend-gejw.onrender.com/api/products/";
       let method = "POST";
-
       if (isEditMode) {
         url = `https://orm-backend-gejw.onrender.com/api/products/${id}/`;
         method = "PATCH";
       }
 
-      const response = await fetch(url, {
-        method: method,
-        body: data,
-      });
-
+      const response = await fetch(url, { method, body: data });
       if (response.ok) {
         alert(isEditMode ? "Product Updated!" : "Product Created!");
         navigate("/react-admin/products");
@@ -205,7 +193,6 @@ const AddProduct = () => {
 
       <form className="add-product-layout">
         <div className="main-col">
-          {/* GENERAL INFO */}
           <div className="card">
             <h3 className="card-title">General Information</h3>
             <div className="form-group">
@@ -229,11 +216,8 @@ const AddProduct = () => {
             </div>
           </div>
 
-          {/* MEDIA SECTION */}
           <div className="card">
             <h3 className="card-title">Media Gallery</h3>
-
-            {/* Main Image */}
             <div className="form-group">
               <label>Main Image</label>
               <div className="image-upload-zone">
@@ -265,7 +249,37 @@ const AddProduct = () => {
               </div>
             </div>
 
-            {/* NEW: Video File Upload */}
+            {/* NEW: 3D Model Upload (.glb) */}
+            <div className="form-group">
+              <label>3D Model (Direct Upload .glb)</label>
+              <div
+                className="image-upload-zone"
+                style={{
+                  height: "100px",
+                  borderStyle: "dashed",
+                  borderColor: "#4a90e2",
+                }}
+              >
+                <label className="upload-label">
+                  <FaCube
+                    className="icon"
+                    style={{ fontSize: "1.5rem", color: "#4a90e2" }}
+                  />
+                  <span>
+                    {model3dFile
+                      ? model3dFile.name
+                      : "Select GLB Model from PC"}
+                  </span>
+                  <input
+                    type="file"
+                    onChange={handleModel3dChange}
+                    accept=".glb"
+                    hidden
+                  />
+                </label>
+              </div>
+            </div>
+
             <div className="form-group">
               <label>Gallery Video (Upload from PC)</label>
               <div
@@ -289,7 +303,6 @@ const AddProduct = () => {
               </div>
             </div>
 
-            {/* Gallery Images */}
             <div className="form-group">
               <label>Gallery Images</label>
               <div className="gallery-grid">
@@ -317,7 +330,6 @@ const AddProduct = () => {
               </div>
             </div>
 
-            {/* YouTube Demo URL */}
             <div className="form-group">
               <label>YouTube Demo URL (Bottom Section Video)</label>
               <input
@@ -330,7 +342,6 @@ const AddProduct = () => {
             </div>
           </div>
 
-          {/* TECH SPECS */}
           <div className="card">
             <h3 className="card-title">Technical Specifications</h3>
             <div className="form-group">
@@ -363,7 +374,6 @@ const AddProduct = () => {
           </div>
         </div>
 
-        {/* SIDEBAR */}
         <div className="side-col">
           <div className="card">
             <h3 className="card-title">Organization</h3>

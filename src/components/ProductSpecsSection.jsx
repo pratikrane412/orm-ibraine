@@ -6,20 +6,26 @@ import bgImg from "/image/productbg.png";
 const ProductSpecsSection = ({ product }) => {
   if (!product.benefits_title && !product.specifications) return null;
 
+  const BASE_URL = "https://orm-backend-gejw.onrender.com";
+
+  // Helper function to handle URLs properly
+  const formatUrl = (path) => {
+    if (!path) return "";
+    return path.startsWith("http") ? path : `${BASE_URL}${path}`;
+  };
+
   const specsList = product.specifications
     ? product.specifications.split("\n").filter((item) => item.trim() !== "")
     : [];
 
-  const imageUrl = product.image.startsWith("http")
-    ? product.image
-    : `https://orm-backend-gejw.onrender.com${product.image}`;
+  const imageUrl = formatUrl(product.image);
+  const modelUrl = formatUrl(product.model_3d); // NEW: 3D Model URL
 
   return (
     <section
       className="specs-section"
       style={{ backgroundImage: `url(${bgImg})` }}
     >
-      {/* Dark overlay for readability */}
       <div className="specs-overlay"></div>
 
       <div className="specs-container">
@@ -44,10 +50,25 @@ const ProductSpecsSection = ({ product }) => {
           </ul>
         </div>
 
-        {/* --- RIGHT: PRODUCT IMAGE --- */}
+        {/* --- RIGHT: 3D MODEL OR IMAGE --- */}
         <div className="specs-image-wrapper">
           <div className="specs-frame">
-            <img src={imageUrl} alt={product.title} />
+            {product.model_3d ? (
+              <model-viewer
+                src={modelUrl}
+                camera-controls
+                auto-rotate
+                ar
+                shadow-intensity="1"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  background: "transparent",
+                }}
+              ></model-viewer>
+            ) : (
+              <img src={imageUrl} alt={product.title} />
+            )}
           </div>
         </div>
       </div>

@@ -15,6 +15,7 @@ import {
   FaRegCreditCard,
   FaShieldAlt,
   FaPlay,
+  FaCube,
 } from "react-icons/fa";
 import ProductVideoSection from "./ProductVideoSection";
 import { useCart } from "../context/CartContext";
@@ -30,9 +31,7 @@ const ProductDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
-  // Tracks what is currently being shown in the big frame
   const [activeMedia, setActiveMedia] = useState({ url: "", type: "image" });
-  // Combined list of images and videos
   const [gallery, setGallery] = useState([]);
 
   const BASE_URL = "https://orm-backend-gejw.onrender.com";
@@ -46,36 +45,44 @@ const ProductDetailsPage = () => {
       if (data) {
         setProduct(data);
 
-        // 1. Prepare Main Image URL
-        const mainImgUrl = data.image.startsWith("http")
-          ? data.image
-          : `${BASE_URL}${data.image}`;
+        const formatUrl = (path) => {
+          if (!path) return "";
+          return path.startsWith("http") ? path : `${BASE_URL}${path}`;
+        };
 
+        const mainImgUrl = formatUrl(data.image);
         let mediaItems = [];
 
-        // 2. Add Main Image as 1st item
+        // 1. Main Image
         mediaItems.push({ url: mainImgUrl, type: "image" });
 
-        // 3. Add Uploaded Video File (from PC) as 2nd item if it exists
-        if (data.video_file) {
-          const vidUrl = data.video_file.startsWith("http")
-            ? data.video_file
-            : `${BASE_URL}${data.video_file}`;
-          mediaItems.push({ url: vidUrl, type: "video_file" });
+        // 2. 3D Model
+        if (data.model_3d) {
+          mediaItems.push({
+            url: formatUrl(data.model_3d),
+            type: "model_3d",
+            thumbnail: mainImgUrl,
+          });
         }
 
-        // 4. Add Extra Gallery Images
+        // 3. Video File
+        if (data.video_file) {
+          mediaItems.push({
+            url: formatUrl(data.video_file),
+            type: "video_file",
+            thumbnail: mainImgUrl,
+          });
+        }
+
+        // 4. Gallery Images
         if (data.images && data.images.length > 0) {
           data.images.forEach((imgObj) => {
-            const url = imgObj.image.startsWith("http")
-              ? imgObj.image
-              : `${BASE_URL}${imgObj.image}`;
-            mediaItems.push({ url, type: "image" });
+            mediaItems.push({ url: formatUrl(imgObj.image), type: "image" });
           });
         }
 
         setGallery(mediaItems);
-        setActiveMedia(mediaItems[0]); // Default to first image
+        setActiveMedia(mediaItems[0]);
       }
       setLoading(false);
     };
@@ -94,15 +101,13 @@ const ProductDetailsPage = () => {
     }
   };
 
-  if (loading)
-    return <div className="pdp-loading">Loading Product Details...</div>;
+  if (loading) return <div className="pdp-loading">Loading...</div>;
   if (!product) return <div className="pdp-loading">Product Not Found.</div>;
 
   return (
     <div className="page-wrapper">
       <Navbar />
 
-      {/* BANNER */}
       <div className="pdp-banner">
         <div className="pdp-banner-overlay"></div>
         <div className="pdp-banner-content">
@@ -113,20 +118,28 @@ const ProductDetailsPage = () => {
       </div>
 
       <div className="pdp-container">
-        {/* LEFT: MEDIA GALLERY */}
         <div className="pdp-gallery">
           <div className="main-image-frame">
-            {activeMedia.type === "video_file" ? (
+            {activeMedia.type === "model_3d" ? (
+              <model-viewer
+                key={activeMedia.url}
+                src={activeMedia.url}
+                camera-controls
+                auto-rotate
+                ar
+                shadow-intensity="1"
+                style={{ width: "100%", height: "100%", background: "#000" }}
+              ></model-viewer>
+            ) : activeMedia.type === "video_file" ? (
               <video
                 key={activeMedia.url}
                 className="main-img"
-                controls
                 autoPlay
                 muted
+                playsInline
                 loop
               >
                 <source src={activeMedia.url} type="video/mp4" />
-                Your browser does not support the video tag.
               </video>
             ) : (
               <img
@@ -144,20 +157,29 @@ const ProductDetailsPage = () => {
                 className={`thumb-box ${activeMedia.url === item.url ? "active" : ""}`}
                 onClick={() => setActiveMedia(item)}
               >
-                {item.type === "video_file" ? (
-                  <div className="video-thumb-overlay">
-                    <FaPlay />
-                    <span>VIDEO</span>
+                {item.type === "model_3d" || item.type === "video_file" ? (
+                  <div className="video-thumb-wrapper">
+                    <img
+                      src={item.thumbnail}
+                      alt="thumb"
+                      className="video-thumb-img"
+                    />
+                    <div className="play-overlay">
+                      {item.type === "model_3d" ? (
+                        <FaCube color="#4a90e2" />
+                      ) : (
+                        <FaPlay />
+                      )}
+                    </div>
                   </div>
                 ) : (
-                  <img src={item.url} alt={`thumbnail-${idx}`} />
+                  <img src={item.url} alt="thumbnail" />
                 )}
               </div>
             ))}
           </div>
         </div>
 
-        {/* RIGHT: PRODUCT INFO */}
         <div className="pdp-info">
           <h1 className="pdp-title">{product.title}</h1>
           <div className="pdp-divider"></div>
@@ -167,20 +189,14 @@ const ProductDetailsPage = () => {
               Rs. {Number(product.price).toLocaleString()}.00
             </span>
             {product.old_price && (
-              <>
-                <span className="pdp-old-price">
-                  Rs. {Number(product.old_price).toLocaleString()}.00
-                </span>
-                <span className="pdp-discount">SALE</span>
-              </>
+              <span className="pdp-old-price">
+                Rs. {Number(product.old_price).toLocaleString()}.00
+              </span>
             )}
-
             <div className="pdp-rating">
-              <div className="stars">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} color="#fbb03b" size={14} />
-                ))}
-              </div>
+              {[...Array(5)].map((_, i) => (
+                <FaStar key={i} color="#fbb03b" size={14} />
+              ))}
               <span className="review-count">
                 ({product.rating || "4.5"} Rating)
               </span>
@@ -188,18 +204,14 @@ const ProductDetailsPage = () => {
           </div>
 
           <div className="pdp-divider"></div>
-
-          <p className="pdp-desc">
-            {product.description ||
-              "Premium quality off-road modification part designed for durability and extreme performance."}
-          </p>
+          <p className="pdp-desc">{product.description}</p>
 
           <div className="features-grid">
             <div className="feature-item">
               <div className="feat-icon">
                 <FaRegFileAlt />
               </div>
-              <span>15 Day Return Policy</span>
+              <span>15 Day Return</span>
             </div>
             <div className="feature-item">
               <div className="feat-icon">
@@ -231,11 +243,9 @@ const ProductDetailsPage = () => {
                 <FaPlus />
               </button>
             </div>
-
             <button className="btn-add-cart" onClick={handleAddToCart}>
               <FaShoppingCart /> Add to Cart
             </button>
-
             <div className="icon-actions">
               <button className="circle-btn">
                 <FaHeart />
@@ -245,23 +255,15 @@ const ProductDetailsPage = () => {
               </button>
             </div>
           </div>
-
           <button className="btn-buy-now" onClick={handleAddToCart}>
             Buy Now
           </button>
         </div>
       </div>
 
-      {/* BOTTOM SECTIONS */}
-      {/* 1. YouTube Video Demo Section (Uses video_url) */}
       <ProductVideoSection videoUrl={product.video_url} title={product.title} />
-
-      {/* 2. Specs Section (Uses specifications, benefits_title etc) */}
       <ProductSpecsSection product={product} />
-
-      {/* 3. Related Products Section */}
       <RelatedProducts currentProduct={product} />
-
       <Footer />
     </div>
   );
