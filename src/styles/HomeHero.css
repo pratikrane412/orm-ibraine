@@ -136,23 +136,80 @@
   transform: scale(1.2);
 }
 
-/* Mobile Responsiveness */
+/* --- FINAL OPTIMIZED MOBILE RESPONSIVENESS --- */
+
 @media (max-width: 768px) {
-  .hero-title {
-    font-size: 3rem;
-    max-width: 100%;
+  .home-hero {
+    /* Uses dynamic viewport height to fill the screen perfectly */
+    height: 100dvh; 
+    margin-top: 0; /* Let background sit behind the transparent navbar */
+    align-items: flex-end; /* Move content to the bottom */
+    justify-content: center;
+    padding-bottom: 120px; /* Space for the dots and breathing room */
+    text-align: center;
   }
-  
+
+  /* Make the gradient darker at the bottom for better text contrast */
+  .overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 0%, 
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+  }
+
+  .hero-content {
+    padding: 0 20px;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+
+  .hero-title {
+    /* Larger, bolder scale for mobile */
+    font-size: 3.2rem; 
+    line-height: 1;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+    max-width: 12ch; /* Keeps title punchy */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .hero-subtext {
     font-size: 1rem;
-    max-width: 100%;
+    line-height: 1.4;
+    color: #e0e0e0;
+    max-width: 90%;
+    margin: 0 auto 30px auto;
+  }
+
+  .hero-btn {
+    padding: 16px 40px; /* Bigger touch target */
+    font-size: 1.1rem;
+    border-radius: 50px;
+    width: auto;
+  }
+
+  /* Position dots so they never overlap the button */
+  .hero-dots {
+    bottom: 40px; 
+    gap: 15px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Fix for very small screens (like iPhone SE) */
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: 2.5rem;
   }
   
   .home-hero {
-    height: 80vh;
-  }
-  
-  .hero-dots {
-    bottom: 20px;
+    padding-bottom: 100px;
   }
 }
