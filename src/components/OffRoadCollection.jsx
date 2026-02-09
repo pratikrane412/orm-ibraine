@@ -33,7 +33,7 @@ const cars = [
     modelSrc: "/model/4.glb",
   },
   {
-    id: "defender", 
+    id: "defender",
     tabLabel: "Upper Control Arms - Red",
     bgName: "UPPER CONTROL ARMS",
     img: "/image/defender.png",
@@ -63,13 +63,14 @@ const OffRoadCollection = () => {
     navigate("/products/thar"); // 3. Navigate to your products page
     window.scrollTo(0, 0); // Scroll to top
   };
-  
+
   // 1. STATE FOR ROTATION (Starts at 45deg)
   const [orbitAngle, setOrbitAngle] = useState(45);
 
   // Switch Cars (Side Arrows / Tabs)
   const nextCar = () => setIndex((prev) => (prev + 1) % cars.length);
-  const prevCar = () => setIndex((prev) => (prev - 1 + cars.length) % cars.length);
+  const prevCar = () =>
+    setIndex((prev) => (prev - 1 + cars.length) % cars.length);
 
   // 2. ROTATION FUNCTIONS (For Bottom Buttons)
   const rotateLeft = () => {
@@ -118,37 +119,18 @@ const OffRoadCollection = () => {
         </button>
 
         <div className="car-wrapper">
-          
           <model-viewer
-            key={cars[index].id} 
+            key={cars[index].id}
             src={cars[index].modelSrc}
-            poster={cars[index].img} 
+            poster={cars[index].img}
             alt={`3D model of ${cars[index].tabLabel}`}
-            
-            // --- SETTINGS ---
             camera-controls
-            disable-zoom
-            disable-pan
-            
-            // Bounds tight for consistent sizing
-            bounds="tight" 
-
-            // 4. DYNAMIC CAMERA ORBIT
-            // We inject the 'orbitAngle' state here.
-            // 75deg locks vertical. 85% is the zoom level.
-            camera-orbit={`${orbitAngle}deg 75deg 85%`}
-            
-            // Lock vertical movement so they can't look under the car
-            min-camera-orbit="auto 75deg auto"
-            max-camera-orbit="auto 75deg auto"
-
+            interaction-prompt="none"
+            camera-orbit={`${orbitAngle}deg 65deg 95%`}
             field-of-view="30deg"
+            interpolation-decay="200"
             shadow-intensity="1"
             exposure="1"
-            
-            // Add interpolation for smooth button rotation
-            interpolation-decay="200"
-            
             className="collection-model-viewer"
           >
             <div slot="poster" className="model-poster-loader">
@@ -157,7 +139,7 @@ const OffRoadCollection = () => {
           </model-viewer>
 
           <div className="floor-ring"></div>
-          
+
           {/* Changed text to reflect new functionality */}
           <span className="label-360">Rotate View</span>
         </div>
@@ -182,4 +164,4 @@ const OffRoadCollection = () => {
   );
 };
 
-export default OffRoadCollection; 
+export default OffRoadCollection;
