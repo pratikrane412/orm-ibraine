@@ -150,21 +150,99 @@
   transform: translateY(0);
 }
 
-/* Mobile Responsiveness */
+/* --- OPTIMIZED MOBILE RESPONSIVENESS --- */
+
+/* For Tablets (under 1024px) */
+@media (max-width: 1024px) {
+  .thumb-wrapper.top-left { left: 10%; top: 18%; }
+  .thumb-wrapper.top-right { right: 10%; top: 18%; }
+  .thumb-wrapper.bottom-left { left: 12%; bottom: 15%; }
+  .thumb-wrapper.bottom-right { right: 12%; bottom: 15%; }
+}
+
+/* For Standard Mobile Phones (under 768px) */
 @media (max-width: 768px) {
-  .thumb-circle {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .thumb-wrapper.active .thumb-circle {
-    width: 60px;
-    height: 60px;
+  .car-selector-section {
+    /* Use dvh for mobile browser compatibility */
+    height: 100dvh; 
   }
 
-  /* Move positions closer to edge on mobile */
-  .thumb-wrapper.top-left { left: 5%; top: 15%; }
-  .thumb-wrapper.top-right { right: 5%; top: 15%; }
-  .thumb-wrapper.bottom-left { left: 5%; bottom: 20%; }
-  .thumb-wrapper.bottom-right { right: 5%; bottom: 20%; }
+  .main-bg {
+    /* Focus on the center of the car on mobile */
+    background-position: center center;
+  }
+
+  /* Shrink circles for smaller screens */
+  .thumb-circle {
+    width: 55px;
+    height: 55px;
+    border-width: 2px;
+  }
+
+  .thumb-wrapper.active .thumb-circle {
+    width: 65px;
+    height: 65px;
+  }
+
+  /* Adjust Tooltip for mobile */
+  .tooltip {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    margin-bottom: 8px;
+  }
+
+  /* REPOSITIONING FOR NARROW SCREENS 
+     We move icons further to the edges to keep the center clear */
+  .thumb-wrapper.top-left {
+    top: 12%;
+    left: 8%;
+  }
+
+  .thumb-wrapper.top-right {
+    top: 12%;
+    right: 8%;
+  }
+
+  .thumb-wrapper.bottom-left {
+    bottom: 22%;
+    left: 8%;
+  }
+
+  .thumb-wrapper.bottom-right {
+    bottom: 22%;
+    right: 8%;
+  }
+
+  .thumb-wrapper.bottom-center {
+    bottom: 8%;
+  }
+}
+
+/* For Very Small Mobile Phones (under 480px) */
+@media (max-width: 480px) {
+  .thumb-circle {
+    width: 48px;
+    height: 48px;
+  }
+
+  .thumb-wrapper.active .thumb-circle {
+    width: 56px;
+    height: 56px;
+  }
+
+  /* Move thumbnails even tighter to corners */
+  .thumb-wrapper.top-left { top: 10%; left: 5%; }
+  .thumb-wrapper.top-right { top: 10%; right: 5%; }
+  .thumb-wrapper.bottom-left { bottom: 18%; left: 5%; }
+  .thumb-wrapper.bottom-right { bottom: 18%; right: 5%; }
+  
+  .thumb-wrapper.bottom-center {
+    bottom: 5%;
+  }
+
+  /* Hide tooltips by default on tiny screens to avoid clutter, 
+     only show when active */
+  .tooltip {
+    white-space: nowrap;
+  }
 }
