@@ -1,47 +1,39 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;500;700&display=swap");
 
 /* ==============================
-   MAIN SECTION
+   RESET & BASE
+============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ==============================
+   SECTION
 ============================== */
 .collection-section {
-  position: relative;
+  background: radial-gradient(circle at top, #2a2a2a, #121212);
   color: #fff;
-  padding: 60px 0 40px;
+  padding: 80px 20px 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  text-align: center;
-
-  /* GREYISH PREMIUM BACKGROUND */
-  background: radial-gradient(
-    circle at top,
-    #2a2a2a 0%,
-    #1b1b1b 45%,
-    #121212 100%
-  );
-}
-
-/* soft depth */
-.collection-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.06),
-    transparent 65%
-  );
-  pointer-events: none;
+  min-height: 100vh;
 }
 
 /* ==============================
-   HEADER
+   TITLE
 ============================== */
 .title-text {
   font-family: "Merriweather", serif;
-  font-size: 2.4rem;
-  margin-bottom: 32px;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  margin-bottom: 40px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 0 20px;
 }
 
 .highlight {
@@ -49,18 +41,29 @@
 }
 
 /* ==============================
-   TABS (ONE LINE)
+   PRODUCT NAME SCROLL (PILLS)
 ============================== */
 .tabs-container {
   display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 20px 20px;
+  margin: 0 auto 50px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
   flex-wrap: nowrap;
   justify-content: center;
-  gap: 12px;
-  width: 95%;
-  max-width: 1200px;
-  margin-bottom: 45px;
-  overflow-x: auto;
-  scrollbar-width: none;
+}
+
+/* On larger screens, allow scrolling when content overflows */
+@media (min-width: 1440px) {
+  .tabs-container {
+    justify-content: flex-start;
+    max-width: 1400px;
+  }
 }
 
 .tabs-container::-webkit-scrollbar {
@@ -68,97 +71,118 @@
 }
 
 .tab-btn {
-  background: transparent;
-  border: 1px solid #444;
-  color: #fff;
-  padding: 10px 18px;
+  flex: 0 0 auto;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #eaeaea;
+  padding: 12px 24px;
+  border-radius: 999px;
   font-family: "Lato", sans-serif;
   font-size: 0.9rem;
-  border-radius: 4px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-transform: capitalize;
 }
 
 .tab-btn:hover {
   border-color: #fbb03b;
+  color: #fbb03b;
+  background: rgba(251, 176, 59, 0.1);
+  transform: translateY(-2px);
 }
 
 .tab-btn.active {
-  background-color: #fbb03b;
+  background: linear-gradient(135deg, #fbb03b, #ffc107);
   color: #000;
-  border-color: #fbb03b;
-  font-weight: 600;
+  font-weight: 700;
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(251, 176, 59, 0.4);
 }
 
 /* ==============================
-   SHOWCASE AREA (MORE SPACE)
+   SHOWCASE
 ============================== */
 .showcase-area {
   position: relative;
   width: 100%;
   max-width: 1400px;
-  height: 650px; /* ⬅️ increased */
+  height: 600px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
 }
 
-/* Big faded text */
 .bg-text {
   position: absolute;
-  inset: 50% auto auto 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Merriweather", serif;
-  font-size: 14rem;
-  color: rgba(255, 255, 255, 0.05);
-  white-space: nowrap;
+  font-size: clamp(2.5rem, 10vw, 8rem);
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.04);
   pointer-events: none;
-  z-index: 1;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 0;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Side arrows */
+/* arrows */
 .side-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 3rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.5rem;
   cursor: pointer;
+  transition: all 0.3s ease;
   z-index: 10;
-  transition: color 0.3s;
 }
 
 .side-arrow:hover {
   color: #fbb03b;
+  background: rgba(251, 176, 59, 0.15);
+  border-color: #fbb03b;
+  transform: translateY(-50%) scale(1.1);
 }
 
 .side-arrow.left {
-  left: 5%;
+  left: 20px;
 }
 
 .side-arrow.right {
-  right: 5%;
+  right: 20px;
 }
 
 /* ==============================
-   MODEL WRAPPER (NO CUTTING)
+   MODEL
 ============================== */
 .car-wrapper {
+  width: 100%;
+  max-width: 900px;
+  height: 500px;
   position: relative;
   z-index: 5;
-  width: 100%;
-  max-width: 1000px;
-  height: 600px; /* ⬅️ increased */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .collection-model-viewer {
@@ -167,192 +191,206 @@
   background: transparent;
 }
 
-/* loader */
-.model-poster-loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fbb03b;
-  font-family: "Merriweather", serif;
-  font-size: 1.4rem;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-/* floor ring (lowered) */
 .floor-ring {
-  position: absolute;
-  bottom: 0px; /* ⬅️ lowered */
-  width: 90%;
-  height: 220px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: rotateX(75deg);
-  z-index: -1;
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  display: none;
 }
 
-/* rotate label */
 .label-360 {
-  margin-top: 8px;
-  color: #fbb03b;
-  font-family: "Merriweather", serif;
-  font-size: 0.95rem;
+  display: none;
 }
 
 /* ==============================
-   BOTTOM CONTROLS
+   CONTROLS
 ============================== */
 .bottom-controls {
-  margin-top: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 20px;
 }
 
 .circle-nav-wrapper {
-  display: flex;
-  gap: 18px;
+  display: none;
 }
 
 .circle-nav-btn {
-  width: 46px;
-  height: 46px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background-color: #6c757d;
+  background: #6c757d;
   border: none;
-  color: #000;
-  font-size: 1.1rem;
+  color: #fff;
+  font-size: 1.2rem;
   cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .circle-nav-btn:hover {
-  background-color: #9fa4a8;
+  background: #5a6268;
+  transform: scale(1.1);
+}
+
+.circle-nav-btn:active {
+  transform: scale(0.95);
 }
 
 .shop-cta-btn {
-  background-color: #fbb03b;
+  background: linear-gradient(135deg, #fbb03b, #ffc107);
   color: #000;
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  padding: 12px 36px;
+  padding: 14px 40px;
   border-radius: 30px;
   border: none;
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(251, 176, 59, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .shop-cta-btn:hover {
-  background-color: #ffc107;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(251, 176, 59, 0.5);
+}
+
+.shop-cta-btn:active {
+  transform: translateY(-1px);
 }
 
 /* ==============================
-   TABLET
+   TABLET (768px - 1024px)
 ============================== */
 @media (max-width: 1024px) {
-  .title-text {
-    font-size: 2rem;
+  .collection-section {
+    padding: 60px 16px 50px;
   }
 
-  .bg-text {
-    font-size: 8rem;
+  .title-text {
+    font-size: 2rem;
+    margin-bottom: 35px;
   }
 
   .showcase-area {
-    height: 520px;
+    height: 500px;
   }
 
   .car-wrapper {
-    height: 480px;
+    height: 420px;
+  }
+
+  .side-arrow {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+
+  .side-arrow.left {
+    left: 10px;
+  }
+
+  .side-arrow.right {
+    right: 10px;
   }
 }
 
 /* ==============================
-   MOBILE
+   MOBILE (max-width: 767px)
 ============================== */
-@media (max-width: 768px) {
-  /* ===== SECTION ===== */
+@media (max-width: 767px) {
   .collection-section {
-    padding: 35px 0 45px;
+    padding: 50px 16px 40px;
+    min-height: auto;
   }
 
-  /* ===== TITLE ===== */
   .title-text {
-    font-size: 1.6rem;
-    margin-bottom: 20px;
-    padding: 0 12px;
+    font-size: 1.75rem;
+    margin-bottom: 30px;
+    padding: 0 10px;
   }
 
-  /* ===== TABS ===== */
   .tabs-container {
-    gap: 8px;
-    margin-bottom: 25px;
-    padding: 0 12px 6px;
+    padding: 0 16px 15px;
+    margin-bottom: 35px;
+    gap: 10px;
   }
 
   .tab-btn {
-    font-size: 0.75rem;
-    padding: 7px 12px;
+    padding: 10px 20px;
+    font-size: 0.85rem;
   }
 
-  /* ===== SHOWCASE ===== */
   .showcase-area {
-    height: 380px;   /* ⬅️ reduced */
+    height: 450px;
+    margin-bottom: 30px;
   }
 
   .bg-text {
-    font-size: 3.8rem;
-    opacity: 0.07;
+    font-size: 2rem;
+    max-width: 85%;
   }
 
-  /* ===== MODEL WRAPPER ===== */
+  .side-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .side-arrow.left {
+    left: 5px;
+  }
+
+  .side-arrow.right {
+    right: 5px;
+  }
+
   .car-wrapper {
-    height: 340px;   /* ⬅️ tighter fit */
+    height: 380px;
     max-width: 100%;
   }
 
-  /* ===== FLOOR RING ===== */
-  .floor-ring {
-    height: 120px;
-    bottom: 25px;
-  }
-
-  /* ===== ROTATE LABEL ===== */
   .label-360 {
-    font-size: 0.75rem;
-    margin-top: 6px;
+    display: none;
   }
 
-  /* ===== CONTROLS ===== */
   .bottom-controls {
-    gap: 12px;
-    margin-top: 5px;
-  }
-
-  .circle-nav-btn {
-    width: 42px;
-    height: 42px;
-    font-size: 1rem;
+    padding: 0 16px;
   }
 
   .shop-cta-btn {
-    padding: 10px 28px;
-    font-size: 0.9rem;
-  }
-
-  /* Hide side arrows on mobile */
-  .side-arrow {
-    display: none;
+    padding: 12px 35px;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 300px;
   }
 }
 
 /* ==============================
-   SMALL MOBILE
+   SMALL MOBILE (max-width: 480px)
 ============================== */
 @media (max-width: 480px) {
+  .collection-section {
+    padding: 40px 12px 35px;
+  }
+
   .title-text {
-    font-size: 1.45rem;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+  }
+
+  .tabs-container {
+    gap: 8px;
+  }
+
+  .tab-btn {
+    padding: 9px 18px;
+    font-size: 0.8rem;
   }
 
   .showcase-area {
@@ -360,15 +398,42 @@
   }
 
   .bg-text {
-    font-size: 3.5rem;
+    font-size: 1.5rem;
+    max-width: 80%;
   }
 
   .car-wrapper {
-    height: 350px;
+    height: 320px;
   }
 
-  .floor-ring {
-    height: 100px;
-    bottom: 20px;
+  .shop-cta-btn {
+    padding: 11px 30px;
+    font-size: 0.9rem;
   }
+}
+
+/* ==============================
+   ACCESSIBILITY & ANIMATIONS
+============================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus states for accessibility */
+.tab-btn:focus-visible,
+.side-arrow:focus-visible,
+.shop-cta-btn:focus-visible {
+  outline: 2px solid #fbb03b;
+  outline-offset: 3px;
+}
+
+/* Smooth scrolling for tabs */
+.tabs-container {
+  scroll-behavior: smooth;
 }

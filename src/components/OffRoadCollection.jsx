@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; // Import useEffect
+import { useState, useEffect } from "react";
 import "../styles/OffRoadCollection.css";
 import { useNavigate } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -8,93 +8,69 @@ const cars = [
     id: 1,
     tabLabel: "Lift Diff Drop Kit",
     bgName: "LIFT DIFF DROP KIT",
-    img: "/image/scorpio.png",
     modelSrc: "/model/1.glb",
   },
   {
     id: 2,
-    tabLabel: "Front Stabalizer Link",
-    bgName: "FRONT STABALIZER LINK",
-    img: "/image/jimny.png",
+    tabLabel: "Front Stabilizer Link",
+    bgName: "FRONT STABILIZER LINK",
     modelSrc: "/model/8.glb",
   },
   {
     id: 3,
     tabLabel: "Wheel Spacer",
     bgName: "WHEEL SPACER",
-    img: "/image/hilux.png",
     modelSrc: "/model/3.glb",
   },
   {
     id: 4,
     tabLabel: "Pan Hard Rod",
     bgName: "PAN HARD ROD",
-    img: "/image/fortuner.png",
     modelSrc: "/model/4.glb",
   },
   {
-    id: "defender",
-    tabLabel: "Upper Control Arms - Red",
+    id: 5,
+    tabLabel: "Upper Control Arms – Red",
     bgName: "UPPER CONTROL ARMS",
-    img: "/image/defender.png",
     modelSrc: "/model/5.glb",
   },
   {
     id: 6,
-    tabLabel: "Upper Control Arms - White",
+    tabLabel: "Upper Control Arms – White",
     bgName: "UPPER CONTROL ARMS",
-    img: "/image/thar.png",
     modelSrc: "/model/6.glb",
   },
   {
     id: 7,
-    tabLabel: "Upper Control Arms - Black",
+    tabLabel: "Upper Control Arms – Black",
     bgName: "UPPER CONTROL ARMS",
-    img: "/image/jeep.png",
     modelSrc: "/model/7.glb",
   },
 ];
 
 const OffRoadCollection = () => {
   const [index, setIndex] = useState(4);
+  const [orbitAngle, setOrbitAngle] = useState(45);
   const navigate = useNavigate();
 
-  const handleShopNow = () => {
-    navigate("/products/thar"); // 3. Navigate to your products page
-    window.scrollTo(0, 0); // Scroll to top
-  };
+  const nextCar = () => setIndex((p) => (p + 1) % cars.length);
+  const prevCar = () => setIndex((p) => (p - 1 + cars.length) % cars.length);
 
-  // 1. STATE FOR ROTATION (Starts at 45deg)
-  const [orbitAngle, setOrbitAngle] = useState(45);
+  const rotateLeft = () => setOrbitAngle((p) => p - 45);
+  const rotateRight = () => setOrbitAngle((p) => p + 45);
 
-  // Switch Cars (Side Arrows / Tabs)
-  const nextCar = () => setIndex((prev) => (prev + 1) % cars.length);
-  const prevCar = () =>
-    setIndex((prev) => (prev - 1 + cars.length) % cars.length);
-
-  // 2. ROTATION FUNCTIONS (For Bottom Buttons)
-  const rotateLeft = () => {
-    setOrbitAngle((prev) => prev - 45); // Rotate Left by 45 degrees
-  };
-
-  const rotateRight = () => {
-    setOrbitAngle((prev) => prev + 45); // Rotate Right by 45 degrees
-  };
-
-  // 3. RESET ROTATION WHEN CAR CHANGES
-  // This ensures the new car starts at the correct front-facing angle
   useEffect(() => {
     setOrbitAngle(45);
   }, [index]);
 
   return (
     <section className="collection-section">
-      <div className="collection-header">
-        <h2 className="title-text">
-          The Ultimate Off-<span className="highlight">Road Collection.</span>
-        </h2>
-      </div>
+      {/* ===== TITLE ===== */}
+      <h2 className="title-text">
+        The Ultimate Off-<span className="highlight">Road Collection.</span>
+      </h2>
 
+      {/* ===== SCROLLABLE PRODUCT NAMES ===== */}
       <div className="tabs-container">
         {cars.map((car, i) => (
           <button
@@ -102,15 +78,15 @@ const OffRoadCollection = () => {
             className={`tab-btn ${i === index ? "active" : ""}`}
             onClick={() => setIndex(i)}
           >
-            {car.tabLabel}
+            <span>{car.tabLabel}</span>
           </button>
         ))}
       </div>
 
+      {/* ===== SHOWCASE ===== */}
       <div className="showcase-area">
         <h1 className="bg-text">{cars[index].bgName}</h1>
 
-        {/* Side Arrows still change the CAR */}
         <button className="side-arrow left" onClick={prevCar}>
           <FaChevronLeft />
         </button>
@@ -123,30 +99,22 @@ const OffRoadCollection = () => {
             key={cars[index].id}
             src={cars[index].modelSrc}
             poster={cars[index].img}
-            alt={`3D model of ${cars[index].tabLabel}`}
             camera-controls
             interaction-prompt="none"
             camera-orbit={`${orbitAngle}deg 65deg 95%`}
             field-of-view="30deg"
-            interpolation-decay="200"
             shadow-intensity="1"
             exposure="1"
             className="collection-model-viewer"
-          >
-            <div slot="poster" className="model-poster-loader">
-              Loading {cars[index].tabLabel}...
-            </div>
-          </model-viewer>
+          />
 
           <div className="floor-ring"></div>
-
-          {/* Changed text to reflect new functionality */}
           <span className="label-360">Rotate View</span>
         </div>
       </div>
 
+      {/* ===== CONTROLS ===== */}
       <div className="bottom-controls">
-        {/* 5. BOTTOM BUTTONS NOW ROTATE THE CAR */}
         <div className="circle-nav-wrapper">
           <button className="circle-nav-btn" onClick={rotateLeft}>
             <FaChevronLeft />
@@ -156,8 +124,11 @@ const OffRoadCollection = () => {
           </button>
         </div>
 
-        <button className="shop-cta-btn" onClick={handleShopNow}>
-          Shop Now &rarr;
+        <button
+          className="shop-cta-btn"
+          onClick={() => navigate("/products/thar")}
+        >
+          Shop Now →
         </button>
       </div>
     </section>
