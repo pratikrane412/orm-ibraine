@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;500;700&display=swap');
 
 /* --- HERO SECTION --- */
 .cart-hero {
@@ -27,7 +27,7 @@
 }
 
 .cart-hero h1 {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Merriweather', sans-serif;
   font-size: 3.5rem;
   color: #fff;
   text-transform: capitalize;
@@ -56,13 +56,13 @@
 }
 
 .cart-header-row h2 {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Merriweather', sans-serif;
   font-size: 2rem;
 }
 
 .continue-shopping {
   color: #fbb03b;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -115,7 +115,7 @@
 }
 
 .cart-item-details h3 {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Merriweather', sans-serif;
   font-size: 1.1rem;
   margin: 0;
   line-height: 1.4;
@@ -163,7 +163,7 @@
 .cart-item-price {
   flex: 1;
   text-align: right;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Merriweather', sans-serif;
   font-size: 1.2rem;
   color: #fff;
 }
@@ -179,7 +179,7 @@
 }
 
 .cart-summary h3 {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Merriweather', sans-serif;
   font-size: 1.5rem;
   border-bottom: 1px solid #333;
   padding-bottom: 15px;
@@ -190,7 +190,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 500;
 }
 
@@ -205,7 +205,7 @@
   border: none;
   padding: 16px;
   border-radius: 50px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
   cursor: pointer;
@@ -237,7 +237,7 @@
   text-align: center;
   padding: 50px;
 }
-.empty-cart-msg h3 { font-family: 'Oswald', sans-serif; margin-bottom: 20px; font-size: 2rem;}
+.empty-cart-msg h3 { font-family: 'Merriweather', sans-serif; margin-bottom: 20px; font-size: 2rem;}
 .btn-shop-now {
   background: #fbb03b; color: #000; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;
 }

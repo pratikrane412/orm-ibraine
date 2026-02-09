@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@500;700&family=Inter:wght@400;500;600&display=swap");
 
 /* --- LAYOUT WRAPPER --- */
 .admin-wrapper {
@@ -53,7 +53,7 @@
 }
 
 .admin-logo h1 {
-  font-family: "Oswald", sans-serif;
+  font-family: "Merriweather", serif;
   color: #111;
   font-size: 1.8rem;
   margin-bottom: 30px;
@@ -179,7 +179,7 @@
 }
 
 .admin-page-container h2 {
-  font-family: "Oswald", sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 2rem;
   color: #111;
   margin: 0;

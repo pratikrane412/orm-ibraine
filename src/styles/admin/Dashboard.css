@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@500;700&family=Inter:wght@400;500;600&display=swap");
 
 .dashboard-wrapper {
   font-family: "Inter", sans-serif;
@@ -16,7 +16,7 @@
 }
 
 .dash-header h2 {
-  font-family: "Oswald", sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 28px;
   margin: 0;
   color: #111;
@@ -94,7 +94,7 @@
   font-size: 24px;
   font-weight: 700;
   color: #111;
-  font-family: "Oswald", sans-serif;
+  font-family: "Merriweather", serif;
 }
 .trend {
   font-size: 12px;
@@ -142,7 +142,7 @@
   font-size: 28px;
   font-weight: 700;
   color: #111;
-  font-family: "Oswald", sans-serif;
+  font-family: "Merriweather", serif;
 }
 
 /* BREAKDOWN LIST */
@@ -150,7 +150,7 @@
   font-size: 15px;
   font-weight: 600;
   margin: 0 0 20px 0;
-  font-family: "Oswald", sans-serif;
+  font-family: "Merriweather", serif;
 }
 .break-row {
   display: flex;

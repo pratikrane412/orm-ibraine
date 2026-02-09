@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;500&display=swap');
 
 /* --- BASE NAVBAR STYLES --- */
 .navbar {
@@ -35,7 +35,7 @@
 }
 
 .orm-text {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Merriweather', sans-serif;
   font-size: 2.8rem;
   color: #fbb03b; /* Golden Yellow */
   margin: 0;
@@ -71,7 +71,7 @@
 }
 
 .mutant-text {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: 0.55rem;
   color: #fff;
   text-transform: uppercase;
@@ -96,7 +96,7 @@
 }
 
 .nav-links a {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: 0.95rem;
   color: #fff !important; /* Force White */
   text-decoration: none;
@@ -148,7 +148,7 @@
   right: -5px;
   background-color: #ff0000; /* Red Alert Color */
   color: white;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: 0.75rem;
   font-weight: bold;
   width: 20px;

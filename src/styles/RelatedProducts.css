@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;500;600;700&display=swap");
 
 .related-section {
   background-color: #000;
@@ -14,7 +14,7 @@
 
 /* --- SECTION TITLE --- */
 .related-title {
-  font-family: "Oswald", sans-serif !important;
+  font-family: "Merriweather", serif !important;
   font-size: 2.2rem;
   font-weight: 700 !important;
   color: #fff;
@@ -85,14 +85,14 @@
   object-fit: cover;
 }
 
-/* --- PRODUCT INFO TEXT (OSWALD FIX) --- */
+/* --- PRODUCT INFO TEXT (Merriweather FIX) --- */
 .card-info {
   padding: 20px;
 }
 
 .card-title {
   /* Using !important to stop other fonts from taking over */
-  font-family: "Oswald", sans-serif !important;
+  font-family: "Merriweather", serif !important;
   font-size: 1.15rem;
   font-weight: 600 !important;
   margin-bottom: 10px;
@@ -112,7 +112,7 @@
 }
 
 .curr-price {
-  font-family: "Oswald", sans-serif !important;
+  font-family: "Merriweather", serif !important;
   color: #ffffff !important;
   font-weight: 700 !important;
   font-size: 1.2rem;
@@ -125,7 +125,7 @@
 }
 
 .old-price {
-  font-family: "Oswald", sans-serif !important;
+  font-family: "Merriweather", serif !important;
   color: #666;
   text-decoration: line-through;
   font-size: 0.9rem;
@@ -141,7 +141,7 @@
   padding: 14px 0;
   border-radius: 8px;
 
-  font-family: "Oswald", sans-serif !important;
+  font-family: "Merriweather", serif !important;
   font-weight: 700 !important;
   font-size: 1rem;
   text-transform: uppercase; /* MATCHES SCREENSHOT */
@@ -167,7 +167,7 @@
   left: 0;
   background-color: #fbb03b;
   color: #000;
-  font-family: "Oswald", sans-serif !important;
+  font-family: "Merriweather", serif !important;
   font-weight: 700;
   padding: 4px 15px;
   border-radius: 0 15px 15px 0;

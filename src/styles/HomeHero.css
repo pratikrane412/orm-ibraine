@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Lato:wght@400;500;700&display=swap");
 
 .home-hero {
   position: relative;
   width: 100vw; /* Forces element to touch screen edges */
   max-width: 100%; /* Prevents overflow */
-  margin-top: 80px; 
-  height: calc(100vh - 80px); 
+  margin-top: 80px;
+  height: calc(100vh - 80px);
   display: flex;
-  align-items: flex-end; 
+  align-items: flex-end;
   justify-content: flex-start;
   padding-bottom: 50px;
-  overflow: hidden; 
+  overflow: hidden;
   margin-left: 0; /* Reset margins */
   margin-right: 0;
 }
@@ -43,7 +43,7 @@
   height: 100%;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0) 50%, 
+    rgba(0, 0, 0, 0) 50%,
     rgba(0, 0, 0, 0.6) 80%,
     rgba(0, 0, 0, 0.9) 100%
   );
@@ -57,25 +57,25 @@
   padding-left: 5%;
   padding-right: 20px;
   color: #fff;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 /* --- TYPOGRAPHY --- */
 .hero-title {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 5rem;
-  font-weight: 700;
+  font-weight: 900;
   text-transform: uppercase;
-  line-height: 0.95;
+  line-height: 1;
   margin-bottom: 20px;
   max-width: 10ch;
-  text-shadow: 2px 2px 15px rgba(0,0,0,0.7);
+  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
 }
 
 .hero-subtext {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 1.1rem;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #d1d1d1;
   margin-bottom: 35px;
   max-width: 600px;
@@ -85,14 +85,16 @@
 .hero-btn {
   background-color: #fbb03b;
   color: #000;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   padding: 14px 35px;
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -141,7 +143,7 @@
 @media (max-width: 768px) {
   .home-hero {
     /* Uses dynamic viewport height to fill the screen perfectly */
-    height: 100dvh; 
+    height: 100dvh;
     margin-top: 0; /* Let background sit behind the transparent navbar */
     align-items: flex-end; /* Move content to the bottom */
     justify-content: center;
@@ -153,7 +155,7 @@
   .overlay {
     background: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.1) 0%, 
+      rgba(0, 0, 0, 0.1) 0%,
       rgba(0, 0, 0, 0.4) 40%,
       rgba(0, 0, 0, 0.8) 100%
     );
@@ -167,7 +169,7 @@
 
   .hero-title {
     /* Larger, bolder scale for mobile */
-    font-size: 3.2rem; 
+    font-size: 3.2rem;
     line-height: 1;
     margin-bottom: 15px;
     letter-spacing: -1px;
@@ -193,7 +195,7 @@
 
   /* Position dots so they never overlap the button */
   .hero-dots {
-    bottom: 40px; 
+    bottom: 40px;
     gap: 15px;
   }
 
@@ -208,7 +210,7 @@
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .home-hero {
     padding-bottom: 100px;
   }
