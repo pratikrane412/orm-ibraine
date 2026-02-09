@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import "../styles/HomeHero.css";
 import { useNavigate } from "react-router-dom";
 
-// 1. Define your 3 background images here
 const heroImages = [
-  "/image/car-ai.png",        // Image 1 (Current)
-  "/image/car-ai4.png",     // Image 2 (Replace with your path)
-  "/image/car-ai6.png"      // Image 3 (Replace with your path)
+  "/image/car-ai.png",
+  "/image/car-ai4.png",
+  "/image/car-ai6.png",
 ];
 
 const HomeHero = () => {
@@ -14,23 +13,19 @@ const HomeHero = () => {
   const navigate = useNavigate();
 
   const handleShopNow = () => {
-    navigate("/products/thar"); // 3. Navigate to your products page
-    window.scrollTo(0, 0); // Scroll to top
+    navigate("/products/thar");
+    window.scrollTo(0, 0);
   };
 
-  // 2. Automatic Slideshow Logic (Change every 5 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 5000);
-
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <section className="home-hero">
-      
-      {/* 3. Background Image Layers (For smooth fading) */}
       {heroImages.map((img, index) => (
         <div
           key={index}
@@ -38,11 +33,7 @@ const HomeHero = () => {
           style={{ backgroundImage: `url(${img})` }}
         ></div>
       ))}
-
-      {/* Overlay */}
       <div className="overlay"></div>
-
-      {/* Content */}
       <div className="hero-content">
         <h1 className="hero-title">Unleash the Mutant Within.</h1>
         <p className="hero-subtext">
@@ -53,8 +44,6 @@ const HomeHero = () => {
           Shop Now <span>&rarr;</span>
         </button>
       </div>
-
-      {/* 4. The 3 Dots Navigation */}
       <div className="hero-dots">
         {heroImages.map((_, index) => (
           <span
