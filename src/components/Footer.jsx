@@ -29,10 +29,13 @@ const Footer = () => {
         <div className="footer-top">
           {/* LOGO & DESC */}
           <div className="brand-col">
-            <h1 className="footer-logo">ORM</h1>
-            <p className="footer-tagline">OFF-ROAD MUTANTS</p>
+            <img
+              src="/ORM.svg"
+              alt="ORM Logo"
+              className="footer-logo-img"
+            />
             <p className="footer-desc">
-              Off-Road Mutants (ORM) isn’t just a brand — it’s a movement. Tough
+              Off-Road Mutants (ORM) isn't just a brand — it's a movement. Tough
               gear, tested on the harshest terrains, built for those who never
               stop exploring.
             </p>
@@ -86,16 +89,16 @@ const Footer = () => {
           <p className="copyright">© 2025, ORM. All Rights Reserved</p>
 
           <div className="social-icons">
-            <a href="#">
+            <a href="#" aria-label="Facebook">
               <FaFacebookF />
             </a>
-            <a href="#">
+            <a href="#" aria-label="Instagram">
               <FaInstagram />
             </a>
-            <a href="#">
+            <a href="#" aria-label="Twitter">
               <FaTwitter />
             </a>
-            <a href="#">
+            <a href="#" aria-label="LinkedIn">
               <FaLinkedin />
             </a>
           </div>
