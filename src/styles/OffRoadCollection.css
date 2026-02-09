@@ -232,16 +232,123 @@
   transform: translateY(-2px);
 }
 
-/* --- RESPONSIVENESS --- */
+/* --- OPTIMIZED MOBILE RESPONSIVENESS --- */
+
+/* Tablets and small laptops */
 @media (max-width: 1024px) {
-  .bg-text { font-size: 8rem; }
-  .floor-ring { width: 100%; bottom: -20px; }
-  .car-wrapper { max-width: 90%; height: 450px; }
+  .title-text {
+    font-size: 2.2rem;
+  }
+
+  .bg-text {
+    font-size: 8rem;
+  }
+
+  .car-wrapper {
+    max-width: 90%;
+    height: 450px;
+  }
+
+  .floor-ring {
+    width: 100%;
+    bottom: 0px;
+  }
 }
 
+/* Standard Mobile Phones */
 @media (max-width: 768px) {
-  .bg-text { font-size: 5rem; opacity: 0.1; }
-  .side-arrow { display: none; }
-  .title-text { font-size: 1.8rem; }
-  .car-wrapper { height: 400px; width: 100%; }
+  .collection-section {
+    padding: 40px 0 60px;
+  }
+
+  .title-text {
+    font-size: 1.8rem;
+    padding: 0 15px;
+  }
+
+  /* Make tabs scrollable horizontally so they don't take up 4 lines */
+  .tabs-container {
+    display: flex;
+    flex-wrap: nowrap; /* Force one line */
+    justify-content: flex-start; /* Start from left */
+    overflow-x: auto; /* Enable horizontal scroll */
+    padding: 0 20px 10px;
+    gap: 10px;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+  }
+
+  .tabs-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+  }
+
+  .tab-btn {
+    flex: 0 0 auto; /* Prevent buttons from shrinking */
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .showcase-area {
+    height: 400px; /* Reduced height for mobile */
+  }
+
+  .bg-text {
+    font-size: 4.5rem;
+    opacity: 0.08; /* Slightly more visible since it's smaller */
+  }
+
+  .side-arrow {
+    display: none; /* Hide big side arrows; users will use tabs or swipe 3D */
+  }
+
+  .car-wrapper {
+    height: 350px;
+    width: 100%;
+  }
+
+  .floor-ring {
+    height: 140px; /* Smaller ring for mobile perspective */
+    bottom: 40px;
+  }
+
+  .label-360 {
+    font-size: 0.85rem;
+  }
+
+  .bottom-controls {
+    gap: 20px;
+  }
+
+  .circle-nav-btn {
+    width: 45px;
+    height: 45px;
+  }
+
+  .shop-cta-btn {
+    padding: 12px 35px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Small Mobile Phones (iPhone SE, etc.) */
+@media (max-width: 480px) {
+  .title-text {
+    font-size: 1.5rem;
+  }
+
+  .showcase-area {
+    height: 320px;
+  }
+
+  .bg-text {
+    font-size: 3.5rem;
+  }
+
+  .car-wrapper {
+    height: 280px;
+  }
+
+  .floor-ring {
+    height: 100px;
+    bottom: 30px;
+  }
 }
