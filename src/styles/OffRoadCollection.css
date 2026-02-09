@@ -8,7 +8,8 @@
   position: relative;
   overflow: hidden;
   text-align: center;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  padding: 60px 0 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -183,11 +184,11 @@
 
 /* --- BOTTOM CONTROLS --- */
 .bottom-controls {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
 }
 
 .circle-nav-wrapper {
@@ -258,7 +259,7 @@
 /* Standard Mobile Phones */
 @media (max-width: 768px) {
   .collection-section {
-    padding: 40px 0 60px;
+    padding-bottom: 50px;;
   }
 
   .title-text {
