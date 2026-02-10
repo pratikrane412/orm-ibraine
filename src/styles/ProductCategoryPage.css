@@ -304,3 +304,127 @@
     font-size: 2.5rem;
   }
 }
+/* =========================
+   MOBILE RESPONSIVE FIXES
+========================= */
+@media (max-width: 768px) {
+
+  /* PAGE PADDING FIX */
+  .page-wrapper {
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .product-page-header {
+    height: 200px;
+    padding: 0 20px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .header-content h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  /* CONTENT AREA */
+  .content-area-wrapper {
+    padding: 40px 0;
+  }
+
+  .content-dark-overlay {
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  /* MAIN LAYOUT STACK */
+  .main-layout {
+    flex-direction: column;
+    width: 95%;
+    gap: 30px;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .sidebar-title {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .category-list li {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  /* RESULTS BAR */
+  .results-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    font-size: 0.9rem;
+  }
+
+  .sort-dropdown {
+    width: 100%;
+  }
+
+  /* PRODUCT GRID → 1 COLUMN */
+  .shop-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* PRODUCT CARD */
+  .shop-card {
+    border-radius: 10px;
+  }
+
+  .card-img {
+    height: 200px;
+  }
+
+  .card-details h4 {
+    font-size: 1.05rem;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+
+  .cart-btn {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  /* WISHLIST ICON */
+  .wishlist-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* =========================
+   SMALL PHONES (≤480px)
+========================= */
+@media (max-width: 480px) {
+
+  .header-content h1 {
+    font-size: 1.7rem;
+  }
+
+  .sidebar {
+    padding: 18px;
+  }
+
+  .card-img {
+    height: 180px;
+  }
+
+  .card-details {
+    padding: 16px;
+  }
+}
