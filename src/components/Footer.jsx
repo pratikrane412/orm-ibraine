@@ -55,7 +55,6 @@ const Footer = () => {
             {/* Col 2 */}
             <div className="link-col">
               <h3>Car Option</h3>
-              <a href="#">Kia</a>
               <a href="#">BYD</a>
               <a href="#">Scorpio</a>
               <a href="#">Suzuki Jimny</a>
