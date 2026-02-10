@@ -1,33 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;500;700&display=swap");
 
+/* ==============================
+   SECTION
+============================== */
 .product-section {
-  position: relative; /* Needed for the overlay */
+  position: relative;
   background-color: #000;
   padding: 80px 0;
   color: #fff;
   min-height: 600px;
   overflow: hidden;
 
-  /* Background Image Settings */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: scroll; /* No Parallax Effect */
 }
 
-/* Darkens the background image so products pop */
+/* Overlay */
 .product-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(
-    0,
-    0,
-    0,
-    0.2
-  ); /* Adjust 0.8 to make background more or less visible */
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -35,52 +28,47 @@
   width: 90%;
   max-width: 1400px;
   margin: 0 auto;
-  position: relative; /* Above overlay */
+  position: relative;
   z-index: 2;
 }
 
-/* --- TITLE --- */
+/* ==============================
+   SECTION TITLE (DESKTOP DEFAULT)
+============================== */
 .section-title {
   font-family: "Merriweather", serif;
   font-size: 3rem;
   text-align: center;
   margin-bottom: 50px;
   text-transform: capitalize;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Added for readability */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .section-title .highlight {
   color: #fbb03b;
 }
 
-/* --- LOADING STATE --- */
-.loading-spinner {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #fbb03b;
-  font-family: "Merriweather", serif;
-  padding: 50px;
-  position: relative;
-  z-index: 2;
-}
-
-/* --- GRID --- */
+/* ==============================
+   GRID (DESKTOP / TABLET)
+============================== */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 25px;
 }
 
-/* --- PRODUCT CARD --- */
+/* ==============================
+   PRODUCT CARD
+============================== */
 .product-card {
-  background-color: #0a0a0a; /* Keep card solid */
+  background-color: #0a0a0a;
   border: 1px solid #333;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   transition:
     transform 0.3s,
     border-color 0.3s;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Helps cards stand out on bg */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 .product-card:hover {
@@ -88,7 +76,7 @@
   border-color: #fbb03b;
 }
 
-/* Image Area */
+/* IMAGE */
 .product-img-wrapper {
   position: relative;
   width: 100%;
@@ -102,105 +90,82 @@
   object-fit: cover;
 }
 
-/* Sale Badge */
+/* SALE BADGE */
 .sale-badge {
   position: absolute;
-  top: 15px;
+  top: 14px;
   left: 0;
   background-color: #fbb03b;
   color: #000;
-  font-family: "Lato", sans-serif;
   font-weight: 700;
-  font-size: 0.85rem;
-  padding: 5px 15px;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  z-index: 2;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
 }
 
-/* Wishlist Button */
+/* WISHLIST */
 .wishlist-btn {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 35px;
-  height: 35px;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background-color: #fff;
   border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   color: #000;
-  transition: all 0.2s;
-  z-index: 2;
 }
 
-.wishlist-btn:hover {
-  background-color: #fbb03b;
-  color: #fff;
-}
-
-/* Info Area */
+/* INFO */
 .product-info {
-  padding: 20px;
+  padding: 18px;
 }
 
 .product-title {
-  font-family: 'Merriweather', sans-serif;
-  font-size: 1.1rem;
-  margin-bottom: 15px;
-  
-  /* FORCE WHITE COLOR WHEN NOT HOVERED */
-  color: #ffffff !important; 
-  
+  font-family: "Merriweather", serif;
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: color 0.3s ease;
 }
+
 .product-card:hover .product-title {
-  color: #fbb03b !important;
+  color: #fbb03b;
 }
 
 .price-rating-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .current-price {
-  font-family: "Lato", sans-serif;
   font-weight: 700;
-  color: #ffffff !important;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
 .old-price {
-  font-family: "Lato", sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #888;
   text-decoration: line-through;
 }
 
-/* Add to Cart Button */
+/* ADD TO CART */
 .add-cart-btn {
   width: 100%;
   background-color: #fff8e7;
   color: #000;
   border: none;
-  padding: 12px 0;
+  padding: 13px 0;
   border-radius: 8px;
   font-family: "Lato", sans-serif;
   font-weight: 600;
-  font-size: 0.95rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
   transition: background-color 0.3s;
 }
 
@@ -208,18 +173,145 @@
   background-color: #fbb03b;
 }
 
-/* --- RESPONSIVENESS --- */
+/* ==============================
+   TABLET (≤1024px)
+============================== */
 @media (max-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .section-title {
+    font-size: 2.4rem;
+  }
 }
 
-@media (max-width: 600px) {
-  .product-grid {
-    grid-template-columns: 1fr;
+/* ==============================
+   MOBILE — HARD HEADER FIX
+============================== */
+@media (max-width: 768px) {
+  .product-section {
+    padding: 55px 0 65px;
   }
+
+  /* 🔥 FORCE SINGLE-COLUMN TITLE */
   .section-title {
-    font-size: 2rem;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    text-align: center !important;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 26px;
+
+    font-size: 1.7rem;
+    line-height: 1.25;
+    letter-spacing: 0.3px;
+    padding: 0 10px;
+  }
+
+  .section-title .highlight {
+    display: block !important;
+    width: 100% !important;
+
+    margin-top: 6px;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #fbb03b;
+
+    text-align: center !important;
+  }
+
+  /* Optional divider for polish */
+  .section-title::after {
+    content: "";
+    width: 44px;
+    height: 2px;
+    background: #fbb03b;
+    margin-top: 14px;
+    border-radius: 2px;
+  }
+
+  /* 🔥 MOBILE SWIPE */
+  .product-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 0 12px;
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .product-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product-card {
+    min-width: 78%;
+    scroll-snap-align: center;
+  }
+
+  .product-card:hover {
+    transform: none;
+  }
+
+  .product-img-wrapper {
+    height: 220px;
   }
 }
+
+/* ==============================
+   SMALL MOBILE (≤480px)
+============================== */
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 1.55rem;
+  }
+
+  .section-title .highlight {
+    font-size: 1.75rem;
+  }
+
+  .product-card {
+    min-width: 85%;
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .current-price {
+    font-size: 1rem;
+  }
+}
+
+
+/* ==============================
+   FINAL PRODUCT TITLE VISIBILITY FIX
+============================== */
+
+/* Always visible product title */
+.product-card .product-title {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  font-weight: 700;
+  text-shadow: none;
+
+  white-space: normal;   /* allow wrapping */
+  overflow: visible;
+  text-overflow: unset;
+}
+
+/* Optional: keep gold on hover (desktop only) */
+@media (hover: hover) {
+  .product-card:hover .product-title {
+    color: #fbb03b !important;
+  }
+}
+
