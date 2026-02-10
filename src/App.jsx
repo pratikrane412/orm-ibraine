@@ -76,7 +76,7 @@ function App() {
               path="/products/:categoryName"
               element={<ProductCategoryPage />}
             />
-            <Route path="/product/:id" element={<ProductDetailsPage />} />
+            <Route path="/product/:slug" element={<ProductDetailsPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
@@ -98,7 +98,7 @@ function App() {
                 {/* Functionality Pages */}
                 <Route path="add-product" element={<AddProduct />} />
                 {/* Edit Product (Reusing same component) */}
-                <Route path="edit-product/:id" element={<AddProduct />} />
+                <Route path="edit-product/:slug" element={<AddProduct />} />
                 <Route path="products" element={<AllProducts />} />
                 <Route path="products/collections" element={<Collections />} />
                 <Route path="products/collections/:id" element={<EditCollection />} />

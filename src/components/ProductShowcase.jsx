@@ -21,8 +21,8 @@ const ProductShowcase = () => {
     });
   }, []);
 
-  const handleCardClick = (id) => {
-    navigate(`/product/${id}`);
+  const handleCardClick = (product) => {
+    navigate(`/product/${product.slug}`);
     window.scrollTo(0, 0);
   };
 
@@ -75,7 +75,7 @@ const ProductShowcase = () => {
               <div
                 key={product.id}
                 className="product-card"
-                onClick={() => handleCardClick(product.id)}
+                onClick={() => handleCardClick(product)}
                 style={{ cursor: "pointer" }}
               >
                 <div className="product-img-wrapper">

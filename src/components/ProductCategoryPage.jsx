@@ -87,8 +87,9 @@ const ProductCategoryPage = () => {
     window.scrollTo(0, 0);
   };
 
-  const handleProductClick = (id) => {
-    navigate(`/product/${id}`);
+  // This function expects a slug string
+  const handleProductClick = (slug) => {
+    navigate(`/product/${slug}`);
   };
 
   const handleAddToCartBtn = (e, item) => {
@@ -106,7 +107,6 @@ const ProductCategoryPage = () => {
     <div className="page-wrapper">
       <Navbar />
 
-      {/* HEADER: Clean black background logic */}
       <div
         className="product-page-header"
         style={{ backgroundImage: `url(${currentCategory.headerBg})` }}
@@ -120,7 +120,6 @@ const ProductCategoryPage = () => {
         </div>
       </div>
 
-      {/* MIDDLE SECTION: This is where the road background lives */}
       <div
         className="content-area-wrapper"
         style={{ backgroundImage: `url(${roadBg})` }}
@@ -175,7 +174,8 @@ const ProductCategoryPage = () => {
                     <div
                       key={item.id}
                       className="shop-card"
-                      onClick={() => handleProductClick(item.id)}
+                      // CHANGE: Passing item.slug instead of item.id
+                      onClick={() => handleProductClick(item.slug)}
                     >
                       {item.is_sale && <span className="tag sale">Sale</span>}
                       <div className="card-img">
@@ -227,7 +227,6 @@ const ProductCategoryPage = () => {
           </main>
         </div>
       </div>
-
       <Footer />
     </div>
   );

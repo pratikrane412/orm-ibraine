@@ -27,8 +27,8 @@ const RelatedProducts = ({ currentProduct }) => {
 
   if (products.length === 0) return null;
 
-  const handleCardClick = (id) => {
-    navigate(`/product/${id}`);
+  const handleCardClick = (slug) => {
+    navigate(`/product/${slug}`);
     window.scrollTo(0, 0);
   };
 
@@ -56,7 +56,7 @@ const RelatedProducts = ({ currentProduct }) => {
               <div
                 key={item.id}
                 className="related-card"
-                onClick={() => handleCardClick(item.id)}
+                onClick={() => handleCardClick(item.slug)}
               >
                 {item.is_sale && <span className="tag sale">Sale</span>}
 

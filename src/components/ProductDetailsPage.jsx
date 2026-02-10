@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useParams } from "react-router-dom";
-import { fetchProductById } from "../api/client";
+import { fetchProductById } from "../api/client"; // This now works again
 import {
   FaStar,
   FaHeart,
@@ -24,7 +24,8 @@ import RelatedProducts from "./RelatedProducts";
 import "../styles/ProductDetailsPage.css";
 
 const ProductDetailsPage = () => {
-  const { id } = useParams();
+  // Extract slug from URL (e.g. /product/thar-front-bumper)
+  const { slug } = useParams();
   const { addToCart } = useCart();
 
   const [product, setProduct] = useState(null);
@@ -40,23 +41,25 @@ const ProductDetailsPage = () => {
     window.scrollTo(0, 0);
     const loadProductData = async () => {
       setLoading(true);
-      const data = await fetchProductById(id);
+
+      // Call the function using the slug string
+      const data = await fetchProductById(slug);
 
       if (data) {
         setProduct(data);
 
         const formatUrl = (path) => {
           if (!path) return "";
-          return path.startsWith("http") ? path : `${BASE_URL}${path}`;
+          return path.toString().startsWith("http")
+            ? path
+            : `${BASE_URL}${path}`;
         };
 
         const mainImgUrl = formatUrl(data.image);
         let mediaItems = [];
 
-        // 1. Main Image
         mediaItems.push({ url: mainImgUrl, type: "image" });
 
-        // 2. 3D Model
         if (data.model_3d) {
           mediaItems.push({
             url: formatUrl(data.model_3d),
@@ -65,7 +68,6 @@ const ProductDetailsPage = () => {
           });
         }
 
-        // 3. Video File
         if (data.video_file) {
           mediaItems.push({
             url: formatUrl(data.video_file),
@@ -74,7 +76,6 @@ const ProductDetailsPage = () => {
           });
         }
 
-        // 4. Gallery Images
         if (data.images && data.images.length > 0) {
           data.images.forEach((imgObj) => {
             mediaItems.push({ url: formatUrl(imgObj.image), type: "image" });
@@ -87,7 +88,7 @@ const ProductDetailsPage = () => {
       setLoading(false);
     };
     loadProductData();
-  }, [id]);
+  }, [slug]);
 
   const handleQuantity = (type) => {
     if (type === "dec" && quantity > 1) setQuantity(quantity - 1);

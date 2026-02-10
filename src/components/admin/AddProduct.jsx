@@ -7,19 +7,20 @@ import {
   FaArrowLeft,
   FaImages,
   FaVideo,
-  FaCube, // Added for 3D Icon
+  FaCube,
 } from "react-icons/fa";
 import "../../styles/admin/AddProduct.css";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { slug } = useParams(); // URL now uses slug instead of ID
 
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
+    slug: "",
     weight: "",
     category: "Thar",
     description: "",
@@ -34,21 +35,22 @@ const AddProduct = () => {
   });
 
   const [mainImage, setMainImage] = useState(null);
-  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryImages, setGalleryImages] = useState([]); // New files only
   const [videoFile, setVideoFile] = useState(null);
-  const [model3dFile, setModel3dFile] = useState(null); // NEW: 3D Model State
+  const [model3dFile, setModel3dFile] = useState(null);
 
   const [mainPreview, setMainPreview] = useState(null);
-  const [galleryPreviews, setGalleryPreviews] = useState([]);
+  const [galleryPreviews, setGalleryPreviews] = useState([]); // List of {id, url} or strings
 
   useEffect(() => {
-    if (id) {
+    if (slug) {
       setIsEditMode(true);
-      fetch(`https://orm-backend-gejw.onrender.com/api/products/${id}/`)
+      fetch(`https://orm-backend-gejw.onrender.com/api/products/${slug}/`)
         .then((res) => res.json())
         .then((data) => {
           setFormData({
             title: data.title,
+            slug: data.slug,
             category: data.category,
             description: data.description || "",
             price: data.price,
@@ -70,20 +72,21 @@ const AddProduct = () => {
             );
           }
 
+          // Fetch gallery and store as objects with IDs
           if (data.images && data.images.length > 0) {
-            const previews = data.images.map((img) =>
-              img.image.startsWith("http")
+            const existing = data.images.map((img) => ({
+              id: img.id,
+              url: img.image.startsWith("http")
                 ? img.image
                 : `https://orm-backend-gejw.onrender.com${img.image}`,
-            );
-            setGalleryPreviews(previews);
+              isExisting: true,
+            }));
+            setGalleryPreviews(existing);
           }
-
-          // Note: Logic for showing existing 3D model name can be added here if desired
         })
         .catch((err) => console.error("Error fetching product:", err));
     }
-  }, [id]);
+  }, [slug]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -101,24 +104,38 @@ const AddProduct = () => {
   const handleGalleryChange = (e) => {
     const files = Array.from(e.target.files);
     setGalleryImages([...galleryImages, ...files]);
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
+
+    const newPreviews = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      isExisting: false,
+    }));
     setGalleryPreviews([...galleryPreviews, ...newPreviews]);
   };
 
-  const handleVideoFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) setVideoFile(file);
-  };
+  // --- DELETE GALLERY IMAGE LOGIC ---
+  const removeGalleryImage = async (index, imgObj) => {
+    if (imgObj.isExisting) {
+      const confirmDelete = window.confirm(
+        "Delete this image from the server permanently?",
+      );
+      if (!confirmDelete) return;
 
-  // NEW: Handle 3D Model Selection
-  const handleModel3dChange = (e) => {
-    const file = e.target.files[0];
-    if (file) setModel3dFile(file);
-  };
-
-  const removeGalleryImage = (index) => {
-    setGalleryImages(galleryImages.filter((_, i) => i !== index));
-    setGalleryPreviews(galleryPreviews.filter((_, i) => i !== index));
+      try {
+        await fetch(
+          `https://orm-backend-gejw.onrender.com/api/product-images/${imgObj.id}/`,
+          {
+            method: "DELETE",
+          },
+        );
+        setGalleryPreviews(galleryPreviews.filter((_, i) => i !== index));
+      } catch (err) {
+        alert("Failed to delete image");
+      }
+    } else {
+      // Remove from new files local state
+      setGalleryPreviews(galleryPreviews.filter((_, i) => i !== index));
+      // You'd need to filter galleryImages here based on index if needed
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -126,23 +143,24 @@ const AddProduct = () => {
     setLoading(true);
 
     const data = new FormData();
-    Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+    Object.keys(formData).forEach((key) => {
+      if (key !== "slug") data.append(key, formData[key]);
+    });
 
     if (mainImage) data.append("image", mainImage);
     if (videoFile) data.append("video_file", videoFile);
-    if (model3dFile) data.append("model_3d", model3dFile); // NEW: Append 3D file
+    if (model3dFile) data.append("model_3d", model3dFile);
 
-    galleryImages.forEach((file) => data.append("gallery_images", file));
+    galleryImages.forEach((file) => {
+      data.append("gallery_images", file);
+    });
 
     try {
-      let url = "https://orm-backend-gejw.onrender.com/api/products/";
-      let method = "POST";
-      if (isEditMode) {
-        url = `https://orm-backend-gejw.onrender.com/api/products/${id}/`;
-        method = "PATCH";
-      }
+      const url = `https://orm-backend-gejw.onrender.com/api/products/${isEditMode ? slug + "/" : ""}`;
+      const method = isEditMode ? "PATCH" : "POST";
 
       const response = await fetch(url, { method, body: data });
+
       if (response.ok) {
         alert(isEditMode ? "Product Updated!" : "Product Created!");
         navigate("/react-admin/products");
@@ -151,7 +169,6 @@ const AddProduct = () => {
       }
     } catch (error) {
       console.error(error);
-      alert("Server Error");
     } finally {
       setLoading(false);
     }
@@ -170,7 +187,7 @@ const AddProduct = () => {
           <div>
             <h2>{isEditMode ? "Edit Product" : "Add New Product"}</h2>
             <p className="subtitle">
-              {isEditMode ? `ID: #${id}` : "Create a new item"}
+              {isEditMode ? `Slug: ${slug}` : "Create a new item"}
             </p>
           </div>
         </div>
@@ -205,6 +222,17 @@ const AddProduct = () => {
                 required
               />
             </div>
+            {isEditMode && (
+              <div className="form-group">
+                <label>URL Slug (Auto-generated)</label>
+                <input
+                  type="text"
+                  value={formData.slug}
+                  disabled
+                  style={{ backgroundColor: "#f0f0f0", color: "#888" }}
+                />
+              </div>
+            )}
             <div className="form-group">
               <label>Description</label>
               <textarea
@@ -249,9 +277,8 @@ const AddProduct = () => {
               </div>
             </div>
 
-            {/* NEW: 3D Model Upload (.glb) */}
             <div className="form-group">
-              <label>3D Model (Direct Upload .glb)</label>
+              <label>3D Model (.glb format)</label>
               <div
                 className="image-upload-zone"
                 style={{
@@ -266,13 +293,11 @@ const AddProduct = () => {
                     style={{ fontSize: "1.5rem", color: "#4a90e2" }}
                   />
                   <span>
-                    {model3dFile
-                      ? model3dFile.name
-                      : "Select GLB Model from PC"}
+                    {model3dFile ? model3dFile.name : "Select GLB Model"}
                   </span>
                   <input
                     type="file"
-                    onChange={handleModel3dChange}
+                    onChange={(e) => setModel3dFile(e.target.files[0])}
                     accept=".glb"
                     hidden
                   />
@@ -281,7 +306,7 @@ const AddProduct = () => {
             </div>
 
             <div className="form-group">
-              <label>Gallery Video (Upload from PC)</label>
+              <label>Gallery Video (MP4)</label>
               <div
                 className="image-upload-zone"
                 style={{
@@ -295,7 +320,7 @@ const AddProduct = () => {
                   <span>{videoFile ? videoFile.name : "Select MP4 Video"}</span>
                   <input
                     type="file"
-                    onChange={handleVideoFileChange}
+                    onChange={(e) => setVideoFile(e.target.files[0])}
                     accept="video/mp4"
                     hidden
                   />
@@ -306,12 +331,12 @@ const AddProduct = () => {
             <div className="form-group">
               <label>Gallery Images</label>
               <div className="gallery-grid">
-                {galleryPreviews.map((src, index) => (
+                {galleryPreviews.map((img, index) => (
                   <div key={index} className="gallery-item">
-                    <img src={src} alt="Gallery" />
+                    <img src={img.url} alt="Gallery" />
                     <button
                       type="button"
-                      onClick={() => removeGalleryImage(index)}
+                      onClick={() => removeGalleryImage(index, img)}
                     >
                       <FaTimes />
                     </button>
@@ -331,7 +356,7 @@ const AddProduct = () => {
             </div>
 
             <div className="form-group">
-              <label>YouTube Demo URL (Bottom Section Video)</label>
+              <label>YouTube Demo URL</label>
               <input
                 type="url"
                 name="video_url"

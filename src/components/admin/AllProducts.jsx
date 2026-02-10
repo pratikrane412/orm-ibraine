@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus, FaSearch } from "react-icons/fa";
 import "../../styles/admin/AllProducts.css";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
 
-  // Filter States
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedSaleStatus, setSelectedSaleStatus] = useState("All");
 
-  // FIXED: Value matches Django Backend | Label matches UI
   const categoryOptions = [
     { label: "All Categories", value: "All" },
     { label: "Mahindra Thar & Roxx", value: "Thar" },
@@ -30,7 +26,6 @@ const AllProducts = () => {
     fetch("https://orm-backend-gejw.onrender.com/api/products/")
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched Data:", data); // Check console to see if data arrives
         setProducts(data);
         setLoading(false);
       })
@@ -42,37 +37,35 @@ const AllProducts = () => {
 
   // --- FILTER LOGIC ---
   const filteredProducts = products.filter((product) => {
-    // 1. Search (Case insensitive)
     const matchesSearch = product.title
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-
-    // 2. Category (Compare with Backend Value "Thar", "Scorpio", etc.)
     const matchesCategory =
       selectedCategory === "All" || product.category === selectedCategory;
-
-    // 3. Status (Boolean check)
     const matchesSale =
       selectedSaleStatus === "All"
         ? true
         : selectedSaleStatus === "On Sale"
-        ? product.is_sale === true
-        : product.is_sale === false;
+          ? product.is_sale === true
+          : product.is_sale === false;
 
     return matchesSearch && matchesCategory && matchesSale;
   });
 
-  const handleDelete = async (id) => {
+  // --- DELETE LOGIC (UPDATED TO USE SLUG) ---
+  const handleDelete = async (slug, id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
+        // Since backend uses lookup_field='slug', we must delete via slug
         const response = await fetch(
-          `https://orm-backend-gejw.onrender.com/api/products/${id}/`,
-          { method: "DELETE" }
+          `https://orm-backend-gejw.onrender.com/api/products/${slug}/`,
+          { method: "DELETE" },
         );
         if (response.ok) {
+          // Update local state using ID for efficiency
           setProducts(products.filter((product) => product.id !== id));
         } else {
-          alert("Failed to delete. Check backend console.");
+          alert("Failed to delete. The product might have dependencies.");
         }
       } catch (error) {
         alert("Server Error");
@@ -89,7 +82,6 @@ const AllProducts = () => {
 
   return (
     <div className="admin-page-container">
-      {/* HEADER */}
       <div className="admin-header-row">
         <div className="header-text">
           <h2>All Products</h2>
@@ -99,7 +91,6 @@ const AllProducts = () => {
         </div>
 
         <div className="header-actions">
-          {/* SEARCH */}
           <div className="header-search">
             <FaSearch className="search-icon" />
             <input
@@ -110,7 +101,6 @@ const AllProducts = () => {
             />
           </div>
 
-          {/* CATEGORY FILTER */}
           <select
             className="header-select"
             value={selectedCategory}
@@ -123,7 +113,6 @@ const AllProducts = () => {
             ))}
           </select>
 
-          {/* STATUS FILTER */}
           <select
             className="header-select"
             value={selectedSaleStatus}
@@ -134,19 +123,15 @@ const AllProducts = () => {
             <option value="Regular">Regular</option>
           </select>
 
-          {/* ADD BUTTON */}
           <Link to="/react-admin/add-product" className="admin-btn-primary">
             <FaPlus /> <span>Add</span>
           </Link>
         </div>
       </div>
 
-      {/* TABLE */}
       <div className="table-wrapper">
         {loading ? (
-          <div className="loading-state">
-            <div className="spinner"></div> Loading...
-          </div>
+          <div className="loading-state">Loading...</div>
         ) : (
           <table className="modern-table">
             <thead>
@@ -175,18 +160,18 @@ const AllProducts = () => {
                     <td>
                       <div className="product-meta">
                         <span className="product-title">{product.title}</span>
-                        <span className="product-sku">ID: #{product.id}</span>
+                        {/* Displaying Slug for Admin clarity */}
+                        <span className="product-sku">
+                          URL: /{product.slug}
+                        </span>
                       </div>
                     </td>
-                    {/* Render the Readable Category Label if needed, or just the backend key */}
                     <td>
                       <span className="category-tag">{product.category}</span>
                     </td>
                     <td>
                       <span
-                        className={`inventory-badge ${
-                          product.stock_quantity > 0 ? "instock" : "outofstock"
-                        }`}
+                        className={`inventory-badge ${product.stock_quantity > 0 ? "instock" : "outofstock"}`}
                       >
                         {product.stock_quantity > 0
                           ? `${product.stock_quantity} in stock`
@@ -199,30 +184,30 @@ const AllProducts = () => {
                       </div>
                     </td>
                     <td>
-                      {product.is_sale ? (
-                        <span className="status-badge sale">
-                          <span className="dot"></span> On Sale
-                        </span>
-                      ) : (
-                        <span className="status-badge active">
-                          <span className="dot"></span> Regular
-                        </span>
-                      )}
+                      <span
+                        className={`status-badge ${product.is_sale ? "sale" : "active"}`}
+                      >
+                        <span className="dot"></span>{" "}
+                        {product.is_sale ? "On Sale" : "Regular"}
+                      </span>
                     </td>
                     <td align="right">
                       <div className="actions-cell">
+                        {/* EDIT BUTTON (USES SLUG) */}
                         <button
                           className="action-btn edit"
-                          title="Edit Product"
                           onClick={() =>
-                            navigate(`/react-admin/edit-product/${product.id}`)
+                            navigate(
+                              `/react-admin/edit-product/${product.slug}`,
+                            )
                           }
                         >
                           <FaEdit />
                         </button>
+                        {/* DELETE BUTTON (USES SLUG) */}
                         <button
                           className="action-btn delete"
-                          onClick={() => handleDelete(product.id)}
+                          onClick={() => handleDelete(product.slug, product.id)}
                         >
                           <FaTrash />
                         </button>
@@ -232,7 +217,7 @@ const AllProducts = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="no-data">
+                  <td colSpan="7" className="no-data">
                     No products found.
                   </td>
                 </tr>

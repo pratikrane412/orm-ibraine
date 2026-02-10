@@ -3,9 +3,9 @@ import "../styles/HomeHero.css";
 import { useNavigate } from "react-router-dom";
 
 const heroImages = [
-  "/image/car-ai.png",
+  "/image/hilux-ban.png",
   "/image/car-ai4.png",
-  "/image/car-ai6.png",
+  "/image/thar-banner.png",
 ];
 
 const HomeHero = () => {
