@@ -254,3 +254,149 @@
   .cart-item-qty { justify-content: center; width: 100%; }
   .cart-item-price { text-align: center; width: 100%; }
 }
+
+/* ===============================
+   MOBILE OPTIMIZATION – CART PAGE
+================================ */
+@media (max-width: 768px) {
+
+  /* HERO */
+  .cart-hero {
+    height: 200px;
+    padding-left: 0;
+    justify-content: center;
+    text-align: center;
+    margin-top: 70px;
+  }
+
+  .cart-hero h1 {
+    font-size: 2rem;
+  }
+
+  /* CONTAINER */
+  .cart-container {
+    width: 95%;
+    padding: 40px 0;
+  }
+
+  /* HEADER ROW */
+  .cart-header-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .cart-header-row h2 {
+    font-size: 1.6rem;
+  }
+
+  .continue-shopping {
+    font-size: 0.9rem;
+  }
+
+  /* CART LAYOUT */
+  .cart-layout {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  /* CART ITEM CARD */
+  .cart-item-row {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .cart-item-img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .cart-item-details h3 {
+    font-size: 1rem;
+  }
+
+  /* QTY + DELETE */
+  .cart-item-qty {
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .qty-pill {
+    padding: 6px 12px;
+    gap: 12px;
+  }
+
+  .qty-pill button {
+    font-size: 0.75rem;
+  }
+
+  .delete-btn {
+    font-size: 1rem;
+  }
+
+  /* PRICE */
+  .cart-item-price {
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  /* SUMMARY */
+  .cart-summary {
+    padding: 20px;
+  }
+
+  .cart-summary h3 {
+    font-size: 1.4rem;
+  }
+
+  .summary-row {
+    font-size: 0.9rem;
+  }
+
+  .btn-checkout-gold {
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  .checkout-note {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  /* EMPTY STATE */
+  .empty-cart-msg {
+    padding: 40px 20px;
+  }
+
+  .empty-cart-msg h3 {
+    font-size: 1.5rem;
+  }
+
+  .btn-shop-now {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+  }
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 420px) {
+
+  .cart-hero h1 {
+    font-size: 1.7rem;
+  }
+
+  .cart-item-img {
+    height: 160px;
+  }
+
+  .cart-summary {
+    padding: 18px;
+  }
+
+  .btn-checkout-gold {
+    font-size: 0.95rem;
+  }
+}

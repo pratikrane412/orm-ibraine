@@ -336,3 +336,350 @@
     gap: 0;
   }
 }
+
+/* ===============================
+   MOBILE OPTIMIZATION – CHECKOUT
+================================ */
+@media (max-width: 768px) {
+
+  /* HERO */
+  .checkout-hero {
+    height: 200px;
+    padding-left: 0;
+    justify-content: center;
+    text-align: center;
+    margin-top: 70px;
+  }
+
+  .checkout-content h1 {
+    font-size: 2rem;
+  }
+
+  /* CONTAINER */
+  .checkout-container {
+    width: 95%;
+    padding: 40px 0;
+  }
+
+  /* LAYOUT STACK */
+  .checkout-layout {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* FORMS */
+  .checkout-forms {
+    width: 100%;
+  }
+
+  .form-section {
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  /* INPUTS */
+  .input-group input {
+    padding: 13px;
+    font-size: 0.95rem;
+  }
+
+  .input-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* PAYMENT OPTIONS */
+  .payment-option {
+    padding: 14px;
+  }
+
+  .pay-label {
+    font-size: 0.9rem;
+  }
+
+  /* SUMMARY */
+  .checkout-summary {
+    width: 100%;
+    padding: 24px;
+    border-radius: 10px;
+  }
+
+  .checkout-summary h3 {
+    font-size: 1.5rem;
+  }
+
+  .summary-items {
+    max-height: 220px;
+  }
+
+  .summary-item img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .sum-title {
+    font-size: 0.85rem;
+  }
+
+  .sum-price {
+    font-size: 0.8rem;
+  }
+
+  /* DISCOUNT */
+  .discount-box input {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .discount-box button {
+    padding: 0 16px;
+    font-size: 0.9rem;
+  }
+
+  /* TOTALS */
+  .total-row {
+    font-size: 0.9rem;
+  }
+
+  .total-row.final {
+    font-size: 1.1rem;
+  }
+
+  /* PAY BUTTON */
+  .btn-pay-now {
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  .secure-text {
+    font-size: 0.7rem;
+  }
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 420px) {
+
+  .checkout-content h1 {
+    font-size: 1.7rem;
+  }
+
+  .checkout-summary {
+    padding: 20px;
+  }
+
+  .btn-pay-now {
+    font-size: 0.95rem;
+  }
+}
+/* ===============================
+   MOBILE FIX – CHECKOUT FORM UI
+================================ */
+@media (max-width: 768px) {
+
+  /* SHIPPING SECTION TITLE */
+  .section-title {
+    justify-content: center;
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+  }
+
+  /* FORM SECTION CARD FEEL */
+  .form-section {
+    padding: 20px 16px;
+    border-radius: 12px;
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid #222;
+  }
+
+  /* LABELS */
+  .input-group label {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    display: block;
+    color: #aaa;
+  }
+
+  /* INPUTS */
+  .input-group input {
+    padding: 14px 14px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+
+  /* SPACE BETWEEN INPUT GROUPS */
+  .input-group {
+    margin-bottom: 22px;
+  }
+
+  /* FULL WIDTH INPUT GROUP */
+  .input-group.full {
+    width: 100%;
+  }
+
+  /* CITY / STATE / ZIP STACK FIX */
+  .input-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .input-row .input-group {
+    margin-bottom: 22px;
+  }
+
+  /* PLACEHOLDER COLOR */
+  .input-group input::placeholder {
+    color: #777;
+    font-size: 0.85rem;
+  }
+
+  /* PAYMENT SECTION SPACING */
+  .payment-option {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  /* RADIO CIRCLE ALIGN */
+  .radio-circle {
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 420px) {
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .input-group input {
+    font-size: 0.9rem;
+  }
+}
+/* ===============================
+   FORCE DARK INPUTS – NO WHITE BOX
+================================ */
+
+/* ALL INPUT STATES */
+.checkout-container input {
+  background-color: #0a0a0a !important;
+  color: #fff !important;
+  border: 1px solid #333 !important;
+  box-shadow: none !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+/* PLACEHOLDER */
+.checkout-container input::placeholder {
+  color: #777 !important;
+}
+
+/* FOCUS STATE */
+.checkout-container input:focus {
+  background-color: #0a0a0a !important;
+  border-color: #fbb03b !important;
+  box-shadow: 0 0 0 1px rgba(251, 176, 59, 0.3) !important;
+}
+
+/* CHROME / ANDROID AUTOFILL FIX */
+.checkout-container input:-webkit-autofill,
+.checkout-container input:-webkit-autofill:hover,
+.checkout-container input:-webkit-autofill:focus,
+.checkout-container input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #0a0a0a inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* REMOVE IOS SAFARI ROUNDED WHITE */
+.checkout-container input {
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* ===============================
+   ABSOLUTE DARK INPUT FIX (FINAL)
+================================ */
+
+/* BASE INPUT RESET */
+.checkout-container input {
+  background: #0a0a0a !important;
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px;
+  box-shadow: none !important;
+  outline: none !important;
+  caret-color: #fbb03b;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* REMOVE MOBILE DEFAULT WHITE */
+.checkout-container input:not(:focus) {
+  background: #0a0a0a !important;
+}
+
+/* PLACEHOLDER */
+.checkout-container input::placeholder {
+  color: #777 !important;
+  opacity: 1;
+}
+
+/* FOCUS */
+.checkout-container input:focus {
+  background: #0a0a0a !important;
+  border-color: #fbb03b !important;
+  box-shadow: 0 0 0 1px rgba(251, 176, 59, 0.35) !important;
+}
+
+/* ANDROID / CHROME AUTOFILL (HARD FIX) */
+.checkout-container input:-webkit-autofill,
+.checkout-container input:-webkit-autofill:hover,
+.checkout-container input:-webkit-autofill:focus,
+.checkout-container input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #0a0a0a inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #fbb03b !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* IOS SAFARI FIX */
+.checkout-container input {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+/* ===============================
+   CONSISTENT INPUT BORDERS (FINAL)
+================================ */
+
+/* DEFAULT STATE */
+.checkout-container input {
+  border: 1px solid #333 !important;
+}
+
+/* HOVER (optional subtle lift) */
+.checkout-container input:hover {
+  border-color: #555 !important;
+}
+
+/* FOCUS STATE (ONLY GOLD) */
+.checkout-container input:focus {
+  border-color: #fbb03b !important;
+  box-shadow: 0 0 0 1px rgba(251, 176, 59, 0.35) !important;
+}
+
+/* AUTOFILL SHOULD NOT CHANGE BORDER */
+.checkout-container input:-webkit-autofill,
+.checkout-container input:-webkit-autofill:hover,
+.checkout-container input:-webkit-autofill:focus,
+.checkout-container input:-webkit-autofill:active {
+  border: 1px solid #333 !important;
+}
+
+/* REMOVE MOBILE DEFAULT OUTLINES */
+.checkout-container input:focus-visible {
+  outline: none !important;
+}
