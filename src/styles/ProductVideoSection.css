@@ -175,3 +175,35 @@
   .pvs-title { font-size: 2rem; }
   .pvs-play-btn { width: 60px; height: 40px; font-size: 1rem; }
 }
+
+/* ===============================
+   MOBILE – VIDEO SECTION
+================================ */
+@media (max-width: 768px) {
+
+  .single-video-card {
+    height: 260px;
+    border-radius: 14px;
+  }
+
+  .pvs-title {
+    font-size: 1.6rem;
+  }
+
+  .pvs-top-bar {
+    top: 15px;
+    left: 15px;
+    right: 15px;
+  }
+
+  .pvs-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pvs-play-btn {
+    width: 55px;
+    height: 38px;
+    font-size: 1rem;
+  }
+}

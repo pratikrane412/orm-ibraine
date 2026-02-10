@@ -112,7 +112,7 @@ const ProductDetailsPage = () => {
         <div className="pdp-banner-overlay"></div>
         <div className="pdp-banner-content">
           <h1>
-            Product <span className="highlight">Details</span>
+            Our <span className="highlight">Collections</span>
           </h1>
         </div>
       </div>

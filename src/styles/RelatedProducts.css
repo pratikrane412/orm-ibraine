@@ -195,3 +195,31 @@
   display: flex;
   gap: 3px;
 }
+
+/* ===============================
+   MOBILE – RELATED PRODUCTS
+================================ */
+@media (max-width: 768px) {
+
+  .related-title {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .related-wrapper {
+    flex-direction: column;
+  }
+
+  .nav-arrow {
+    display: none;
+  }
+
+  .related-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .card-img-box {
+    height: 200px;
+  }
+}

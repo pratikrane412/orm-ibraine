@@ -273,3 +273,198 @@ model-viewer {
     flex-direction: column;
   }
 }
+/* ===============================
+   MOBILE RESPONSIVE – PDP
+================================ */
+@media (max-width: 768px) {
+
+  /* Banner */
+  .pdp-banner {
+    height: 200px;
+    padding-left: 0;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pdp-banner-content h1 {
+    font-size: 2rem;
+  }
+
+  /* Main container */
+  .pdp-container {
+    flex-direction: column;
+    width: 95%;
+    padding: 40px 0 60px;
+    gap: 40px;
+  }
+
+  /* Gallery */
+  .pdp-gallery,
+  .pdp-info {
+    min-width: 100%;
+  }
+
+  .main-image-frame {
+    height: 300px;
+    border-radius: 14px;
+  }
+
+  /* Thumbnails */
+  .thumbnail-row {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .thumb-box {
+    min-width: 80px;
+    height: 70px;
+  }
+
+  /* Title & price */
+  .pdp-title {
+    font-size: 1.8rem;
+  }
+
+  .pdp-price {
+    font-size: 1.6rem;
+  }
+
+  /* Features → grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .feature-item {
+    width: 100%;
+  }
+
+  /* Actions */
+  .pdp-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .btn-add-cart {
+    width: 100%;
+  }
+
+  .icon-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+/* ===============================
+   FINAL MOBILE SPACING FIX
+================================ */
+@media (max-width: 768px) {
+
+  /* Description spacing */
+  .pdp-desc {
+    margin-bottom: 35px;
+  }
+
+  /* FEATURES GRID – more air */
+  .features-grid {
+    margin: 30px 0 35px;
+    row-gap: 25px;
+  }
+
+  .feature-item span {
+    margin-top: 6px;
+    font-size: 0.8rem;
+  }
+
+  /* QUANTITY */
+  .qty-selector {
+    margin-top: 10px;
+  }
+
+  /* ADD TO CART */
+  .btn-add-cart {
+    margin-top: 10px;
+  }
+
+  /* ICON ACTIONS */
+  .icon-actions {
+    margin-top: 6px;
+  }
+
+  /* BUY NOW – separate clearly */
+  .btn-buy-now {
+    margin-top: 18px;
+  }
+
+  /* PUSH VIDEO SECTION DOWN */
+  .product-video-section {
+    margin-top: 60px !important;
+  }
+}
+/* ===============================
+   MOBILE – FIX PDP GALLERY FULLY
+================================ */
+@media (max-width: 768px) {
+
+  /* GALLERY CONTAINER */
+  .pdp-gallery {
+    width: 100%;
+  }
+
+  /* MAIN IMAGE */
+  .main-image-frame {
+    height: 260px;              /* PERFECT mobile height */
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* THUMBNAIL STRIP */
+  .thumbnail-row {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 4px 12px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbar (clean look) */
+  .thumbnail-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* THUMB BOX */
+  .thumb-box {
+    min-width: 78px;
+    height: 64px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    border-radius: 8px;
+  }
+
+  .thumb-box img {
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  .thumb-box.active {
+    border: 2px solid #fbb03b;
+  }
+
+  /* VIDEO / 3D THUMB */
+  .video-thumb-img {
+    opacity: 0.6;
+  }
+
+  .play-overlay {
+    font-size: 1.2rem;
+  }
+
+  /* REMOVE UNWANTED GAPS */
+  .pdp-container {
+    padding-top: 30px;
+  }
+}

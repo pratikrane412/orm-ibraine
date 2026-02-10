@@ -138,3 +138,28 @@
     font-size: 2.2rem;
   }
 }
+
+/* ===============================
+   MOBILE – SPECS
+================================ */
+@media (max-width: 768px) {
+
+  .specs-section {
+    padding: 60px 0;
+  }
+
+  .specs-container {
+    flex-direction: column;
+    gap: 40px;
+    text-align: left;
+  }
+
+  .specs-title {
+    font-size: 2rem;
+  }
+
+  .specs-frame {
+    height: 280px;
+    border-radius: 18px;
+  }
+}
