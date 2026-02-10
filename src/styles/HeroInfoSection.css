@@ -122,7 +122,47 @@
 
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 1024px) {
-  .info-container {
+  .info-container {/* ===============================
+   MOBILE TEXT OPTIMIZATION
+=============================== */
+@media (max-width: 768px) {
+  .info-section {
+    padding: 70px 0; /* reduce vertical bulk */
+  }
+
+  .info-title {
+    font-size: 2.2rem;   /* was 3.5rem */
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .info-desc {
+    font-size: 0.92rem;  /* slightly smaller */
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  .info-btn {
+    font-size: 0.95rem;
+    padding: 12px 32px;
+  }
+}
+/* ===============================
+   MOBILE TEXT JUSTIFICATION
+=============================== */
+@media (max-width: 768px) {
+  .info-desc {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+
+    /* improves spacing on narrow screens */
+    word-spacing: -0.02em;
+  }
+}
+
     flex-direction: column;
     text-align: left;
     gap: 40px;
@@ -130,5 +170,45 @@
   .info-right {
     width: 100%;
     justify-content: center;
+  }
+}
+/* ===============================
+   MOBILE TEXT OPTIMIZATION
+=============================== */
+@media (max-width: 768px) {
+  .info-section {
+    padding: 70px 0; /* reduce vertical bulk */
+  }
+
+  .info-title {
+    font-size: 2.2rem;   /* was 3.5rem */
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .info-desc {
+    font-size: 0.92rem;  /* slightly smaller */
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  .info-btn {
+    font-size: 0.95rem;
+    padding: 12px 32px;
+  }
+}
+/* ===============================
+   MOBILE TEXT JUSTIFICATION
+=============================== */
+@media (max-width: 768px) {
+  .info-desc {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+
+    /* improves spacing on narrow screens */
+    word-spacing: -0.02em;
   }
 }
