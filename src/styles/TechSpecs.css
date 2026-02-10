@@ -70,17 +70,39 @@
   position: relative;
   z-index: 2;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 12px;
   margin-bottom: 60px;
   flex-wrap: nowrap;
   max-width: 1200px;
   padding: 0 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(251, 176, 59, 0.3) rgba(255, 255, 255, 0.05);
+}
+
+.specs-tabs-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.specs-tabs-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.specs-tabs-container::-webkit-scrollbar-thumb {
+  background: rgba(251, 176, 59, 0.3);
+  border-radius: 3px;
+}
+
+.specs-tabs-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(251, 176, 59, 0.5);
 }
 
 .specs-tab-btn {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #d4d4d4;
   padding: 10px 20px;
@@ -92,6 +114,8 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .specs-tab-btn::before {
@@ -185,11 +209,9 @@
   0%,
   100% {
     opacity: 0.4;
-    filter: blur(0px);
   }
   50% {
     opacity: 0.6;
-    filter: blur(1px);
   }
 }
 
@@ -307,7 +329,6 @@
   z-index: 20;
   transform: translateY(10px);
   animation: card-slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(251, 176, 59, 0.2);
 }
 
@@ -484,113 +505,138 @@
 ============================== */
 @media (max-width: 767px) {
   .tech-specs-section {
-    padding: 60px 16px 50px;
+    padding: 30px 12px 50px;
     min-height: auto;
   }
 
   .specs-tabs-container {
-    margin-bottom: 40px;
-    gap: 8px;
-    padding: 0 10px;
+    margin-bottom: 20px;
+    gap: 6px;
+    padding: 0;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .specs-tabs-container::-webkit-scrollbar {
+    display: none;
   }
 
   .specs-tab-btn {
-    padding: 10px 18px;
-    font-size: 0.82rem;
+    padding: 8px 14px;
+    font-size: 0.7rem;
     border-radius: 6px;
+    flex-shrink: 0;
   }
 
   .specs-visual-area {
     height: auto;
-    min-height: 500px;
-    margin-bottom: 35px;
+    min-height: auto;
+    margin-bottom: 0;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
   }
 
   .specs-bg-text {
-    font-size: 4rem;
-    opacity: 0.5;
+    font-size: 1.5rem;
+    opacity: 0.15;
+    letter-spacing: 0.1em;
+    position: relative;
+    transform: none;
+    top: auto;
+    left: auto;
+    margin-bottom: 10px;
   }
 
   .specs-car-wrapper {
     max-width: 100%;
-    padding: 0 10px;
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+
+  .specs-car-img {
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
+    max-height: 250px;
+    width: auto;
+    margin: 0 auto;
   }
 
   .hotspot-point {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
 
   .hotspot-center {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     border-width: 3px;
   }
 
   .hotspot-ring {
-    width: 24px;
-    height: 24px;
-    border-width: 2px;
+    width: 28px;
+    height: 28px;
+    border-width: 3px;
   }
 
-  /* Mobile card positioning */
+  /* COMPACT CARD - HORIZONTAL LAYOUT */
   .specs-info-card {
-    position: fixed !important;
-    bottom: 20px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    top: auto !important;
-    width: calc(100% - 32px);
-    max-width: 400px;
-    padding: 16px;
-    border-radius: 14px;
-    animation: card-slide-up 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px !important;
+    margin-top: 15px !important;
+    border-radius: 10px !important;
   }
 
-  @keyframes card-slide-up {
-    from {
-      opacity: 0;
-      transform: translateX(-50%) translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+  .specs-info-card::before {
+    display: none !important;
   }
 
   .card-content-flex {
-    flex-direction: column;
-    gap: 14px;
+    flex-direction: row !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
   }
 
   .card-text {
-    padding-left: 8px;
-    width: 100%;
+    padding-left: 0 !important;
+    flex: 1 !important;
   }
 
   .card-text h3 {
-    font-size: 1.05rem;
-    margin-bottom: 8px;
+    font-size: 0.9rem !important;
+    margin-bottom: 4px !important;
+    color: #000 !important;
   }
 
   .card-text p {
-    font-size: 0.82rem;
-    line-height: 1.5;
+    font-size: 0.72rem !important;
+    line-height: 1.35 !important;
+    color: #333 !important;
   }
 
   .card-detail-img {
-    width: 100%;
-    height: 180px;
-    align-self: center;
+    width: 85px !important;
+    height: 85px !important;
+    flex-shrink: 0 !important;
+    border-radius: 8px !important;
   }
 
   .specs-footer {
-    margin-top: 40px;
+    margin-top: 25px;
+    padding-bottom: 10px;
   }
 
   .view-specs-link {
-    font-size: 0.92rem;
-    padding: 12px 28px;
+    font-size: 0.85rem;
+    padding: 10px 20px;
     letter-spacing: 0.3px;
   }
 }
@@ -600,56 +646,54 @@
 ============================== */
 @media (max-width: 480px) {
   .tech-specs-section {
-    padding: 50px 12px 40px;
+    padding: 25px 10px 40px;
   }
 
   .specs-tabs-container {
-    gap: 6px;
+    gap: 5px;
+    margin-bottom: 15px;
   }
 
   .specs-tab-btn {
-    padding: 9px 16px;
-    font-size: 0.78rem;
-  }
-
-  .specs-visual-area {
-    min-height: 400px;
+    padding: 7px 12px;
+    font-size: 0.68rem;
   }
 
   .specs-bg-text {
-    font-size: 3rem;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+
+  .specs-car-img {
+    max-height: 220px;
   }
 
   .hotspot-point {
-    width: 32px;
-    height: 32px;
-  }
-
-  .hotspot-center {
-    width: 18px;
-    height: 18px;
+    width: 34px;
+    height: 34px;
   }
 
   .specs-info-card {
-    width: calc(100% - 24px);
-    padding: 14px;
+    padding: 8px !important;
+    margin-top: 12px !important;
   }
 
   .card-text h3 {
-    font-size: 1rem;
+    font-size: 0.85rem !important;
   }
 
   .card-text p {
-    font-size: 0.8rem;
+    font-size: 0.7rem !important;
   }
 
   .card-detail-img {
-    height: 160px;
+    width: 75px !important;
+    height: 75px !important;
   }
 
   .view-specs-link {
-    font-size: 0.88rem;
-    padding: 11px 24px;
+    font-size: 0.82rem;
+    padding: 9px 18px;
   }
 }
 
@@ -657,33 +701,44 @@
    EXTRA SMALL (max-width: 375px)
 ============================== */
 @media (max-width: 375px) {
+  .tech-specs-section {
+    padding: 20px 8px 35px;
+  }
+
   .specs-tabs-container {
-    gap: 5px;
+    gap: 4px;
   }
 
   .specs-tab-btn {
-    padding: 8px 14px;
-    font-size: 0.75rem;
+    padding: 6px 10px;
+    font-size: 0.65rem;
   }
 
   .specs-bg-text {
-    font-size: 2.5rem;
+    font-size: 1.2rem;
+  }
+
+  .specs-car-img {
+    max-height: 200px;
   }
 
   .specs-info-card {
-    padding: 12px;
+    padding: 8px !important;
+    margin-top: 10px !important;
   }
 
   .card-text h3 {
-    font-size: 0.95rem;
+    font-size: 0.82rem !important;
   }
 
   .card-text p {
-    font-size: 0.78rem;
+    font-size: 0.68rem !important;
+    line-height: 1.3 !important;
   }
 
   .card-detail-img {
-    height: 140px;
+    width: 70px !important;
+    height: 70px !important;
   }
 }
 
@@ -708,7 +763,6 @@
   outline-offset: 4px;
 }
 
-/* Ensure hotspots are keyboard accessible */
 .hotspot-point {
   outline: none;
 }

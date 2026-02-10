@@ -1,5 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;500&display=swap");
 
+/* ==============================
+   SECTION
+============================== */
 .video-section {
   background-color: #000;
   padding: 80px 0;
@@ -9,7 +12,7 @@
   align-items: center;
 }
 
-/* --- SECTION HEADER --- */
+/* HEADER */
 .video-header-container {
   text-align: center;
   max-width: 800px;
@@ -18,67 +21,79 @@
 }
 
 .video-section-title {
-  font-family: 'Merriweather', sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 2.8rem;
-  text-transform: capitalize;
   margin-bottom: 15px;
 }
 
 .highlight {
-  color: #fbb03b; /* ORM Gold */
+  color: #fbb03b;
 }
 
 .video-subtext {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   color: #ccc;
   font-size: 1rem;
   line-height: 1.5;
 }
 
-/* --- GRID LAYOUT --- */
+/* ==============================
+   GRID (DESKTOP DEFAULT)
+============================== */
 .video-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 25px;
   width: 90%;
   max-width: 1400px;
+
+  /* scrollbar hide (all browsers) */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* --- VIDEO CARD --- */
-.video-card {
-  position: relative;
-  height: 280px; /* Specific height for thumbnail look */
-  background-size: cover;
-  background-position: center;
-  border-radius: 15px; /* Rounded corners like the screenshot */
+.video-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==============================
+   CARD
+============================== */
+.video-card-container {
+  height: 280px;
+  width: 100%;
+  border-radius: 15px;
   overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #222;
+  position: relative;
+  background-color: #000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
 }
 
-.video-card:hover {
+.video-card-container:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 
-/* Dark Gradient Overlay for text readability */
-.video-card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
+.video-thumbnail-card {
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom, 
-    rgba(0,0,0,0.6) 0%, 
-    rgba(0,0,0,0.1) 40%, 
-    rgba(0,0,0,0.8) 100%
-  );
-  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  cursor: pointer;
 }
 
-/* --- TOP BAR (Logo & Icons) --- */
+.video-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.85)
+  );
+}
+
+/* TOP BAR */
 .video-top-bar {
   position: absolute;
   top: 15px;
@@ -86,7 +101,6 @@
   right: 15px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   z-index: 2;
 }
 
@@ -100,78 +114,39 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  object-fit: contain;
-  background: #000; /* Fallback if logo is transparent */
+  background: #000;
 }
 
 .video-top-text {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 0.9rem;
-  color: #fff;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-  max-width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.video-meta-right {
-  display: flex;
-  gap: 15px;
-}
-
-.meta-icon-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #fff;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-}
-
-.meta-icon {
-  font-size: 1.2rem;
-  margin-bottom: 2px;
-}
-
-.meta-icon-box span {
-  font-family: 'Lato', sans-serif;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-}
-
-/* --- PLAY BUTTON --- */
+/* PLAY BUTTON */
 .play-button-wrapper {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .youtube-play-btn {
   width: 60px;
   height: 40px;
-  background-color: #ff0000; /* YouTube Red */
+  background-color: #ff0000;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  transition: transform 0.2s;
-}
-
-.video-card:hover .youtube-play-btn {
-  background-color: #cc0000;
-  transform: scale(1.1);
 }
 
 .play-icon {
   color: #fff;
   font-size: 1rem;
-  margin-left: 2px; /* Visual center adjustment */
 }
 
-/* --- BOTTOM TITLE --- */
+/* BOTTOM TITLE */
 .video-bottom-info {
   position: absolute;
   bottom: 20px;
@@ -180,12 +155,9 @@
 }
 
 .video-card-title {
-  font-family: 'Merriweather', sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 1.8rem;
-  font-weight: 700;
   line-height: 1.1;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
-  text-transform: capitalize;
 }
 
 .gold-text {
@@ -196,19 +168,39 @@
   color: #fff;
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
+/* VIDEO FRAME */
+.video-frame-wrapper,
+.video-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ==============================
+   MOBILE SIDE SCROLL ONLY
+============================== */
 @media (max-width: 768px) {
   .video-section-title {
     font-size: 2rem;
   }
-  
+
   .video-grid {
-    grid-template-columns: 1fr; /* Stack vertically on mobile */
-    width: 95%;
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 0 12px;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
   }
 
-  .video-card {
-    height: 220px;
+  .video-card-container {
+    min-width: 85%;
+    height: 240px;
+    scroll-snap-align: center;
+  }
+
+  .video-card-container:hover {
+    transform: none;
   }
 
   .video-card-title {
@@ -216,41 +208,29 @@
   }
 }
 
-/* Wrapper to maintain size */
-.video-card-container {
-  height: 280px;
-  width: 100%;
-  border-radius: 15px;
-  overflow: hidden;
-  position: relative;
-  background-color: #000;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease;
+/* ==============================
+   MOBILE DOTS
+============================== */
+.mobile-dots {
+  display: none;
 }
 
-.video-card-container:hover {
-  transform: translateY(-5px);
-}
+@media (max-width: 768px) {
+  .mobile-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
 
-/* The Thumbnail Look (Renamed from .video-card to avoid conflict) */
-.video-thumbnail-card {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  cursor: pointer;
-}
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #555;
+  }
 
-/* The Active Video Frame */
-.video-frame-wrapper {
-  width: 100%;
-  height: 100%;
-  background: #000;
-}
-
-.video-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+  .dot.active {
+    background: #fbb03b;
+  }
 }
