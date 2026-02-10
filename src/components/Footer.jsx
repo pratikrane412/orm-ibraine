@@ -30,7 +30,7 @@ const Footer = () => {
           {/* LOGO & DESC */}
           <div className="brand-col">
             <img
-              src="/ORM.svg"
+              src="image/gg.png"
               alt="ORM Logo"
               className="footer-logo-img"
             />
