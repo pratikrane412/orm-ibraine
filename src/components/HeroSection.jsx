@@ -24,16 +24,15 @@ const HeroSection = () => {
         {/* LEFT SIDE - TEXT */}
         <div className="hero-left">
           <h2 className="section-title">
-            How We Turn Thar Into a{" "}
-            <span className="highlight">Trail Beast</span>
+            What is <span className="highlight">ORM?</span>
           </h2>
 
           <p className="hero-desc">
-            At <span className="text-gold">Off-Road Mutants (ORM)</span>, we
-            believe the Mahindra Thar already holds raw off-road DNA — and our
-            ORM 2” Lift Kit unlocks its true mutant potential. This upgrade goes
-            beyond height — it’s a transformation of stance, control, and
-            confidence.
+            <span className="text-gold">Off-Road Mutants</span> is a 4x4 vehicle
+            performance and styling platform. ORM is more than a brand; it’s a
+            performance-focused automotive accessories platform engineered to
+            enhance 4x4 vehicle's driving dynamics, handling, and control for
+            drivers who demand confidence on every terrain.
           </p>
 
           <p className="hero-desc">
@@ -45,12 +44,12 @@ const HeroSection = () => {
             trails.
           </p>
 
-          <p className="hero-desc">
+          {/* <p className="hero-desc">
             It improves ground clearance, suspension geometry, and off-road
             capability — without compromising stability or handling. With ORM,
             your Thar isn't just lifted — it's evolved into a powerful off-road
             mutant built to conquer every terrain with confidence.
-          </p>
+          </p> */}
 
           <button className="hero-btn" onClick={handleShopNow}>
             Shop Now &rarr;

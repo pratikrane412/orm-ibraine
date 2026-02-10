@@ -20,19 +20,16 @@ const HeroInfoSection = () => {
         {/* LEFT SIDE - TEXT (Remains exactly the same) */}
         <div className="info-left">
           <h2 className="info-title">
-            How We Turn Machines Into{" "}
-            <span className="highlight-text">Mutants</span>
+            How We Build Performance-Driven{" "}
+            <span className="highlight-text">4x4s</span>
           </h2>
 
           <p className="info-desc">
-            At <span className="highlight-text">Off-Road Mutants (ORM)</span>,
-            we believe every vehicle has the potential to become a true off-road
-            powerhouse. Our modification process goes far beyond adding
-            accessories — it’s a transformation of strength, performance, and
-            style. Each build begins with precision engineering and a passion
-            for adventure. From heavy-duty bumpers and roof racks to running
-            boards and custom lighting systems, every product is crafted for
-            durability and tested in extreme conditions.
+            We at <span className="highlight-text">ORM</span>, begin by
+            understanding your 4x4 vehicle and driving needs, then carefully
+            recommend the right performance upgrades and expertly install
+            them—enhancing handling, durability, and confidence across any
+            terrain.
           </p>
 
           <p className="info-desc">

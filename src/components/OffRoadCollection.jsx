@@ -100,6 +100,7 @@ const OffRoadCollection = () => {
             src={cars[index].modelSrc}
             poster={cars[index].img}
             camera-controls
+            disable-zoom
             interaction-prompt="none"
             camera-orbit={`${orbitAngle}deg 65deg 95%`}
             field-of-view="30deg"
