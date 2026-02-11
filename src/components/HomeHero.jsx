@@ -9,21 +9,21 @@ const heroSlides = [
     title: "Built for Extreme Adventures",
     subtext:
       "Upgrade your Mahindra Thar with premium off-road accessories designed for durability, protection, and rugged performance—perfect for conquering mountains.",
-    link: "/products/thar",
+    link: "/collections/thar",
   },
   {
     img: "/image/car-ai4.png", // Replace with Maruti Jimny image path
     title: "Compact Size Mighty Off-Road Power.",
     subtext:
       "Equip your Jimny with high-performance off-roading accessories engineered for tough terrains—enhancing capability, style, and protection while maintaining its lightweight adventure.",
-    link: "/products/jimny",
+    link: "/collections/jimny",
   },
   {
     img: "/image/hilux-ban.png",
     title: "Dominate Every Terrain",
     subtext:
       "Transform your Toyota Hilux into the ultimate off-road machine with heavy-duty accessories built for strength, utility, and endurance—ready for dunes.",
-    link: "/products/hilux",
+    link: "/collections/hilux",
   },
 ];
 

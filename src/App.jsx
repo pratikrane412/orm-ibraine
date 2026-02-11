@@ -72,10 +72,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route
-              path="/products/:categoryName"
-              element={<ProductCategoryPage />}
-            />
+            <Route path="/collections/:categoryName" element={<ProductCategoryPage />} />
             <Route path="/product/:slug" element={<ProductDetailsPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />

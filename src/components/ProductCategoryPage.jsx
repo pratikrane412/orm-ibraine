@@ -83,7 +83,7 @@ const ProductCategoryPage = () => {
   }, []);
 
   const handleCategoryClick = (slug) => {
-    navigate(`/products/${slug}`);
+    navigate(`/collections/${slug}`);
     window.scrollTo(0, 0);
   };
 

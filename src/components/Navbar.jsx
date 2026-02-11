@@ -43,32 +43,32 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/products/thar" onClick={closeMobileMenu}>
+            <Link to="/collections/thar" onClick={closeMobileMenu}>
               Mahindra Thar & Roxx
             </Link>
           </li>
           <li>
-            <Link to="/products/scorpio" onClick={closeMobileMenu}>
+            <Link to="/collections/scorpio" onClick={closeMobileMenu}>
               Scorpio
             </Link>
           </li>
           <li>
-            <Link to="/products/hilux" onClick={closeMobileMenu}>
+            <Link to="/collections/hilux" onClick={closeMobileMenu}>
               Toyota Hilux
             </Link>
           </li>
           <li>
-            <Link to="/products/fortuner" onClick={closeMobileMenu}>
+            <Link to="/collections/fortuner" onClick={closeMobileMenu}>
               Toyota Fortuner
             </Link>
           </li>
           <li>
-            <Link to="/products/jimny" onClick={closeMobileMenu}>
+            <Link to="/collections/jimny" onClick={closeMobileMenu}>
               Suzuki Jimny
             </Link>
           </li>
           <li>
-            <Link to="/products/defender" onClick={closeMobileMenu}>
+            <Link to="/collections/defender" onClick={closeMobileMenu}>
               Range Rover Defender
             </Link>
           </li>
