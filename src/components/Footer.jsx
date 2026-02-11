@@ -85,7 +85,7 @@ const Footer = () => {
 
         {/* --- BOTTOM SECTION --- */}
         <div className="footer-bottom">
-          <p className="copyright">© 2025, ORM. All Rights Reserved</p>
+          <p className="copyright">© 2026, ORM. All Rights Reserved</p>
 
           <div className="social-icons">
             <a href="#" aria-label="Facebook">
