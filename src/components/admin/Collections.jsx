@@ -9,45 +9,55 @@ const Collections = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 1. Fetch from REAL Collections API (Not Products)
-    fetch("https://orm-backend-gejw.onrender.com/api/collections/")
-      .then((res) => res.json())
+    // 1. Get the token using the specific name found in your LocalStorage
+    const token = localStorage.getItem("orm_admin_token");
+
+    setLoading(true);
+
+    // 2. Add the Authorization header to the request
+    fetch("https://orm-backend-gejw.onrender.com/api/collections/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${token}` // This is the fix for 401
+      }
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          throw new Error("Unauthorized: Please log in again.");
+        }
+        return res.json();
+      })
       .then((data) => {
-        setCollections(data); // This will be empty [] initially
+        setCollections(data);
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Collections Error:", err);
         setLoading(false);
       });
   }, []);
 
   const getImageUrl = (collection) => {
-    // 1. Priority: Collection's own image
     if (collection.image) {
       return collection.image.startsWith("http")
         ? collection.image
         : `https://orm-backend-gejw.onrender.com${collection.image}`;
     }
-
-    // 2. Fallback: First Product Image (from new serializer field)
     if (collection.first_product_image) {
       return `https://orm-backend-gejw.onrender.com${collection.first_product_image}`;
     }
-
     return null;
   };
 
   return (
     <div className="admin-page-container collections-wrapper">
-      {/* HEADER */}
       <div className="admin-header-row">
         <div className="header-text">
           <h2>Collections</h2>
           <p className="subtitle">Manage product groups and categories</p>
         </div>
         <div className="header-actions">
-          {/* Link to Create Page */}
           <Link
             to="/react-admin/products/collections/new"
             className="admin-btn-primary"
@@ -57,9 +67,7 @@ const Collections = () => {
         </div>
       </div>
 
-      {/* TABLE */}
       <div className="table-wrapper">
-        {/* TABS */}
         <div className="tabs-row">
           <button className="tab-item active">All</button>
           <button className="tab-add">+</button>
@@ -97,7 +105,6 @@ const Collections = () => {
                     </td>
                     <td>
                       <div className="collection-thumb">
-                        {/* Use the helper */}
                         {getImageUrl(col) ? (
                           <img src={getImageUrl(col)} alt={col.title} />
                         ) : (
@@ -111,13 +118,11 @@ const Collections = () => {
                       <span className="collection-title">{col.title}</span>
                     </td>
                     <td align="right" style={{ color: "#6b7280" }}>
-                      {/* Using the field from serializer */}
                       {col.product_count || 0} products
                     </td>
                   </tr>
                 ))
               ) : (
-                // This is what shows initially (Empty State)
                 <tr>
                   <td colSpan="4" className="no-data">
                     <div style={{ padding: "40px", textAlign: "center" }}>

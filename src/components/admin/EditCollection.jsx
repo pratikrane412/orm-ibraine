@@ -20,26 +20,34 @@ const EditCollection = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [search, setSearch] = useState("");
 
+  // Get the token from local storage
+  const token = localStorage.getItem("orm_admin_token");
+
   useEffect(() => {
+    // 1. Fetch Collection Details
     if (!isCreateMode) {
-      fetch(`https://orm-backend-gejw.onrender.com/api/collections/${id}/`)
+      fetch(`https://orm-backend-gejw.onrender.com/api/collections/${id}/`, {
+        headers: { Authorization: `Token ${token}` },
+      })
         .then((res) => res.json())
         .then((data) => setCollection(data))
         .catch((err) => console.error(err));
     }
 
+    // 2. Fetch all products to populate search
     fetch("https://orm-backend-gejw.onrender.com/api/products/")
       .then((res) => res.json())
       .then((data) => {
         setAllProducts(data);
         if (!isCreateMode) {
+          // Note: collection ID is still numeric
           const inCollection = data.filter(
-            (p) => p.collection === parseInt(id)
+            (p) => p.collection === parseInt(id),
           );
           setProducts(inCollection);
         }
       });
-  }, [id, isCreateMode]);
+  }, [id, isCreateMode, token]);
 
   const handleSave = async () => {
     try {
@@ -48,65 +56,91 @@ const EditCollection = () => {
         : `https://orm-backend-gejw.onrender.com/api/collections/${id}/`;
       let method = isCreateMode ? "POST" : "PATCH";
 
+      // SAVE COLLECTION
       const response = await fetch(url, {
         method: method,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`, // ADDED AUTH
+        },
         body: JSON.stringify(collection),
       });
 
       if (response.ok) {
         const savedCol = await response.json();
+
         // If creating, we need to link products now
         if (isCreateMode && products.length > 0) {
           for (const p of products) {
-            await fetch(`https://orm-backend-gejw.onrender.com/api/products/${p.id}/`, {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ collection: savedCol.id }),
-            });
+            // FIX: Use p.slug instead of p.id because of backend changes
+            await fetch(
+              `https://orm-backend-gejw.onrender.com/api/products/${p.slug}/`,
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Token ${token}`, // ADDED AUTH
+                },
+                body: JSON.stringify({ collection: savedCol.id }),
+              },
+            );
           }
         }
         alert("Collection Saved!");
         navigate("/react-admin/products/collections");
+      } else {
+        alert("Failed to save collection. Check permissions.");
       }
     } catch (err) {
       console.error(err);
     }
   };
 
-  const addToCollection = async (productId) => {
-    const product = allProducts.find((p) => p.id === productId);
+  const addToCollection = async (productObj) => {
     if (!isCreateMode) {
-      await fetch(`https://orm-backend-gejw.onrender.com/api/products/${productId}/`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ collection: id }),
-      });
+      // FIX: Use slug in URL
+      await fetch(
+        `https://orm-backend-gejw.onrender.com/api/products/${productObj.slug}/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`, // ADDED AUTH
+          },
+          body: JSON.stringify({ collection: id }),
+        },
+      );
     }
-    setProducts([...products, product]);
+    setProducts([...products, productObj]);
     setSearch("");
   };
 
-  const removeFromCollection = async (productId) => {
+  const removeFromCollection = async (productObj) => {
     if (!isCreateMode) {
-      await fetch(`https://orm-backend-gejw.onrender.com/api/products/${productId}/`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ collection: null }),
-      });
+      // FIX: Use slug in URL
+      await fetch(
+        `https://orm-backend-gejw.onrender.com/api/products/${productObj.slug}/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`, // ADDED AUTH
+          },
+          body: JSON.stringify({ collection: null }),
+        },
+      );
     }
-    setProducts(products.filter((p) => p.id !== productId));
+    setProducts(products.filter((p) => p.id !== productObj.id));
   };
 
   const searchResults = allProducts.filter(
     (p) =>
       p.title.toLowerCase().includes(search.toLowerCase()) &&
-      !products.find((existing) => existing.id === p.id)
+      !products.find((existing) => existing.id === p.id),
   );
 
   return (
     <div className="admin-page-container collection-edit-wrapper">
-      {/* PAGE HEADER */}
       <div className="admin-header-row">
         <div className="header-left-group">
           <Link
@@ -131,7 +165,6 @@ const EditCollection = () => {
       </div>
 
       <div className="collection-form-layout">
-        {/* CARD 1: DETAILS */}
         <div className="ec-card">
           <div className="ec-card-header">
             <h3>Details</h3>
@@ -161,13 +194,12 @@ const EditCollection = () => {
                   setCollection({ ...collection, description: e.target.value })
                 }
                 className="ec-input"
-                placeholder="Add a description for this collection..."
+                placeholder="Add a description..."
               ></textarea>
             </div>
           </div>
         </div>
 
-        {/* CARD 2: PRODUCTS */}
         <div className="ec-card">
           <div className="ec-card-header">
             <h3>Products</h3>
@@ -176,23 +208,21 @@ const EditCollection = () => {
             </span>
           </div>
           <div className="ec-card-body">
-            {/* SEARCH */}
             <div className="ec-search-box">
               <FaSearch className="icon" />
               <input
                 type="text"
-                placeholder="Search products to add..."
+                placeholder="Search products..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              {/* DROPDOWN */}
               {search && (
                 <div className="ec-dropdown">
                   {searchResults.map((p) => (
                     <div
                       key={p.id}
                       className="ec-dropdown-item"
-                      onClick={() => addToCollection(p.id)}
+                      onClick={() => addToCollection(p)}
                     >
                       <img
                         src={
@@ -209,7 +239,6 @@ const EditCollection = () => {
               )}
             </div>
 
-            {/* LIST */}
             <div className="ec-product-list">
               {products.map((p) => (
                 <div key={p.id} className="ec-product-row">
@@ -226,7 +255,7 @@ const EditCollection = () => {
                   <span className="ec-prod-name">{p.title}</span>
                   <button
                     className="ec-remove-btn"
-                    onClick={() => removeFromCollection(p.id)}
+                    onClick={() => removeFromCollection(p)}
                   >
                     <FaTimes />
                   </button>
@@ -234,7 +263,7 @@ const EditCollection = () => {
               ))}
               {products.length === 0 && (
                 <div className="ec-empty-state">
-                  No products in this collection yet.
+                  No products in this collection.
                 </div>
               )}
             </div>
