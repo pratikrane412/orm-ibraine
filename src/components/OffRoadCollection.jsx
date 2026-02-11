@@ -67,7 +67,7 @@ const OffRoadCollection = () => {
     <section className="collection-section">
       {/* ===== TITLE ===== */}
       <h2 className="title-text">
-        The Ultimate Off-<span className="highlight">Road Collection.</span>
+        The Ultimate Off-<span className="highlight">Road Products.</span>
       </h2>
 
       {/* ===== SCROLLABLE PRODUCT NAMES ===== */}
@@ -127,7 +127,7 @@ const OffRoadCollection = () => {
 
         <button
           className="shop-cta-btn"
-          onClick={() => navigate("/products/thar")}
+          onClick={() => navigate("/collections/thar")}
         >
           Shop Now →
         </button>
