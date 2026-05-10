@@ -6,7 +6,7 @@ import ProfileSettings from "./ProfileSettings";
 import MyOrders from "./MyOrders"; // Import the new component
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import "../styles/ProfilePage.css";
+// Removed: import "../styles/ProfilePage.css";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -34,35 +34,16 @@ const ProfilePage = () => {
       case "dashboard":
         return (
           <div className="profile-content-box">
-            <h2>Dashboard</h2>
-            <div
-              className="dashboard-stats-grid"
-              style={{ display: "flex", gap: "20px" }}
-            >
-              <div
-                className="stat-card"
-                style={{
-                  flex: 1,
-                  background: "#111",
-                  padding: "20px",
-                  borderRadius: "10px",
-                }}
-              >
-                <h4 style={{ color: "#888" }}>Total Orders</h4>
-                <h1 style={{ color: "#fbb03b", fontSize: "2.5rem" }}>5</h1>{" "}
+            <h2 className="font-['Merriweather',_sans-serif] text-[2.2rem] mb-[30px] text-white tracking-[1px] uppercase border-b-2 border-[#fbb03b] pb-[10px] inline-block font-bold">Dashboard</h2>
+            <div className="flex gap-[20px]">
+              <div className="flex-1 bg-[#111] p-[20px] rounded-[10px]">
+                <h4 className="text-[#888] font-medium">Total Orders</h4>
+                <h1 className="text-[#fbb03b] text-[2.5rem] font-bold">5</h1>{" "}
                 {/* Fetch real count later */}
               </div>
-              <div
-                className="stat-card"
-                style={{
-                  flex: 1,
-                  background: "#111",
-                  padding: "20px",
-                  borderRadius: "10px",
-                }}
-              >
-                <h4 style={{ color: "#888" }}>Wallet</h4>
-                <h1 style={{ color: "#fbb03b", fontSize: "2.5rem" }}>Rs. 0</h1>
+              <div className="flex-1 bg-[#111] p-[20px] rounded-[10px]">
+                <h4 className="text-[#888] font-medium">Wallet</h4>
+                <h1 className="text-[#fbb03b] text-[2.5rem] font-bold">Rs. 0</h1>
               </div>
             </div>
           </div>
@@ -71,33 +52,28 @@ const ProfilePage = () => {
       case "address":
         return (
           <div className="profile-content-box">
-            <h2>My Addresses</h2>
+            <h2 className="font-['Merriweather',_sans-serif] text-[2.2rem] mb-[30px] text-white tracking-[1px] uppercase border-b-2 border-[#fbb03b] pb-[10px] inline-block font-bold">My Addresses</h2>
             {/* You can build an AddressForm component here similar to ProfileSettings */}
-            <p className="section-desc">
+            <p className="font-['Lato',_sans-serif] text-[0.9rem] text-[#888] mb-[20px] leading-[1.5]">
               Manage your shipping and billing addresses.
             </p>
-            <button className="save-btn">+ Add New Address</button>
+            <button className="bg-[#fbb03b] text-black px-[40px] py-[14px] font-['Lato',_sans-serif] font-bold border-none rounded-[50px] cursor-pointer self-start mt-[10px] transition-all text-[1rem] tracking-[0.5px] uppercase hover:bg-[#ffc107] hover:-translate-y-[3px] hover:shadow-[0_5px_15px_rgba(251,176,59,0.3)]">
+              + Add New Address
+            </button>
           </div>
         );
 
       case "track":
         return (
           <div className="profile-content-box">
-            <h2>Track Your Order</h2>
-            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            <h2 className="font-['Merriweather',_sans-serif] text-[2.2rem] mb-[30px] text-white tracking-[1px] uppercase border-b-2 border-[#fbb03b] pb-[10px] inline-block font-bold">Track Your Order</h2>
+            <div className="flex gap-[10px] mt-[20px]">
               <input
                 type="text"
                 placeholder="Enter Order ID"
-                style={{
-                  padding: "10px",
-                  flex: 1,
-                  background: "#111",
-                  border: "1px solid #333",
-                  color: "#fff",
-                  borderRadius: "5px",
-                }}
+                className="p-[10px] flex-1 bg-[#111] border border-[#333] text-white rounded-[5px] outline-none focus:border-[#fbb03b]"
               />
-              <button className="save-btn" style={{ marginTop: 0 }}>
+              <button className="bg-[#fbb03b] text-black px-[40px] py-[14px] font-['Lato',_sans-serif] font-bold border-none rounded-[50px] cursor-pointer transition-all text-[1rem] tracking-[0.5px] uppercase hover:bg-[#ffc107] hover:-translate-y-[3px] hover:shadow-[0_5px_15px_rgba(251,176,59,0.3)] mt-0">
                 Track
               </button>
             </div>
@@ -113,18 +89,18 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="page-wrapper">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <div className="profile-page-container">
-        <div className="profile-header">
-          <h1>
-            My <span className="highlight">Account</span>
+      <div className="w-[90%] max-w-[1400px] mx-auto pt-[120px] pb-[80px] min-h-[80vh] text-white">
+        <div className="mb-[40px]">
+          <h1 className="font-['Merriweather',_sans-serif] text-[3rem] capitalize text-white font-bold">
+            My <span className="text-[#fbb03b]">Account</span>
           </h1>
         </div>
 
-        <div className="profile-layout">
-          <div className="profile-left">
+        <div className="flex gap-[40px] items-start max-lg:flex-col">
+          <div className="flex-1 max-w-[300px] max-lg:max-w-full w-full">
             <ProfileSidebar
               activeTab={activeTab}
               setActiveTab={setActiveTab}
@@ -132,7 +108,9 @@ const ProfilePage = () => {
             />
           </div>
 
-          <div className="profile-right">{renderContent()}</div>
+          <div className="flex-[3] bg-[#0a0a0a] border border-[#222] rounded-[12px] p-[50px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] max-md:p-[25px] w-full">
+            {renderContent()}
+          </div>
         </div>
       </div>
 

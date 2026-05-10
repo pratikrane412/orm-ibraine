@@ -3,7 +3,6 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaSave, FaImage, FaPlus } from "react-icons/fa";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import "../../styles/admin/AddProduct.css";
 
 const EditBlog = () => {
   const { id } = useParams();
@@ -98,32 +97,30 @@ const EditBlog = () => {
   };
 
   return (
-    <div className="admin-page-container full-width">
-      <div className="admin-header-row">
-        <div
-          className="header-left"
-          style={{ display: "flex", alignItems: "center", gap: "15px" }}
-        >
-          <Link to="/react-admin/blog" className="back-btn">
+    <div className="p-[30px] w-full">
+      <div className="flex justify-between items-center mb-[30px]">
+        <div className="flex items-center gap-[15px]">
+          <Link to="/react-admin/blog" className="w-[40px] h-[40px] bg-white border border-[#ddd] rounded-full flex items-center justify-center text-[#666] transition-all hover:bg-orm-gold hover:text-white hover:border-orm-gold">
             <FaArrowLeft />
           </Link>
-          <h2>{isEdit ? "Edit Post" : "New Post"}</h2>
+          <h2 className="text-[1.5rem] font-bold text-[#111]">{isEdit ? "Edit Post" : "New Post"}</h2>
         </div>
-        <button className="admin-btn primary" onClick={handleSubmit}>
+        <button className="bg-orm-gold text-black px-[20px] py-[10px] rounded-[6px] font-semibold flex items-center gap-[8px] transition-all hover:bg-orm-yellow shadow-sm" onClick={handleSubmit}>
           <FaSave /> {isEdit ? "Update" : "Publish"}
         </button>
       </div>
 
       <form
-        className="add-product-layout"
+        className="grid gap-[25px]"
         style={{ gridTemplateColumns: "2fr 1fr" }}
       >
-        <div className="main-col">
-          <div className="card">
-            <div className="form-group">
-              <label>Title</label>
+        <div className="flex flex-col">
+          <div className="bg-white p-[25px] rounded-[12px] border border-[#e5e7eb] shadow-sm mb-[25px]">
+            <div className="mb-[20px]">
+              <label className="block font-semibold text-[#374151] mb-[8px] text-[0.95rem]">Title</label>
               <input
                 type="text"
+                className="w-full p-[12px] border border-[#ddd] rounded-[8px] outline-none focus:border-orm-gold transition-all"
                 value={formData.title}
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
@@ -131,8 +128,8 @@ const EditBlog = () => {
                 placeholder="Blog Title"
               />
             </div>
-            <div className="form-group">
-              <label>Content</label>
+            <div className="mb-[20px]">
+              <label className="block font-semibold text-[#374151] mb-[8px] text-[0.95rem]">Content</label>
               <ReactQuill
                 theme="snow"
                 value={formData.content}
@@ -144,64 +141,43 @@ const EditBlog = () => {
           </div>
         </div>
 
-        <div className="side-col">
-          <div className="card">
-            <h3>Featured Image</h3>
-            <div className="image-upload-zone" style={{ height: "200px" }}>
+        <div className="flex flex-col">
+          <div className="bg-white p-[25px] rounded-[12px] border border-[#e5e7eb] shadow-sm mb-[25px]">
+            <h3 className="text-[1.1rem] font-bold text-[#111] mb-[15px]">Featured Image</h3>
+            <div className="relative border-2 border-dashed border-[#ddd] rounded-[12px] flex flex-col items-center justify-center cursor-pointer transition-all hover:border-orm-gold hover:bg-[#fffcf5] overflow-hidden" style={{ height: "200px" }}>
               {preview ? (
                 <img
                   src={preview}
                   alt=""
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: "8px",
-                  }}
+                  className="w-full h-full object-cover rounded-[8px]"
                 />
               ) : (
-                <div style={{ textAlign: "center", color: "#999" }}>
-                  <FaImage size={30} />
+                <div className="text-center text-[#999]">
+                  <FaImage size={30} className="mx-auto mb-[5px]" />
                   <p>Upload Cover</p>
                 </div>
               )}
               <input
                 type="file"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 onChange={(e) => {
                   setImageFile(e.target.files[0]);
                   setPreview(URL.createObjectURL(e.target.files[0]));
-                }}
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                  cursor: "pointer",
                 }}
               />
             </div>
           </div>
 
           {/* CATEGORIES CARD */}
-          <div className="card">
+          <div className="bg-white p-[25px] rounded-[12px] border border-[#e5e7eb] shadow-sm mb-[25px]">
             <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "10px",
-              }}
+              className="flex justify-between items-center mb-[10px]"
             >
-              <h3>Categories</h3>
+              <h3 className="text-[1.1rem] font-bold text-[#111]">Categories</h3>
               <button
                 type="button"
+                className="bg-none border-none text-orm-gold cursor-pointer p-[5px]"
                 onClick={() => setShowAddCat(!showAddCat)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#fbb03b",
-                  cursor: "pointer",
-                }}
               >
                 <FaPlus />
               </button>
@@ -209,38 +185,32 @@ const EditBlog = () => {
 
             {showAddCat && (
               <div
-                style={{ display: "flex", gap: "5px", marginBottom: "15px" }}
+                className="flex gap-[5px] mb-[15px]"
               >
                 <input
                   type="text"
+                  className="flex-1 p-[8px] border border-[#ddd] rounded-[6px] outline-none text-[0.9rem]"
                   value={newCatName}
                   onChange={(e) => setNewCatName(e.target.value)}
                   placeholder="New Category..."
-                  style={{ padding: "5px", flex: 1 }}
                 />
                 <button
                   type="button"
                   onClick={handleAddCategory}
-                  className="admin-btn primary"
-                  style={{ padding: "5px 10px", fontSize: "12px" }}
+                  className="bg-orm-gold text-black px-[10px] py-[5px] rounded-[6px] text-[12px] font-semibold hover:bg-orm-yellow transition-all"
                 >
                   Add
                 </button>
               </div>
             )}
 
-            <div className="form-group">
+            <div className="mb-[20px]">
               <select
+                className="w-full p-[10px] border border-[#ddd] rounded-[6px] outline-none focus:border-orm-gold transition-all"
                 value={formData.category}
                 onChange={(e) =>
                   setFormData({ ...formData, category: e.target.value })
                 }
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  borderRadius: "6px",
-                  border: "1px solid #ddd",
-                }}
               >
                 <option value="">Select Category</option>
                 {categories.map((cat) => (
@@ -252,17 +222,18 @@ const EditBlog = () => {
             </div>
           </div>
 
-          <div className="card">
-            <h3>Visibility</h3>
-            <div className="checkbox-row">
+          <div className="bg-white p-[25px] rounded-[12px] border border-[#e5e7eb] shadow-sm mb-[25px]">
+            <h3 className="text-[1.1rem] font-bold text-[#111] mb-[15px]">Visibility</h3>
+            <div className="flex items-center gap-[10px]">
               <input
                 type="checkbox"
+                className="w-[18px] h-[18px] cursor-pointer"
                 checked={formData.is_published}
                 onChange={(e) =>
                   setFormData({ ...formData, is_published: e.target.checked })
                 }
               />
-              <label>Visible</label>
+              <label className="font-semibold text-[#374151]">Visible</label>
             </div>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../styles/ProfilePage.css"; // Reuse existing styles or create new
 
 const MyOrders = () => {
   const { token } = useAuth();
@@ -19,38 +18,38 @@ const MyOrders = () => {
       .catch((err) => console.error(err));
   }, [token]);
 
-  if (loading) return <div className="loading-state">Loading Orders...</div>;
+  if (loading) return <div className="p-[40px] text-center text-[#666]">Loading Orders...</div>;
 
   return (
-    <div className="profile-content-box">
-      <h2>My Orders</h2>
+    <div className="bg-white p-[25px] rounded-[12px] border border-[#e5e7eb] shadow-sm">
+      <h2 className="text-[1.5rem] font-bold text-[#111] mb-[20px]">My Orders</h2>
 
       {orders.length === 0 ? (
-        <p>No orders found.</p>
+        <p className="text-[#666]">No orders found.</p>
       ) : (
-        <div className="orders-list">
-          <table className="modern-table" style={{ width: "100%" }}>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
             <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Total</th>
+              <tr className="bg-[#f9fafb] border-b border-[#e5e7eb]">
+                <th className="p-[15px] text-left text-[0.85rem] font-bold text-[#374151] uppercase tracking-wider">Order ID</th>
+                <th className="p-[15px] text-left text-[0.85rem] font-bold text-[#374151] uppercase tracking-wider">Date</th>
+                <th className="p-[15px] text-left text-[0.85rem] font-bold text-[#374151] uppercase tracking-wider">Status</th>
+                <th className="p-[15px] text-left text-[0.85rem] font-bold text-[#374151] uppercase tracking-wider">Total</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-[#e5e7eb]">
               {orders.map((order) => (
-                <tr key={order.id}>
-                  <td>#{order.id + 1000}</td>
-                  <td>{new Date(order.created_at).toLocaleDateString()}</td>
-                  <td>
+                <tr key={order.id} className="hover:bg-[#fffcf5] transition-colors">
+                  <td className="p-[15px] text-[0.9rem] font-semibold text-[#111]">#{order.id + 1000}</td>
+                  <td className="p-[15px] text-[0.9rem] text-[#6b7280]">{new Date(order.created_at).toLocaleDateString()}</td>
+                  <td className="p-[15px]">
                     <span
-                      className={`status-badge ${order.is_paid ? "paid" : "pending"}`}
+                      className={`inline-block px-[10px] py-[4px] rounded-full text-[0.75rem] font-bold uppercase tracking-wider ${order.is_paid ? "bg-[#dcfce7] text-[#166534]" : "bg-[#fef9c3] text-[#854d0e]"}`}
                     >
                       {order.is_paid ? "Paid" : "Pending"}
                     </span>
                   </td>
-                  <td>Rs. {Number(order.total_price).toLocaleString()}</td>
+                  <td className="p-[15px] text-[0.9rem] font-bold text-[#111]">Rs. {Number(order.total_price).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>

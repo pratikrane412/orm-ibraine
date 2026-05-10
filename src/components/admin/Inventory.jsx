@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaSave } from "react-icons/fa";
-import "../../styles/admin/Inventory.css";
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
@@ -86,79 +85,80 @@ const Inventory = () => {
   );
 
   return (
-    <div className="admin-page-container inventory-wrapper">
-      <div className="admin-header-row">
+    <div className="bg-[#ffffff] rounded-[12px] p-[30px] shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-[#e5e7eb] w-full min-h-[85vh] font-['Inter',sans-serif] text-[#111827] pb-[60px]">
+      <div className="mb-[25px]">
         <div className="header-text">
-          <h2>Inventory</h2>
-          <p className="subtitle">Manage stock availability</p>
+          <h2 className="font-['Merriweather',serif] text-[24px] font-[700] m-0 text-[#111]">Inventory</h2>
+          <p className="text-[#6b7280] text-[14px] mt-[4px]">Manage stock availability</p>
         </div>
       </div>
 
-      <div className="table-wrapper">
-        <div className="inventory-filters">
-          <div className="tabs-row-inv">
-            <button className="tab-btn active">All Products</button>
+      <div className="bg-white border border-[#e5e7eb] rounded-[12px] box-shadow-[0_1px_3px_rgba(0,0,0,0.05)] overflow-hidden">
+        <div className="p-[12px_20px] border-b border-[#e5e7eb] bg-white flex flex-col gap-[15px]">
+          <div className="flex gap-[8px]">
+            <button className="bg-[#1f2937] text-white p-[6px_14px] rounded-[6px] text-[13px] font-[600] border-none cursor-pointer">All Products</button>
           </div>
 
-          <div className="search-box-inv">
-            <FaSearch className="icon" />
+          <div className="flex items-center border border-[#d1d5db] rounded-[8px] p-[8px_12px] w-full max-w-full transition-all duration-200 bg-[#f9fafb] focus-within:border-[#fbb03b] focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(251,176,59,0.1)]">
+            <FaSearch className="text-[#9ca3af]" />
             <input
               type="text"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              className="border-none outline-none w-full text-[14px] ml-[10px] bg-transparent"
             />
           </div>
         </div>
 
         {loading ? (
-          <div className="loading-state">Loading...</div>
+          <div className="text-center padding-[60px] text-[#9ca3af]">Loading...</div>
         ) : (
-          <table className="modern-table inventory-table">
+          <table className="w-full border-collapse text-left">
             <thead>
               <tr>
-                <th width="60">Image</th>
-                <th>Product</th>
-                <th>SKU</th>
-                <th align="center">Available</th>
-                <th width="80">On Hand</th>
-                <th width="50">Save</th>
+                <th width="60" className="p-[12px_20px] text-[12px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Image</th>
+                <th className="p-[12px_20px] text-[12px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Product</th>
+                <th className="p-[12px_20px] text-[12px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">SKU</th>
+                <th align="center" className="p-[12px_20px] text-[12px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Available</th>
+                <th width="80" className="p-[12px_20px] text-[12px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">On Hand</th>
+                <th width="50" className="p-[12px_20px] text-[12px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Save</th>
               </tr>
             </thead>
             <tbody>
               {filteredProducts.map((p) => {
                 const stock = changes[p.id]?.stock_quantity ?? p.stock_quantity;
                 return (
-                  <tr key={p.id}>
-                    <td>
-                      <div className="table-img small">
-                        <img src={getImageUrl(p.image)} alt={p.title} />
+                  <tr key={p.id} className="hover:bg-[#fffbeb]">
+                    <td className="p-[12px_20px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151] bg-white">
+                      <div className="w-[40px] h-[40px] rounded-[6px] overflow-hidden border border-[#e5e7eb] bg-[#f9fafb] flex items-center justify-center">
+                        <img src={getImageUrl(p.image)} alt={p.title} className="w-full h-full object-cover block" />
                       </div>
                     </td>
-                    <td className="product-name-cell">
-                      <strong>{p.title}</strong>
+                    <td className="p-[12px_20px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151] bg-white">
+                      <strong className="font-[600] text-[#111] text-[14px]">{p.title}</strong>
                       <div style={{ fontSize: "10px", color: "#888" }}>
                         /{p.slug}
                       </div>
                     </td>
-                    <td className="sku-text">ORM-{p.id}</td>
-                    <td align="center">
+                    <td className="p-[12px_20px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151] bg-white font-['Inter',monospace] text-[12px] text-[#6b7280]">ORM-{p.id}</td>
+                    <td align="center" className="p-[12px_20px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151] bg-white">
                       <input
                         type="number"
-                        className="stock-input"
+                        className="w-[80px] p-[8px] border border-[#d1d5db] rounded-[6px] text-center font-[600] text-[14px] text-[#111] bg-white transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.2)] outline-none"
                         value={stock}
                         onChange={(e) =>
                           handleStockChange(p.id, e.target.value)
                         }
                       />
                     </td>
-                    <td align="center">
-                      <span className="read-only-stat">{stock}</span>
+                    <td align="center" className="p-[12px_20px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151] bg-white">
+                      <span className="inline-block p-[4px_10px] rounded-[6px] text-[13px] font-[600] min-w-[40px] text-center">{stock}</span>
                     </td>
-                    <td>
+                    <td className="p-[12px_20px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151] bg-white">
                       {changes[p.id] && (
                         <button
-                          className="save-icon-btn active"
+                          className="bg-[#111] text-[#fbb03b] border-none w-[32px] h-[32px] rounded-[6px] flex items-center justify-center cursor-pointer transition-all duration-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] hover:bg-black hover:scale-105"
                           onClick={() => saveStock(p)}
                         >
                           <FaSave />

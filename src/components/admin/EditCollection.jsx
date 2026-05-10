@@ -8,7 +8,6 @@ import {
   FaLayerGroup,
   FaBoxOpen,
 } from "react-icons/fa";
-import "../../styles/admin/EditCollection.css";
 
 const EditCollection = () => {
   const { id } = useParams();
@@ -140,88 +139,89 @@ const EditCollection = () => {
   );
 
   return (
-    <div className="admin-page-container collection-edit-wrapper">
-      <div className="admin-header-row">
-        <div className="header-left-group">
+    <div className="font-['Inter',sans-serif] text-[#111827] w-full max-w-full pb-[80px] bg-transparent shadow-none">
+      <div className="flex justify-between items-center mb-[25px] pt-[10px]">
+        <div className="flex items-center gap-[15px]">
           <Link
             to="/react-admin/products/collections"
-            className="back-circle-btn"
+            className="w-[40px] h-[40px] rounded-full border border-[#d1d5db] flex items-center justify-center text-[#6b7280] bg-white transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:text-[#111] hover:translate-x-[-3px]"
           >
             <FaArrowLeft />
           </Link>
           <div className="header-text">
-            <h2>{isCreateMode ? "Create collection" : collection.title}</h2>
-            <p className="subtitle">Manage product grouping</p>
+            <h2 className="font-['Merriweather',serif] text-[24px] font-[700] m-0 text-[#111]">{isCreateMode ? "Create collection" : collection.title}</h2>
+            <p className="text-[#6b7280] text-[13px] mt-[2px]">Manage product grouping</p>
           </div>
         </div>
-        <div className="header-actions">
-          <button className="admin-btn-secondary" onClick={() => navigate(-1)}>
+        <div className="flex gap-[12px]">
+          <button className="bg-white border border-[#d1d5db] text-[#374151] p-[10px_20px] rounded-[8px] font-[600] text-[14px] cursor-pointer transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:bg-[#f9fafb] hover:border-[#9ca3af]" onClick={() => navigate(-1)}>
             Discard
           </button>
-          <button className="admin-btn-primary" onClick={handleSave}>
+          <button className="bg-[#fbb03b] text-black border-none p-[10px_24px] rounded-[8px] font-[600] text-[14px] cursor-pointer transition-all duration-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] hover:bg-[#f59e0b] hover:translate-y-[-1px]" onClick={handleSave}>
             Save
           </button>
         </div>
       </div>
 
-      <div className="collection-form-layout">
-        <div className="ec-card">
-          <div className="ec-card-header">
-            <h3>Details</h3>
-            <span className="ec-icon">
+      <div className="flex flex-col gap-[20px] w-full">
+        <div className="bg-white rounded-[12px] border border-[#e5e7eb] shadow-[0_1px_3px_rgba(0,0,0,0.05)] overflow-hidden w-full">
+          <div className="p-[16px_24px] border-b border-[#f3f4f6] flex justify-between items-center bg-[#fcfcfc]">
+            <h3 className="text-[15px] font-[600] m-0 text-[#202223]">Details</h3>
+            <span className="text-[#9ca3af] text-[1.1rem]">
               <FaLayerGroup />
             </span>
           </div>
-          <div className="ec-card-body">
-            <div className="form-group">
-              <label>Title</label>
+          <div className="p-[24px]">
+            <div className="mb-[20px]">
+              <label className="block text-[13px] font-[600] text-[#374151] mb-[8px]">Title</label>
               <input
                 type="text"
                 value={collection.title}
                 onChange={(e) =>
                   setCollection({ ...collection, title: e.target.value })
                 }
-                className="ec-input"
+                className="w-full p-[10px_12px] border border-[#d1d5db] rounded-[8px] text-[14px] text-[#111] outline-none bg-white transition-all duration-200 font-['Inter',sans-serif] focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)]"
                 placeholder="e.g. Summer Sale"
               />
             </div>
-            <div className="form-group">
-              <label>Description</label>
+            <div className="mb-[20px]">
+              <label className="block text-[13px] font-[600] text-[#374151] mb-[8px]">Description</label>
               <textarea
                 rows="4"
                 value={collection.description}
                 onChange={(e) =>
                   setCollection({ ...collection, description: e.target.value })
                 }
-                className="ec-input"
+                className="w-full p-[10px_12px] border border-[#d1d5db] rounded-[8px] text-[14px] text-[#111] outline-none bg-white transition-all duration-200 font-['Inter',sans-serif] focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)]"
                 placeholder="Add a description..."
               ></textarea>
             </div>
           </div>
         </div>
 
-        <div className="ec-card">
-          <div className="ec-card-header">
-            <h3>Products</h3>
-            <span className="ec-icon">
+        <div className="bg-white rounded-[12px] border border-[#e5e7eb] shadow-[0_1px_3px_rgba(0,0,0,0.05)] overflow-hidden w-full">
+          <div className="p-[16px_24px] border-b border-[#f3f4f6] flex justify-between items-center bg-[#fcfcfc]">
+            <h3 className="text-[15px] font-[600] m-0 text-[#202223]">Products</h3>
+            <span className="text-[#9ca3af] text-[1.1rem]">
               <FaBoxOpen />
             </span>
           </div>
-          <div className="ec-card-body">
-            <div className="ec-search-box">
-              <FaSearch className="icon" />
+          <div className="p-[24px]">
+            <div className="relative flex items-center border border-[#d1d5db] rounded-[8px] p-[10px_12px] mb-[15px] focus-within:border-[#fbb03b]">
+              <FaSearch className="text-[#9ca3af]" />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                className="border-none outline-none w-full ml-[10px] text-[14px]"
               />
               {search && (
-                <div className="ec-dropdown">
+                <div className="absolute top-full left-0 w-full bg-white border border-[#e5e7eb] rounded-[8px] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] z-10 max-h-[250px] overflow-y-auto mt-[5px]">
                   {searchResults.map((p) => (
                     <div
                       key={p.id}
-                      className="ec-dropdown-item"
+                      className="flex items-center gap-[10px] p-[10px_15px] cursor-pointer border-b border-[#f3f4f6] transition-all duration-200 hover:bg-[#f9fafb]"
                       onClick={() => addToCollection(p)}
                     >
                       <img
@@ -231,6 +231,7 @@ const EditCollection = () => {
                             : `https://orm-backend-gejw.onrender.com${p.image}`
                         }
                         alt=""
+                        className="w-[32px] h-[32px] rounded-[4px] object-cover"
                       />
                       <span>{p.title}</span>
                     </div>
@@ -239,10 +240,10 @@ const EditCollection = () => {
               )}
             </div>
 
-            <div className="ec-product-list">
+            <div className="flex flex-col">
               {products.map((p) => (
-                <div key={p.id} className="ec-product-row">
-                  <div className="ec-img-box">
+                <div key={p.id} className="flex items-center gap-[15px] p-[12px_0] border-b border-[#f3f4f6] last:border-b-0">
+                  <div className="w-[40px] h-[40px] rounded-[6px] overflow-hidden border border-[#e5e7eb]">
                     <img
                       src={
                         p.image.startsWith("http")
@@ -250,11 +251,12 @@ const EditCollection = () => {
                           : `https://orm-backend-gejw.onrender.com${p.image}`
                       }
                       alt={p.title}
+                      className="w-full h-full object-cover"
                     />
                   </div>
-                  <span className="ec-prod-name">{p.title}</span>
+                  <span className="flex-1 font-[500] text-[14px] text-[#1f2937]">{p.title}</span>
                   <button
-                    className="ec-remove-btn"
+                    className="bg-none border-none cursor-pointer text-[#9ca3af] text-[14px] transition-all duration-200 hover:text-[#ef4444]"
                     onClick={() => removeFromCollection(p)}
                   >
                     <FaTimes />
@@ -262,7 +264,7 @@ const EditCollection = () => {
                 </div>
               ))}
               {products.length === 0 && (
-                <div className="ec-empty-state">
+                <div className="text-center text-[#9ca3af] p-[20px] italic text-[13px]">
                   No products in this collection.
                 </div>
               )}

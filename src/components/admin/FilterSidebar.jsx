@@ -1,5 +1,4 @@
 import React from "react";
-import "../../styles/admin/FilterSidebar.css"; // We will create this CSS
 
 const categories = [
   "All",
@@ -19,23 +18,23 @@ const FilterSidebar = ({
   counts,
 }) => {
   return (
-    <div className="filter-sidebar">
+    <div className="w-[280px] bg-white pr-[10px] shrink-0">
       {/* CATEGORY FILTER */}
-      <div className="filter-group">
-        <h3>By category</h3>
-        <div className="filter-list">
+      <div className="mb-[25px]">
+        <h3 className="text-[0.95rem] text-[#374151] mb-[12px] font-semibold">By category</h3>
+        <div className="border border-[#e5e7eb] rounded-[6px] overflow-hidden">
           {categories.map((cat) => (
             <div
               key={cat}
-              className={`filter-item ${
-                selectedCategory === cat ? "active" : ""
+              className={`p-[12px_16px] border-b border-[#e5e7eb] text-[0.9rem] text-[#6b7280] cursor-pointer transition-all flex justify-between hover:bg-[#f9fafb] hover:text-[#111] last:border-b-0 ${
+                selectedCategory === cat ? "text-orm-gold font-semibold bg-white" : ""
               }`}
               onClick={() => setSelectedCategory(cat)}
             >
-              {cat}
+              <span>{cat}</span>
               {/* Only show count if not 'All' and count exists */}
               {cat !== "All" && counts[cat] !== undefined && (
-                <span className="count">({counts[cat]})</span>
+                <span className="text-[#9ca3af] text-[0.85rem] font-normal">({counts[cat]})</span>
               )}
             </div>
           ))}
@@ -43,28 +42,28 @@ const FilterSidebar = ({
       </div>
 
       {/* SALE STATUS FILTER */}
-      <div className="filter-group">
-        <h3>By is sale</h3>
-        <div className="filter-toggle-row">
+      <div className="mb-[25px]">
+        <h3 className="text-[0.95rem] text-[#374151] mb-[12px] font-semibold">By is sale</h3>
+        <div className="flex border border-[#e5e7eb] rounded-[6px] overflow-hidden">
           <button
-            className={`toggle-btn ${
-              selectedSaleStatus === "All" ? "active" : ""
+            className={`flex-1 bg-white border-r border-[#e5e7eb] p-[10px] text-[0.9rem] text-[#6b7280] cursor-pointer transition-all hover:bg-[#f9fafb] ${
+              selectedSaleStatus === "All" ? "text-orm-gold font-semibold bg-white" : ""
             }`}
             onClick={() => setSelectedSaleStatus("All")}
           >
             All
           </button>
           <button
-            className={`toggle-btn ${
-              selectedSaleStatus === "Yes" ? "active" : ""
+            className={`flex-1 bg-white border-r border-[#e5e7eb] p-[10px] text-[0.9rem] text-[#6b7280] cursor-pointer transition-all hover:bg-[#f9fafb] ${
+              selectedSaleStatus === "Yes" ? "text-orm-gold font-semibold bg-white" : ""
             }`}
             onClick={() => setSelectedSaleStatus("Yes")}
           >
             Yes {counts.saleYes ? `(${counts.saleYes})` : ""}
           </button>
           <button
-            className={`toggle-btn ${
-              selectedSaleStatus === "No" ? "active" : ""
+            className={`flex-1 bg-white p-[10px] text-[0.9rem] text-[#6b7280] cursor-pointer transition-all hover:bg-[#f9fafb] ${
+              selectedSaleStatus === "No" ? "text-orm-gold font-semibold bg-white" : ""
             }`}
             onClick={() => setSelectedSaleStatus("No")}
           >
@@ -74,7 +73,7 @@ const FilterSidebar = ({
       </div>
 
       {/* Optional: Show/Hide Counts Button (Visual only for now) */}
-      <button className="show-counts-btn">Hide counts</button>
+      <button className="w-full p-[10px] bg-white border border-[#e5e7eb] rounded-[6px] text-[#4b5563] text-[0.9rem] cursor-pointer mt-[10px] hover:bg-[#f9fafb]">Hide counts</button>
     </div>
   );
 };
