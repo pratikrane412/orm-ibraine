@@ -125,7 +125,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="h-[300px] w-full">
+          <div className="h-[300px] w-full min-h-[300px]">
             {chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData}>
@@ -172,8 +172,8 @@ const Dashboard = () => {
         {/* SESSIONS BY DEVICE (DONUT) */}
         <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] max-lg:col-span-3">
           <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em] mb-8">Sessions by device</h3>
-          <div className="h-[200px] relative">
-            <ResponsiveContainer>
+          <div className="h-[200px] min-h-[200px] relative">
+            <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={deviceData} innerRadius={60} outerRadius={80} paddingAngle={8} dataKey="value">
                   {deviceData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />)}
@@ -199,8 +199,8 @@ const Dashboard = () => {
         {/* CONVERSION FUNNEL */}
         <div className="col-span-2 bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] max-lg:col-span-3">
           <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em] mb-8">Conversion Rate</h3>
-          <div className="h-[200px]">
-             <ResponsiveContainer>
+          <div className="h-[200px] min-h-[200px]">
+             <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={funnelData}>
                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff05" />
                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#ffffff20", fontWeight: "bold" }} axisLine={false} tickLine={false} />

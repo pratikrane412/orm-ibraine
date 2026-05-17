@@ -12,6 +12,7 @@ import {
   FaTag,
   FaInfoCircle,
   FaTrash,
+  FaPlus,
 } from "react-icons/fa";
 
 const AddProduct = () => {
