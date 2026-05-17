@@ -18,6 +18,7 @@ import CheckoutPage from "./components/CheckoutPage";
 import WishlistPage from "./components/WishlistPage";
 import BlogPage from "./components/BlogPage";
 import BlogDetails from "./components/BlogDetails";
+import ScrollToTop from "./components/ScrollToTop";
 
 // --- ADMIN IMPORTS ---
 import AdminLayout from "./components/admin/AdminLayout";
@@ -65,14 +66,15 @@ function App() {
       <CartProvider>
         <WishlistProvider>
         <Router>
+          <ScrollToTop />
           <Routes>
             {/* --- CUSTOMER ROUTES (PUBLIC) --- */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/collections/:categoryName" element={<ProductCategoryPage />} />
-            <Route path="/product/:slug" element={<ProductDetailsPage />} />
+            <Route path="/collections/:categoryName" element={<ProductCategoryPage key={window.location.pathname} />} />
+            <Route path="/product/:slug" element={<ProductDetailsPage key={window.location.pathname} />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
