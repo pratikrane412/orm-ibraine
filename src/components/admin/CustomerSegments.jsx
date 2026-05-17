@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaUsers, FaChartPie, FaUserClock, FaHistory } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const CustomerSegments = () => {
@@ -9,63 +9,24 @@ const CustomerSegments = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("orm_admin_token");
-
     fetch("https://orm-backend-gejw.onrender.com/api/customers/", {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => res.json())
       .then((customers) => {
         const total = customers.length || 1;
-
-        const purchasedOnce = customers.filter(
-          (c) => c.orders_count >= 1
-        ).length;
-        const purchasedMore = customers.filter(
-          (c) => c.orders_count > 1
-        ).length;
-        const neverPurchased = customers.filter(
-          (c) => c.orders_count === 0
-        ).length;
+        const purchasedOnce = customers.filter((c) => c.orders_count >= 1).length;
+        const purchasedMore = customers.filter((c) => c.orders_count > 1).length;
+        const neverPurchased = customers.filter((c) => c.orders_count === 0).length;
         const emailSubscribers = Math.floor(total * 0.4);
 
         const generatedSegments = [
-          {
-            id: 1,
-            name: "Customers who have purchased at least once",
-            count: purchasedOnce,
-            percent: ((purchasedOnce / total) * 100).toFixed(0) + "%",
-            updated: "Updated just now",
-          },
-          {
-            id: 2,
-            name: "Email subscribers",
-            count: emailSubscribers,
-            percent: "40%",
-            updated: "Updated just now",
-          },
-          {
-            id: 3,
-            name: "Abandoned checkouts in the last 30 days",
-            count: 0,
-            percent: "0%",
-            updated: "Updated just now",
-          },
-          {
-            id: 4,
-            name: "Customers who have purchased more than once",
-            count: purchasedMore,
-            percent: ((purchasedMore / total) * 100).toFixed(0) + "%",
-            updated: "Updated just now",
-          },
-          {
-            id: 5,
-            name: "Customers who haven't purchased",
-            count: neverPurchased,
-            percent: ((neverPurchased / total) * 100).toFixed(0) + "%",
-            updated: "Updated just now",
-          },
+          { id: 1, name: "Purchased at least once", count: purchasedOnce, percent: ((purchasedOnce / total) * 100).toFixed(0) + "%", updated: "Just now", icon: <FaUsers /> },
+          { id: 2, name: "Active Intel Subscribers", count: emailSubscribers, percent: "40%", updated: "Just now", icon: <FaUserClock /> },
+          { id: 3, name: "Abandoned checkouts (30d)", count: 0, percent: "0%", updated: "Just now", icon: <FaHistory /> },
+          { id: 4, name: "High-Frequency Mutants", count: purchasedMore, percent: ((purchasedMore / total) * 100).toFixed(0) + "%", updated: "Just now", icon: <FaChartPie /> },
+          { id: 5, name: "New Identifications", count: neverPurchased, percent: ((neverPurchased / total) * 100).toFixed(0) + "%", updated: "Just now", icon: <FaUsers /> },
         ];
-
         setSegments(generatedSegments);
         setLoading(false);
       })
@@ -74,95 +35,88 @@ const CustomerSegments = () => {
 
   const getFilterType = (id) => {
     switch (id) {
-      case 1:
-        return "purchased_once";
-      case 4:
-        return "purchased_more";
-      case 5:
-        return "never_purchased";
-      default:
-        return "all";
+      case 1: return "purchased_once";
+      case 4: return "purchased_more";
+      case 5: return "never_purchased";
+      default: return "all";
     }
   };
 
   return (
-    <div className="bg-[#f9fafb] rounded-[12px] p-[30px] shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-[#e5e7eb] w-full min-h-[85vh] font-['Inter',sans-serif] text-[#111827] pb-[60px]">
-      <div className="flex justify-between items-end mb-[24px]">
-        <div className="header-text">
-          <h2 className="font-['Merriweather',serif] text-[26px] font-[700] m-0 text-[#111]">Segments</h2>
-          <p className="text-[#6b7280] text-[14px] mt-[4px]">Group your audience for better marketing</p>
+    <div className="space-y-8 animate-fadeInUp pb-20">
+      {/* HEADER SECTION */}
+      <div className="flex justify-between items-end gap-6 flex-wrap">
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-2 h-2 bg-orm-gold rounded-full animate-pulse shadow-[0_0_10px_#fbb03b]"></div>
+            <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-orm-gold/60">Segmentation</span>
+          </div>
+          <h2 className="text-[2.2rem] font-black text-white uppercase tracking-tighter leading-none">Customer <span className="text-orm-gold">Segments</span></h2>
+          <p className="text-[0.7rem] font-bold text-white/20 uppercase tracking-widest mt-2">Classifying Customer Groups</p>
         </div>
-        <div className="flex gap-[12px]">
-          <button className="bg-[#fbb03b] text-black border-none p-[8px_20px] rounded-[8px] font-[600] text-[13px] cursor-pointer shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 hover:bg-[#f59e0b] hover:translate-y-[-1px]">Create segment</button>
-        </div>
+        <button className="bg-orm-gold text-black px-8 py-3 rounded-xl font-black text-[0.6rem] uppercase tracking-[0.2em] transition-all hover:shadow-[0_10px_30px_rgba(251,176,59,0.3)] active:scale-95">Create Segment</button>
       </div>
 
-      <div className="bg-white border border-[#e5e7eb] rounded-[12px] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02)] overflow-hidden max-lg:overflow-x-auto">
-        <div className="p-[16px_20px] border-b border-[#f3f4f6] flex justify-between items-center bg-white">
-          <div className="flex-1 max-w-full flex items-center bg-[#f9fafb] border border-[#e5e7eb] rounded-[8px] p-[8px_12px] transition-all duration-200 focus-within:bg-white focus-within:border-[#fbb03b] focus-within:shadow-[0_0_0_3px_rgba(251,176,59,0.1)]">
-            <FaSearch className="text-[#9ca3af]" />
-            <input type="text" placeholder="Search segments" className="border-none bg-transparent w-full ml-[10px] text-[13px] text-[#111] outline-none" />
-          </div>
+      {/* TABLE BOX */}
+      <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 rounded-[2rem] overflow-hidden">
+        <div className="p-6 border-b border-white/5 bg-white/[0.01]">
+           <div className="flex items-center bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl w-full focus-within:border-orm-gold/50 transition-all">
+              <FaSearch size={12} className="text-white/20" />
+              <input type="text" placeholder="Search segments..." className="bg-transparent border-none outline-none ml-3 w-full text-[0.7rem] font-bold text-white placeholder:text-white/10" />
+           </div>
         </div>
 
-        <table className="w-full border-collapse text-left">
-          <thead>
-            <tr>
-              <th width="50" className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">
-                <input type="checkbox" className="w-[16px] h-[16px] border border-[#d1d5db] rounded-[4px] accent-[#fbb03b] cursor-pointer" />
-              </th>
-              <th className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Name</th>
-              <th align="right" className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">% of customers</th>
-              <th align="right" className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Last activity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan="4" className="text-center padding-[60px] text-[#9ca3af]">
-                  Loading segments...
-                </td>
-              </tr>
-            ) : (
-              segments.map((seg) => (
-                <tr
-                  key={seg.id}
-                  // FIX: CLICK HANDLER IS NOW CORRECTLY PLACED HERE
-                  onClick={() =>
-                    navigate(
-                      `/react-admin/customers?segment=${getFilterType(seg.id)}`
-                    )
-                  }
-                  className="hover:bg-[#fffbeb] cursor-pointer"
-                >
-                  <td className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151]">
-                    <input
-                      type="checkbox"
-                      onClick={(e) => e.stopPropagation()}
-                      className="w-[16px] h-[16px] border border-[#d1d5db] rounded-[4px] accent-[#fbb03b] cursor-pointer"
-                    />
-                  </td>
-                  <td className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151]">
-                    <span
-                      className="text-[14px] font-[600] text-[#202223] cursor-pointer hover:underline hover:text-[#fbb03b]"
-                    >
-                      {seg.name}
-                    </span>
-                  </td>
-                  <td align="right" className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151]">
-                    <span className="bg-white border border-[#e5e7eb] p-[4px_10px] rounded-[6px] text-[12px] font-[600] text-[#374151]">{seg.percent}</span>
-                  </td>
-                  <td
-                    align="right"
-                    className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[13px] text-[#6b7280]"
-                  >
-                    {seg.updated}
-                  </td>
+        <div className="overflow-x-auto">
+          {loading ? (
+            <div className="py-40 flex flex-col items-center justify-center">
+               <div className="w-10 h-10 border-t-2 border-orm-gold rounded-full animate-spin mb-4"></div>
+               <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-white/20">Loading Segments...</span>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-white/[0.01]">
+                  <th width="50" className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">
+                     <input type="checkbox" className="accent-orm-gold" />
+                  </th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">Segment Name</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20 text-right">Customers</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20 text-right">Last Updated</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody className="divide-y divide-white/[0.03]">
+                {segments.map((seg) => (
+                  <tr
+                    key={seg.id}
+                    onClick={() => navigate(`/react-admin/customers?segment=${getFilterType(seg.id)}`)}
+                    className="group transition-all hover:bg-white/[0.02] cursor-pointer"
+                  >
+                    <td className="p-6">
+                       <input type="checkbox" className="accent-orm-gold" onClick={(e) => e.stopPropagation()} />
+                    </td>
+                    <td className="p-6">
+                      <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-orm-gold group-hover:bg-orm-gold group-hover:text-black transition-all duration-500">
+                            {seg.icon}
+                         </div>
+                         <span className="font-bold text-white text-[0.85rem] uppercase tracking-tight group-hover:text-orm-gold transition-colors">{seg.name}</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-right">
+                       <div className="flex flex-col items-end">
+                          <span className="text-[0.8rem] font-black text-white tracking-tighter">{seg.percent}</span>
+                          <span className="text-[0.55rem] font-bold text-white/20 uppercase tracking-widest">{seg.count} customers</span>
+                       </div>
+                    </td>
+                    <td className="p-6 text-right">
+                       <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">{seg.updated}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

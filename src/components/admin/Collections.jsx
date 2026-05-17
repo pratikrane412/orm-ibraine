@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaPlus, FaImage } from "react-icons/fa";
+import { FaPlus, FaImage, FaLayerGroup } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
 
 const Collections = () => {
@@ -8,23 +8,17 @@ const Collections = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 1. Get the token using the specific name found in your LocalStorage
     const token = localStorage.getItem("orm_admin_token");
-
     setLoading(true);
-
-    // 2. Add the Authorization header to the request
     fetch("https://orm-backend-gejw.onrender.com/api/collections/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}` // This is the fix for 401
+        "Authorization": `Token ${token}`
       }
     })
       .then((res) => {
-        if (res.status === 401) {
-          throw new Error("Unauthorized: Please log in again.");
-        }
+        if (res.status === 401) throw new Error("Unauthorized");
         return res.json();
       })
       .then((data) => {
@@ -50,95 +44,100 @@ const Collections = () => {
   };
 
   return (
-    <div className="bg-[#ffffff] rounded-[12px] p-[30px] shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-[#e5e7eb] w-full min-h-[85vh] font-['Inter',sans-serif] text-[#202223]">
-      <div className="flex justify-between items-center mb-[25px] flex-wrap gap-[20px]">
-        <div className="header-text">
-          <h2 className="font-['Merriweather',serif] text-[2rem] text-[#111] m-0">Collections</h2>
-          <p className="text-[#6b7280] text-[0.95rem] mt-[5px]">Manage product groups and categories</p>
+    <div className="space-y-8 animate-fadeInUp pb-20">
+      {/* HEADER SECTION */}
+      <div className="flex justify-between items-end gap-6 flex-wrap">
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-2 h-2 bg-orm-gold rounded-full animate-pulse shadow-[0_0_10px_#fbb03b]"></div>
+            <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-orm-gold/60">Organization</span>
+          </div>
+          <h2 className="text-[2.2rem] font-black text-white uppercase tracking-tighter leading-none">All <span className="text-orm-gold">Collections</span></h2>
+          <p className="text-[0.7rem] font-bold text-white/20 uppercase tracking-widest mt-2">Managing {collections.length} Product Groups</p>
         </div>
-        <div className="header-actions">
-          <Link
-            to="/react-admin/products/collections/new"
-            className="bg-[#fbb03b] text-black p-[10px_20px] rounded-[8px] no-underline font-[600] text-[0.95rem] flex items-center gap-[8px] transition-all duration-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] whitespace-nowrap hover:bg-[#f59e0b] hover:translate-y-[-1px]"
-          >
-            <FaPlus /> Create collection
-          </Link>
-        </div>
+
+        <Link
+          to="/react-admin/products/collections/new"
+          className="group relative overflow-hidden bg-orm-gold text-black px-8 py-3 rounded-xl font-black text-[0.7rem] uppercase tracking-[0.2em] transition-all flex items-center gap-2 hover:shadow-[0_10px_30px_rgba(251,176,59,0.3)] hover:-translate-y-1"
+        >
+          <span className="relative z-10 flex items-center gap-2"><FaPlus size={10} /> Create Collection</span>
+          <div className="absolute inset-0 bg-white translate-y-[100%] transition-transform duration-500 group-hover:translate-y-0"></div>
+        </Link>
       </div>
 
-      <div className="bg-white border border-[#e2e8f0] rounded-[12px] overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-        <div className="flex gap-[15px] border-b border-[#e5e7eb] bg-[#f9fafb] p-[0_20px]">
-          <button className="bg-transparent border-none p-[12px_0] text-[#111] font-[600] border-b-2 border-[#fbb03b] mb-[-1px] text-[0.9rem] cursor-pointer">All</button>
-          <button className="bg-transparent border-none p-[12px] cursor-pointer text-[#6b7280]">+</button>
+      {/* TABLE BOX */}
+      <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 rounded-[2rem] overflow-hidden">
+        {/* TAB BAR */}
+        <div className="p-6 border-b border-white/5 flex items-center bg-white/[0.01]">
+           <div className="flex gap-2">
+              <button className="px-6 py-2 rounded-full text-[0.6rem] font-black uppercase tracking-widest bg-orm-gold text-black shadow-lg shadow-orm-gold/20 transition-all">All Collections</button>
+           </div>
         </div>
 
-        {loading ? (
-          <div className="text-center padding-[50px] text-[#64748b]">Loading...</div>
-        ) : (
-          <table className="w-full border-collapse text-left">
-            <thead>
-              <tr className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-                <th width="50" className="p-[14px_20px] text-[0.75rem] uppercase tracking-[0.05em] text-[#64748b] font-[700]">
-                  <input type="checkbox" />
-                </th>
-                <th width="80" className="p-[14px_20px] text-[0.75rem] uppercase tracking-[0.05em] text-[#64748b] font-[700]">Image</th>
-                <th className="p-[14px_20px] text-[0.75rem] uppercase tracking-[0.05em] text-[#64748b] font-[700]">Title</th>
-                <th align="right" className="p-[14px_20px] text-[0.75rem] uppercase tracking-[0.05em] text-[#64748b] font-[700]">Products</th>
-              </tr>
-            </thead>
-            <tbody>
-              {collections.length > 0 ? (
-                collections.map((col) => (
-                  <tr
-                    key={col.id}
-                    onClick={() =>
-                      navigate(`/react-admin/products/collections/${col.id}`)
-                    }
-                    className="border-b border-[#f1f5f9] last:border-b-0 hover:bg-[#fffbeb] cursor-pointer"
-                  >
-                    <td className="p-[14px_20px] align-middle text-[#334155]">
-                      <input
-                        type="checkbox"
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </td>
-                    <td className="p-[14px_20px] align-middle text-[#334155]">
-                      <div className="w-[50px] h-[50px] rounded-[8px] bg-[#f3f4f6] border border-[#e5e7eb] overflow-hidden flex items-center justify-center">
-                        {getImageUrl(col) ? (
-                          <img src={getImageUrl(col)} alt={col.title} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="text-[#9ca3af] text-[1.2rem]">
-                            <FaImage />
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                    <td className="p-[14px_20px] align-middle text-[#334155]">
-                      <span className="font-[600] text-[#202223] text-[0.95rem] cursor-pointer hover:underline hover:text-[#fbb03b]">{col.title}</span>
-                    </td>
-                    <td align="right" className="p-[14px_20px] align-middle text-[#6b7280]">
-                      {col.product_count || 0} products
+        {/* DATA TABLE */}
+        <div className="overflow-x-auto">
+          {loading ? (
+            <div className="py-40 flex flex-col items-center justify-center">
+               <div className="w-10 h-10 border-t-2 border-orm-gold rounded-full animate-spin mb-4"></div>
+               <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-white/20">Loading Collections...</span>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-white/[0.01]">
+                  <th width="50" className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">
+                     <input type="checkbox" className="accent-orm-gold" />
+                  </th>
+                  <th width="100" className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">Visual</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">Collection Name</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20 text-right">Product Count</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.03]">
+                {collections.length > 0 ? (
+                  collections.map((col) => (
+                    <tr
+                      key={col.id}
+                      onClick={() => navigate(`/react-admin/products/collections/${col.id}`)}
+                      className="group transition-all hover:bg-white/[0.02] cursor-pointer"
+                    >
+                      <td className="p-6">
+                         <input type="checkbox" className="accent-orm-gold" onClick={(e) => e.stopPropagation()} />
+                      </td>
+                      <td className="p-6">
+                        <div className="w-16 h-16 bg-orm-dark border border-white/5 rounded-2xl overflow-hidden group-hover:border-orm-gold/30 transition-all duration-500 flex items-center justify-center">
+                          {getImageUrl(col) ? (
+                            <img src={getImageUrl(col)} alt={col.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                          ) : (
+                            <FaLayerGroup className="text-white/10 text-xl" />
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-6">
+                        <span className="font-bold text-white text-[0.9rem] uppercase tracking-tight group-hover:text-orm-gold transition-colors">{col.title}</span>
+                        <div className="text-[0.5rem] font-black text-white/10 uppercase tracking-[0.2em] mt-1">ID: 00{col.id}</div>
+                      </td>
+                      <td className="p-6 text-right">
+                        <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[0.6rem] font-black text-white/60 uppercase tracking-widest group-hover:text-orm-gold group-hover:border-orm-gold/40 transition-all">
+                          {col.product_count || 0} products
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="p-20 text-center">
+                       <div className="space-y-4">
+                          <p className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-white/10">No collections found</p>
+                          <Link to="/react-admin/products/collections/new" className="text-orm-gold text-[0.65rem] font-black uppercase tracking-widest hover:underline">Create First Collection &rarr;</Link>
+                       </div>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4" className="text-center padding-[50px] text-[#64748b]">
-                    <div style={{ padding: "40px", textAlign: "center" }}>
-                      <p>You haven't created any collections yet.</p>
-                      <Link
-                        to="/react-admin/products/collections/new"
-                        style={{ color: "#fbb03b", fontWeight: "bold" }}
-                      >
-                        Create one now
-                      </Link>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
+                )}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -5,15 +5,17 @@ import {
   FaSort,
   FaUser,
   FaMapMarkerAlt,
+  FaUsers,
+  FaShieldAlt,
+  FaChessKing,
 } from "react-icons/fa";
-import { useSearchParams } from "react-router-dom"; // Import useSearchParams
+import { useSearchParams } from "react-router-dom";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // FIX: Read URL params for filtering
   const [searchParams] = useSearchParams();
   const segmentFilter = searchParams.get("segment");
 
@@ -31,155 +33,153 @@ const Customers = () => {
   }, []);
 
   const filteredCustomers = customers.filter((c) => {
-    // 1. Search Logic
     const matchesSearch =
-      (c.first_name + " " + c.last_name)
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+      (c.first_name + " " + c.last_name).toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.email.toLowerCase().includes(searchTerm.toLowerCase());
 
-    // 2. FIX: Segment Filtering Logic
     let matchesSegment = true;
-    if (segmentFilter === "purchased_once")
-      matchesSegment = c.orders_count >= 1;
+    if (segmentFilter === "purchased_once") matchesSegment = c.orders_count >= 1;
     if (segmentFilter === "purchased_more") matchesSegment = c.orders_count > 1;
-    if (segmentFilter === "never_purchased")
-      matchesSegment = c.orders_count === 0;
+    if (segmentFilter === "never_purchased") matchesSegment = c.orders_count === 0;
 
     return matchesSearch && matchesSegment;
   });
 
-  const totalSpent = customers.reduce(
-    (acc, c) => acc + Number(c.total_spent || 0),
-    0
-  );
+  const totalSpent = customers.reduce((acc, c) => acc + Number(c.total_spent || 0), 0);
 
   return (
-    <div className="bg-[#f9fafb] rounded-[12px] p-[30px] shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-[#e5e7eb] w-full min-h-[85vh] font-['Inter',sans-serif] text-[#111827] pb-[60px]">
-      <div className="flex justify-between items-end mb-[24px]">
-        <div className="header-text">
-          <h2 className="font-['Merriweather',serif] text-[26px] font-[700] m-0 text-[#111]">Customers</h2>
-          {segmentFilter ? (
-            <p className="text-[14px] mt-[4px]" style={{ color: "#fbb03b" }}>
-              Filter: {segmentFilter.replace("_", " ").toUpperCase()}
-            </p>
-          ) : (
-            <p className="text-[#6b7280] text-[14px] mt-[4px]">
-              View and manage your customer relationships
-            </p>
-          )}
-        </div>
-        <div className="flex gap-[12px]">
-          <button className="bg-white border border-[#d1d5db] text-[#374151] p-[8px_16px] rounded-[8px] font-[500] text-[13px] cursor-pointer flex items-center gap-[8px] transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:bg-[#f3f4f6] hover:border-[#9ca3af]">
-            <FaFileExport /> Export
-          </button>
-          <button className="bg-[#fbb03b] text-black border-none p-[8px_20px] rounded-[8px] font-[600] text-[13px] cursor-pointer shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 hover:bg-[#f59e0b] hover:translate-y-[-1px]">Add customer</button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-[20px] mb-[24px] max-lg:grid-cols-1">
-        <div className="bg-white border border-[#e5e7eb] rounded-[12px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.05)] flex flex-col justify-center">
-          <span className="text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] mb-[8px]">Total Customers</span>
-          <div className="text-[24px] font-[700] text-[#111] font-['Merriweather',serif]">{customers.length}</div>
-        </div>
-        <div className="bg-white border border-[#e5e7eb] rounded-[12px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.05)] flex flex-col justify-center">
-          <span className="text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] mb-[8px]">Lifetime Value</span>
-          <div className="text-[24px] font-[700] text-[#111] font-['Merriweather',serif]">Rs. {totalSpent.toLocaleString()}</div>
-        </div>
-        <div className="bg-white border border-[#e5e7eb] rounded-[12px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.05)] flex flex-col justify-center">
-          <span className="text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] mb-[8px]">Subscribers</span>
-          <div className="text-[24px] font-[700] text-[#111] font-['Merriweather',serif]">{(customers.length / 2).toFixed(0)}</div>
-        </div>
-      </div>
-
-      <div className="bg-white border border-[#e5e7eb] rounded-[12px] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02)] overflow-hidden max-lg:overflow-x-auto">
-        <div className="p-[12px_20px] border-b border-[#f3f4f6] flex justify-between items-center bg-white">
-          <div className="flex-1 max-w-[380px] flex items-center bg-[#f9fafb] border border-[#e5e7eb] rounded-[8px] p-[8px_12px] transition-all duration-200 focus-within:bg-white focus-within:border-[#fbb03b] focus-within:shadow-[0_0_0_3px_rgba(251,176,59,0.1)]">
-            <FaSearch className="text-[#9ca3af]" />
-            <input
-              type="text"
-              placeholder="Search by name, email, or location..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border-none bg-transparent w-full ml-[10px] text-[13px] text-[#111] outline-none"
-            />
+    <div className="space-y-8 animate-fadeInUp pb-20">
+      {/* HEADER SECTION */}
+      <div className="flex justify-between items-end gap-6 flex-wrap">
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-2 h-2 bg-orm-gold rounded-full animate-pulse shadow-[0_0_10px_#fbb03b]"></div>
+            <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-orm-gold/60">User Management</span>
           </div>
-          <button className="bg-white border border-[#d1d5db] rounded-[8px] p-[8px_14px] text-[#374151] font-[500] cursor-pointer flex items-center gap-[8px] text-[13px] transition-all duration-200 hover:bg-[#f9fafb] hover:border-[#9ca3af]">
-            <FaSort /> Sort
-          </button>
+          <h2 className="text-[2.2rem] font-black text-white uppercase tracking-tighter leading-none">Global <span className="text-orm-gold">Customers</span></h2>
+          <p className="text-[0.7rem] font-bold text-white/20 uppercase tracking-widest mt-2">
+            {segmentFilter ? `Segment: ${segmentFilter.replace("_", " ")}` : `Overseeing ${customers.length} Customers`}
+          </p>
         </div>
 
-        {loading ? (
-          <div className="text-center padding-[60px] text-[#9ca3af]">Loading...</div>
-        ) : (
-          <table className="w-full border-collapse text-left">
-            <thead>
-              <tr>
-                <th width="50" className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">
-                  <input type="checkbox" className="w-[16px] h-[16px] border border-[#d1d5db] rounded-[4px] accent-[#fbb03b] cursor-pointer" />
-                </th>
-                <th className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Customer</th>
-                <th className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Status</th>
-                <th className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Location</th>
-                <th className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Orders</th>
-                <th align="right" className="p-[14px_24px] text-[11px] font-[600] text-[#6b7280] uppercase tracking-[0.05em] bg-[#f9fafb] border-b border-[#e5e7eb]">Amount Spent</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCustomers.length > 0 ? (
-                filteredCustomers.map((cust) => (
-                  <tr key={cust.id} className="hover:bg-[#fffbeb]">
-                    <td className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151]">
-                      <input type="checkbox" className="w-[16px] h-[16px] border border-[#d1d5db] rounded-[4px] accent-[#fbb03b] cursor-pointer" />
-                    </td>
-                    <td className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151]">
-                      <div className="flex items-center gap-[12px]">
-                        <div className="w-[40px] h-[40px] bg-[#eef2ff] text-[#4f46e5] rounded-full flex items-center justify-center font-[700] text-[14px] uppercase border border-[#e0e7ff]">
-                          {cust.first_name ? cust.first_name[0] : <FaUser />}
+        <div className="flex gap-3">
+          <button className="bg-white/[0.03] border border-white/10 px-6 py-3 rounded-xl text-[0.6rem] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-3 transition-all hover:bg-white/[0.06] hover:text-white">
+            <FaFileExport /> Export Customers
+          </button>
+          <button className="bg-orm-gold text-black px-8 py-3 rounded-xl font-black text-[0.6rem] uppercase tracking-[0.2em] transition-all hover:shadow-[0_10px_30px_rgba(251,176,59,0.3)] active:scale-95">Add Customer</button>
+        </div>
+      </div>
+
+      {/* STRATEGIC KPIS */}
+      <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-1">
+        {[
+          { label: "Total Customers", value: customers.length, icon: <FaUsers />, trend: "Active Users" },
+          { label: "Total Spent", value: `Rs. ${totalSpent.toLocaleString()}`, icon: <FaChessKing />, trend: "LTV" },
+          { label: "Subscribers", value: (customers.length / 2).toFixed(0), icon: <FaShieldAlt />, trend: "Marketing Opt-in" },
+        ].map((kpi, i) => (
+          <div key={i} className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] flex items-center justify-between group hover:border-orm-gold/20 transition-all">
+            <div>
+               <span className="text-[0.55rem] font-black text-white/20 uppercase tracking-[0.3em] block mb-2">{kpi.label}</span>
+               <div className="text-2xl font-black text-white tracking-tighter">{kpi.value}</div>
+               <span className="text-[0.55rem] font-bold text-orm-gold/40 uppercase tracking-widest mt-2 block">{kpi.trend}</span>
+            </div>
+            <div className="w-12 h-12 bg-white/[0.03] rounded-2xl flex items-center justify-center text-white/20 group-hover:text-orm-gold transition-colors">{kpi.icon}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* TABLE BOX */}
+      <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 rounded-[2rem] overflow-hidden">
+        {/* FILTER BAR */}
+        <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+           <div className="flex items-center bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl w-[440px] focus-within:border-orm-gold/50 transition-all">
+              <FaSearch size={12} className="text-white/20" />
+              <input 
+                type="text" 
+                placeholder="Search customers..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="bg-transparent border-none outline-none ml-3 w-full text-[0.7rem] font-bold text-white placeholder:text-white/10 tracking-tight" 
+              />
+           </div>
+           <button className="bg-white/[0.03] border border-white/10 px-6 py-2.5 rounded-xl text-[0.6rem] font-black uppercase tracking-widest text-white/40 flex items-center gap-3 hover:text-white transition-all">
+              <FaSort /> Sort
+           </button>
+        </div>
+
+        {/* DATA TABLE */}
+        <div className="overflow-x-auto">
+          {loading ? (
+            <div className="py-40 flex flex-col items-center justify-center">
+               <div className="w-10 h-10 border-t-2 border-orm-gold rounded-full animate-spin mb-4"></div>
+               <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-white/20">Loading Customers...</span>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-white/[0.01]">
+                  <th width="50" className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">
+                     <input type="checkbox" className="accent-orm-gold" />
+                  </th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">Customer</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">Status</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">Location</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">Orders</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20 text-right">Total Spent</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.03]">
+                {filteredCustomers.length > 0 ? (
+                  filteredCustomers.map((cust) => (
+                    <tr key={cust.id} className="group transition-all hover:bg-white/[0.02]">
+                      <td className="p-6">
+                         <input type="checkbox" className="accent-orm-gold" />
+                      </td>
+                      <td className="p-6">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-orm-gold/10 border border-orm-gold/20 flex items-center justify-center text-orm-gold font-black text-sm uppercase shadow-lg shadow-orm-gold/5">
+                            {cust.first_name ? cust.first_name[0] : <FaUser size={12} />}
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-bold text-white text-[0.8rem] uppercase tracking-tight leading-none mb-1 group-hover:text-orm-gold transition-colors">
+                              {cust.first_name} {cust.last_name}
+                            </span>
+                            <span className="text-[0.6rem] font-medium text-white/20">{cust.email}</span>
+                          </div>
                         </div>
-                        <div className="flex flex-col">
-                          <span className="font-[600] text-[#111] text-[14px]">
-                            {cust.first_name} {cust.last_name}
-                          </span>
-                          <span className="text-[12px] text-[#6b7280]">{cust.email}</span>
+                      </td>
+                      <td className="p-6">
+                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border ${cust.id % 2 === 0 ? "bg-green-500/10 border-green-500/20 text-green-500" : "bg-white/5 border-white/10 text-white/20"}`}>
+                           <div className={`w-1 h-1 rounded-full ${cust.id % 2 === 0 ? "bg-green-500" : "bg-white/40"} animate-pulse`}></div>
+                           <span className="text-[0.55rem] font-black uppercase tracking-widest">{cust.id % 2 === 0 ? "Subscribed" : "Guest"}</span>
                         </div>
-                      </div>
-                    </td>
-                    <td className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151]">
-                      <span
-                        className={`inline-flex items-center gap-[6px] p-[4px_10px] rounded-[20px] text-[12px] font-[500] border ${
-                          cust.id % 2 === 0 ? "bg-[#ecfdf5] text-[#047857] border-[#a7f3d0]" : "bg-[#f3f4f6] text-[#4b5563] border-[#e5e7eb]"
-                        }`}
-                      >
-                        <span className={`w-[6px] h-[6px] rounded-full ${cust.id % 2 === 0 ? "bg-[#10b981]" : "bg-[#9ca3af]"}`}></span>
-                        {cust.id % 2 === 0 ? "Subscribed" : "Not Subscribed"}
-                      </span>
-                    </td>
-                    <td className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151]">
-                      <div className="flex items-center gap-[6px] text-[#4b5563] text-[13px]">
-                        <FaMapMarkerAlt className="text-[#9ca3af]" /> {cust.location}
-                      </div>
-                    </td>
-                    <td className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151]">
-                      <span className="bg-white border border-[#e5e7eb] p-[4px_10px] rounded-[6px] text-[12px] font-[600] text-[#374151]">
-                        {cust.orders_count} Orders
-                      </span>
-                    </td>
-                    <td className="p-[16px_24px] border-b border-[#f3f4f6] align-middle text-[14px] text-[#374151] text-right font-['Inter',sans-serif] font-[600] text-[#111]">
-                      Rs. {Number(cust.total_spent || 0).toLocaleString()}
+                      </td>
+                      <td className="p-6">
+                        <div className="flex items-center gap-2 text-white/60 text-[0.7rem] font-bold">
+                          <FaMapMarkerAlt size={10} className="text-white/20" /> {cust.location}
+                        </div>
+                      </td>
+                      <td className="p-6">
+                        <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[0.6rem] font-black text-white/60 uppercase tracking-widest">
+                          {cust.orders_count} orders
+                        </span>
+                      </td>
+                      <td className="p-6 text-right">
+                        <span className="font-black text-white text-[0.85rem] tracking-tighter">Rs. {Number(cust.total_spent || 0).toLocaleString()}</span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="p-20 text-center">
+                       <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-white/10">No customers found</span>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="text-center padding-[60px] text-[#9ca3af]">
-                    No customers found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
+                )}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

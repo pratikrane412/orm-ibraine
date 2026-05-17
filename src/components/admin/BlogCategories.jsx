@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { FaTrash, FaPlus } from "react-icons/fa";
+import { FaTrash, FaPlus, FaLayerGroup, FaArrowLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const BlogCategories = () => {
   const [categories, setCategories] = useState([]);
   const [newCatName, setNewCatName] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Fetch Categories
   useEffect(() => {
     fetch("https://orm-backend-gejw.onrender.com/api/blog-categories/")
       .then((res) => res.json())
@@ -16,7 +16,6 @@ const BlogCategories = () => {
       });
   }, []);
 
-  // Add Category
   const handleAddCategory = async () => {
     if (!newCatName) return;
     try {
@@ -35,9 +34,8 @@ const BlogCategories = () => {
     }
   };
 
-  // Delete Category
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this category?")) return;
+    if (!window.confirm("Delete this classification?")) return;
     try {
       await fetch(`https://orm-backend-gejw.onrender.com/api/blog-categories/${id}/`, {
         method: "DELETE",
@@ -49,75 +47,89 @@ const BlogCategories = () => {
   };
 
   return (
-    <div className="p-[30px] w-full max-w-[1400px] mx-auto">
-      {/* HEADER */}
-      <div className="flex justify-between items-center mb-[30px]">
+    <div className="space-y-8 animate-fadeInUp pb-20">
+      {/* HEADER SECTION */}
+      <div className="flex justify-between items-end gap-6 flex-wrap">
         <div>
-          <h2 className="text-[1.8rem] font-bold text-[#111]">Blog Categories</h2>
-          <p className="text-[#6b7280] text-[0.95rem]">Manage topics for your blog</p>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-2 h-2 bg-orm-gold rounded-full animate-pulse shadow-[0_0_10px_#fbb03b]"></div>
+            <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-orm-gold/60">Organization</span>
+          </div>
+          <h2 className="text-[2.2rem] font-black text-white uppercase tracking-tighter leading-none">Blog <span className="text-orm-gold">Categories</span></h2>
+          <p className="text-[0.7rem] font-bold text-white/20 uppercase tracking-widest mt-2">Structuring Blog Content</p>
         </div>
+        <Link to="/react-admin/blog" className="text-white/40 text-[0.6rem] font-black uppercase tracking-widest hover:text-orm-gold transition-colors flex items-center gap-2">
+           <FaArrowLeft /> Back to Posts
+        </Link>
       </div>
 
-      {/* ADD NEW SECTION */}
-      <div
-        className="bg-white p-[20px] rounded-[12px] mb-[20px] border border-[#e5e7eb] flex gap-[10px]"
-      >
-        <input
-          type="text"
-          placeholder="Enter new category name..."
-          className="flex-1 p-[10px] border border-[#ddd] rounded-[6px] outline-none focus:border-orm-gold transition-all"
-          value={newCatName}
-          onChange={(e) => setNewCatName(e.target.value)}
-        />
+      {/* INPUT BOX */}
+      <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-6 rounded-[2rem] flex gap-4 items-center">
+        <div className="flex-1 flex items-center bg-white/[0.03] border border-white/10 px-6 py-3 rounded-2xl focus-within:border-orm-gold/50 transition-all">
+           <input
+            type="text"
+            placeholder="Enter category name..."
+            className="w-full bg-transparent border-none outline-none text-white text-[0.8rem] font-bold placeholder:text-white/10"
+            value={newCatName}
+            onChange={(e) => setNewCatName(e.target.value)}
+          />
+        </div>
         <button
           onClick={handleAddCategory}
-          className="bg-orm-gold text-black px-[20px] py-[10px] rounded-[6px] font-semibold flex items-center gap-[8px] hover:bg-orm-yellow transition-all"
+          className="bg-orm-gold text-black px-8 py-3 rounded-2xl font-black text-[0.65rem] uppercase tracking-widest transition-all hover:shadow-[0_10px_30px_rgba(251,176,59,0.3)] active:scale-95"
         >
-          <FaPlus /> Add
+          <FaPlus className="inline mr-2" /> Add Category
         </button>
       </div>
 
-      {/* TABLE */}
-      <div className="bg-white rounded-[12px] border border-[#e5e7eb] overflow-hidden shadow-sm">
-        {loading ? (
-          <div className="p-[40px] text-center text-[#666]">Loading...</div>
-        ) : (
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-[#f9fafb] border-b border-[#e5e7eb]">
-                <th className="p-[15px] text-left text-[0.85rem] font-bold text-[#374151] uppercase tracking-wider w-[50px]">ID</th>
-                <th className="p-[15px] text-left text-[0.85rem] font-bold text-[#374151] uppercase tracking-wider">Category Name</th>
-                <th className="p-[15px] text-right text-[0.85rem] font-bold text-[#374151] uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#e5e7eb]">
-              {categories.length > 0 ? (
-                categories.map((cat) => (
-                  <tr key={cat.id} className="hover:bg-[#fffcf5] transition-colors">
-                    <td className="p-[15px] text-[0.9rem] text-[#6b7280]">#{cat.id}</td>
-                    <td className="p-[15px]">
-                      <span className="font-semibold text-[#111]">{cat.name}</span>
+      {/* TABLE BOX */}
+      <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 rounded-[2rem] overflow-hidden">
+        <div className="overflow-x-auto">
+          {loading ? (
+            <div className="py-40 flex flex-col items-center justify-center">
+               <div className="w-10 h-10 border-t-2 border-orm-gold rounded-full animate-spin mb-4"></div>
+               <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-white/20">Loading Categories...</span>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-white/[0.01]">
+                  <th width="80" className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">ID</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20">Category Name</th>
+                  <th className="p-6 text-[0.55rem] font-black uppercase tracking-[0.4em] text-white/20 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.03]">
+                {categories.map((cat) => (
+                  <tr key={cat.id} className="group transition-all hover:bg-white/[0.02]">
+                    <td className="p-6">
+                      <span className="font-mono text-[0.7rem] text-white/20 tracking-tighter">#{cat.id}</span>
                     </td>
-                    <td className="p-[15px] text-right">
+                    <td className="p-6">
+                      <div className="flex items-center gap-4">
+                         <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-orm-gold"><FaLayerGroup size={12} /></div>
+                         <span className="font-bold text-white text-[0.9rem] uppercase tracking-tight group-hover:text-orm-gold transition-colors">{cat.name}</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-right">
                       <button
                         onClick={() => handleDelete(cat.id)}
-                        className="text-[#ef4444] bg-none border-none cursor-pointer p-[8px] hover:bg-red-50 rounded-full transition-all"
+                        className="w-10 h-10 rounded-xl bg-white/5 text-white/20 flex items-center justify-center transition-all hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/20 active:scale-90"
                       >
-                        <FaTrash />
+                        <FaTrash size={12} />
                       </button>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3" className="p-[40px] text-center text-[#9ca3af]">
-                    No categories found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
+                ))}
+                {categories.length === 0 && (
+                   <tr>
+                     <td colSpan="3" className="p-20 text-center text-white/10 font-black uppercase tracking-widest text-[0.6rem]">No categories defined</td>
+                   </tr>
+                )}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

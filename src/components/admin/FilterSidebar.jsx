@@ -18,23 +18,29 @@ const FilterSidebar = ({
   counts,
 }) => {
   return (
-    <div className="w-[280px] bg-white pr-[10px] shrink-0">
+    <div className="w-[280px] bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-6 rounded-[2rem] shrink-0 h-fit sticky top-32 animate-fadeInUp">
       {/* CATEGORY FILTER */}
-      <div className="mb-[25px]">
-        <h3 className="text-[0.95rem] text-[#374151] mb-[12px] font-semibold">By category</h3>
-        <div className="border border-[#e5e7eb] rounded-[6px] overflow-hidden">
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-6">
+           <div className="w-1.5 h-1.5 bg-orm-gold rounded-full shadow-[0_0_8px_#fbb03b]"></div>
+           <h3 className="text-[0.65rem] font-black text-white/40 uppercase tracking-[0.3em]">Category Filter</h3>
+        </div>
+        <div className="space-y-1.5">
           {categories.map((cat) => (
             <div
               key={cat}
-              className={`p-[12px_16px] border-b border-[#e5e7eb] text-[0.9rem] text-[#6b7280] cursor-pointer transition-all flex justify-between hover:bg-[#f9fafb] hover:text-[#111] last:border-b-0 ${
-                selectedCategory === cat ? "text-orm-gold font-semibold bg-white" : ""
+              className={`p-4 rounded-xl text-[0.75rem] font-bold tracking-tight cursor-pointer transition-all flex justify-between items-center group ${
+                selectedCategory === cat 
+                  ? "bg-orm-gold text-black shadow-lg shadow-orm-gold/10" 
+                  : "text-white/40 hover:bg-white/5 hover:text-white"
               }`}
               onClick={() => setSelectedCategory(cat)}
             >
-              <span>{cat}</span>
-              {/* Only show count if not 'All' and count exists */}
+              <span className="truncate pr-2">{cat}</span>
               {cat !== "All" && counts[cat] !== undefined && (
-                <span className="text-[#9ca3af] text-[0.85rem] font-normal">({counts[cat]})</span>
+                <span className={`text-[0.6rem] font-black uppercase px-2 py-0.5 rounded-md ${selectedCategory === cat ? "bg-black/10 text-black" : "bg-white/5 text-white/20 group-hover:text-white/40"}`}>
+                  {counts[cat]}
+                </span>
               )}
             </div>
           ))}
@@ -42,38 +48,40 @@ const FilterSidebar = ({
       </div>
 
       {/* SALE STATUS FILTER */}
-      <div className="mb-[25px]">
-        <h3 className="text-[0.95rem] text-[#374151] mb-[12px] font-semibold">By is sale</h3>
-        <div className="flex border border-[#e5e7eb] rounded-[6px] overflow-hidden">
-          <button
-            className={`flex-1 bg-white border-r border-[#e5e7eb] p-[10px] text-[0.9rem] text-[#6b7280] cursor-pointer transition-all hover:bg-[#f9fafb] ${
-              selectedSaleStatus === "All" ? "text-orm-gold font-semibold bg-white" : ""
-            }`}
-            onClick={() => setSelectedSaleStatus("All")}
-          >
-            All
-          </button>
-          <button
-            className={`flex-1 bg-white border-r border-[#e5e7eb] p-[10px] text-[0.9rem] text-[#6b7280] cursor-pointer transition-all hover:bg-[#f9fafb] ${
-              selectedSaleStatus === "Yes" ? "text-orm-gold font-semibold bg-white" : ""
-            }`}
-            onClick={() => setSelectedSaleStatus("Yes")}
-          >
-            Yes {counts.saleYes ? `(${counts.saleYes})` : ""}
-          </button>
-          <button
-            className={`flex-1 bg-white p-[10px] text-[0.9rem] text-[#6b7280] cursor-pointer transition-all hover:bg-[#f9fafb] ${
-              selectedSaleStatus === "No" ? "text-orm-gold font-semibold bg-white" : ""
-            }`}
-            onClick={() => setSelectedSaleStatus("No")}
-          >
-            No {counts.saleNo ? `(${counts.saleNo})` : ""}
-          </button>
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-6">
+           <div className="w-1.5 h-1.5 bg-orm-gold rounded-full shadow-[0_0_8px_#fbb03b]"></div>
+           <h3 className="text-[0.65rem] font-black text-white/40 uppercase tracking-[0.3em]">Sale Status</h3>
+        </div>
+        <div className="grid grid-cols-1 gap-1.5">
+          {[
+            { label: "All Status", value: "All", count: null },
+            { label: "On Sale", value: "Yes", count: counts.saleYes },
+            { label: "Regular Price", value: "No", count: counts.saleNo },
+          ].map((status) => (
+            <button
+              key={status.value}
+              className={`p-4 rounded-xl text-[0.75rem] font-bold tracking-tight transition-all flex justify-between items-center group ${
+                selectedSaleStatus === status.value 
+                  ? "bg-orm-gold text-black shadow-lg shadow-orm-gold/10" 
+                  : "bg-white/[0.02] border border-white/5 text-white/40 hover:bg-white/5 hover:text-white"
+              }`}
+              onClick={() => setSelectedSaleStatus(status.value)}
+            >
+              <span>{status.label}</span>
+              {status.count !== null && (
+                 <span className={`text-[0.6rem] font-black px-2 py-0.5 rounded-md ${selectedSaleStatus === status.value ? "bg-black/10 text-black" : "bg-white/5 text-white/20"}`}>
+                    {status.count}
+                 </span>
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Optional: Show/Hide Counts Button (Visual only for now) */}
-      <button className="w-full p-[10px] bg-white border border-[#e5e7eb] rounded-[6px] text-[#4b5563] text-[0.9rem] cursor-pointer mt-[10px] hover:bg-[#f9fafb]">Hide counts</button>
+      <button className="w-full py-4 bg-white/5 border border-white/10 rounded-xl text-[0.6rem] font-black text-white/20 uppercase tracking-[0.2em] transition-all hover:bg-white/10 hover:text-white/40">
+        Reset Analytics View
+      </button>
     </div>
   );
 };

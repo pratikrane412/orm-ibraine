@@ -7,6 +7,8 @@ import {
   FaTimes,
   FaLayerGroup,
   FaBoxOpen,
+  FaTrash,
+  FaMicrochip,
 } from "react-icons/fa";
 
 const EditCollection = () => {
@@ -18,12 +20,11 @@ const EditCollection = () => {
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Get the token from local storage
   const token = localStorage.getItem("orm_admin_token");
 
   useEffect(() => {
-    // 1. Fetch Collection Details
     if (!isCreateMode) {
       fetch(`https://orm-backend-gejw.onrender.com/api/collections/${id}/`, {
         headers: { Authorization: `Token ${token}` },
@@ -33,82 +34,70 @@ const EditCollection = () => {
         .catch((err) => console.error(err));
     }
 
-    // 2. Fetch all products to populate search
     fetch("https://orm-backend-gejw.onrender.com/api/products/")
       .then((res) => res.json())
       .then((data) => {
         setAllProducts(data);
         if (!isCreateMode) {
-          // Note: collection ID is still numeric
-          const inCollection = data.filter(
-            (p) => p.collection === parseInt(id),
-          );
+          const inCollection = data.filter((p) => p.collection === parseInt(id));
           setProducts(inCollection);
         }
       });
   }, [id, isCreateMode, token]);
 
   const handleSave = async () => {
+    setLoading(true);
     try {
       let url = isCreateMode
         ? "https://orm-backend-gejw.onrender.com/api/collections/"
         : `https://orm-backend-gejw.onrender.com/api/collections/${id}/`;
       let method = isCreateMode ? "POST" : "PATCH";
 
-      // SAVE COLLECTION
       const response = await fetch(url, {
         method: method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${token}`, // ADDED AUTH
+          Authorization: `Token ${token}`,
         },
         body: JSON.stringify(collection),
       });
 
       if (response.ok) {
         const savedCol = await response.json();
-
-        // If creating, we need to link products now
         if (isCreateMode && products.length > 0) {
           for (const p of products) {
-            // FIX: Use p.slug instead of p.id because of backend changes
-            await fetch(
-              `https://orm-backend-gejw.onrender.com/api/products/${p.slug}/`,
-              {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Token ${token}`, // ADDED AUTH
-                },
-                body: JSON.stringify({ collection: savedCol.id }),
+            await fetch(`https://orm-backend-gejw.onrender.com/api/products/${p.slug}/`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
               },
-            );
+              body: JSON.stringify({ collection: savedCol.id }),
+            });
           }
         }
-        alert("Collection Saved!");
+        alert("Sector Configuration Synchronized");
         navigate("/react-admin/products/collections");
       } else {
-        alert("Failed to save collection. Check permissions.");
+        alert("Sector Protocol Error");
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const addToCollection = async (productObj) => {
     if (!isCreateMode) {
-      // FIX: Use slug in URL
-      await fetch(
-        `https://orm-backend-gejw.onrender.com/api/products/${productObj.slug}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`, // ADDED AUTH
-          },
-          body: JSON.stringify({ collection: id }),
+      await fetch(`https://orm-backend-gejw.onrender.com/api/products/${productObj.slug}/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
         },
-      );
+        body: JSON.stringify({ collection: id }),
+      });
     }
     setProducts([...products, productObj]);
     setSearch("");
@@ -116,18 +105,14 @@ const EditCollection = () => {
 
   const removeFromCollection = async (productObj) => {
     if (!isCreateMode) {
-      // FIX: Use slug in URL
-      await fetch(
-        `https://orm-backend-gejw.onrender.com/api/products/${productObj.slug}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`, // ADDED AUTH
-          },
-          body: JSON.stringify({ collection: null }),
+      await fetch(`https://orm-backend-gejw.onrender.com/api/products/${productObj.slug}/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
         },
-      );
+        body: JSON.stringify({ collection: null }),
+      });
     }
     setProducts(products.filter((p) => p.id !== productObj.id));
   };
@@ -139,135 +124,148 @@ const EditCollection = () => {
   );
 
   return (
-    <div className="font-['Inter',sans-serif] text-[#111827] w-full max-w-full pb-[80px] bg-transparent shadow-none">
-      <div className="flex justify-between items-center mb-[25px] pt-[10px]">
-        <div className="flex items-center gap-[15px]">
+    <div className="space-y-10 animate-fadeInUp pb-20">
+      {/* HEADER BAR */}
+      <div className="flex justify-between items-center bg-orm-surface/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[2rem] sticky top-0 z-50">
+        <div className="flex items-center gap-6">
           <Link
             to="/react-admin/products/collections"
-            className="w-[40px] h-[40px] rounded-full border border-[#d1d5db] flex items-center justify-center text-[#6b7280] bg-white transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:text-[#111] hover:translate-x-[-3px]"
+            className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-white/40 transition-all hover:text-white hover:border-white/20 active:scale-90"
           >
             <FaArrowLeft />
           </Link>
-          <div className="header-text">
-            <h2 className="font-['Merriweather',serif] text-[24px] font-[700] m-0 text-[#111]">{isCreateMode ? "Create collection" : collection.title}</h2>
-            <p className="text-[#6b7280] text-[13px] mt-[2px]">Manage product grouping</p>
+          <div>
+            <div className="flex items-center gap-3 mb-1">
+               <div className="w-2 h-2 bg-orm-gold rounded-full animate-pulse shadow-[0_0_10px_#fbb03b]"></div>
+               <span className="text-[0.55rem] font-black uppercase tracking-[0.4em] text-orm-gold/60">{isCreateMode ? "New Collection" : "Edit Collection"}</span>
+            </div>
+            <h2 className="text-[1.8rem] font-black text-white uppercase tracking-tighter leading-none">
+              {isCreateMode ? "Create" : "Update"} <span className="text-orm-gold">Collection</span>
+            </h2>
           </div>
         </div>
-        <div className="flex gap-[12px]">
-          <button className="bg-white border border-[#d1d5db] text-[#374151] p-[10px_20px] rounded-[8px] font-[600] text-[14px] cursor-pointer transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:bg-[#f9fafb] hover:border-[#9ca3af]" onClick={() => navigate(-1)}>
-            Discard
+        <div className="flex gap-4">
+          <button
+            className="px-8 py-4 rounded-xl font-black text-[0.65rem] uppercase tracking-[0.2em] border border-white/10 text-white/40 transition-all hover:bg-white/5 hover:text-white"
+            onClick={() => navigate(-1)}
+          >
+            Cancel
           </button>
-          <button className="bg-[#fbb03b] text-black border-none p-[10px_24px] rounded-[8px] font-[600] text-[14px] cursor-pointer transition-all duration-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] hover:bg-[#f59e0b] hover:translate-y-[-1px]" onClick={handleSave}>
-            Save
+          <button
+            className="group relative overflow-hidden bg-orm-gold text-black px-10 py-4 rounded-xl font-black text-[0.65rem] uppercase tracking-[0.2em] transition-all flex items-center gap-3 hover:shadow-[0_10px_30px_rgba(251,176,59,0.3)] hover:-translate-y-1 active:scale-95 disabled:opacity-50"
+            onClick={handleSave}
+            disabled={loading}
+          >
+            <span className="relative z-10 flex items-center gap-3">{loading ? "Saving..." : "Save Collection"} <FaSave /></span>
+            <div className="absolute inset-0 bg-white translate-y-[100%] transition-transform duration-500 group-hover:translate-y-0"></div>
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col gap-[20px] w-full">
-        <div className="bg-white rounded-[12px] border border-[#e5e7eb] shadow-[0_1px_3px_rgba(0,0,0,0.05)] overflow-hidden w-full">
-          <div className="p-[16px_24px] border-b border-[#f3f4f6] flex justify-between items-center bg-[#fcfcfc]">
-            <h3 className="text-[15px] font-[600] m-0 text-[#202223]">Details</h3>
-            <span className="text-[#9ca3af] text-[1.1rem]">
-              <FaLayerGroup />
-            </span>
-          </div>
-          <div className="p-[24px]">
-            <div className="mb-[20px]">
-              <label className="block text-[13px] font-[600] text-[#374151] mb-[8px]">Title</label>
-              <input
-                type="text"
-                value={collection.title}
-                onChange={(e) =>
-                  setCollection({ ...collection, title: e.target.value })
-                }
-                className="w-full p-[10px_12px] border border-[#d1d5db] rounded-[8px] text-[14px] text-[#111] outline-none bg-white transition-all duration-200 font-['Inter',sans-serif] focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)]"
-                placeholder="e.g. Summer Sale"
-              />
+      <div className="grid grid-cols-12 gap-8 items-start">
+        {/* LEFT COLUMN: CORE DEFINITION */}
+        <div className="col-span-7 flex flex-col gap-8 max-lg:col-span-12">
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-8">
+            <div className="flex items-center gap-4 mb-2">
+               <FaLayerGroup className="text-orm-gold" />
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Collection Details</h3>
             </div>
-            <div className="mb-[20px]">
-              <label className="block text-[13px] font-[600] text-[#374151] mb-[8px]">Description</label>
-              <textarea
-                rows="4"
-                value={collection.description}
-                onChange={(e) =>
-                  setCollection({ ...collection, description: e.target.value })
-                }
-                className="w-full p-[10px_12px] border border-[#d1d5db] rounded-[8px] text-[14px] text-[#111] outline-none bg-white transition-all duration-200 font-['Inter',sans-serif] focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)]"
-                placeholder="Add a description..."
-              ></textarea>
+            
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Title</label>
+                <input
+                  type="text"
+                  value={collection.title}
+                  onChange={(e) => setCollection({ ...collection, title: e.target.value })}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold tracking-tight outline-none focus:border-orm-gold/50 transition-all"
+                  placeholder="e.g. Summer Collection"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Description</label>
+                <textarea
+                  name="description"
+                  rows="6"
+                  value={collection.description}
+                  onChange={(e) => setCollection({ ...collection, description: e.target.value })}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-medium leading-relaxed outline-none focus:border-orm-gold/50 transition-all no-scrollbar"
+                  placeholder="Enter collection description..."
+                ></textarea>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-[12px] border border-[#e5e7eb] shadow-[0_1px_3px_rgba(0,0,0,0.05)] overflow-hidden w-full">
-          <div className="p-[16px_24px] border-b border-[#f3f4f6] flex justify-between items-center bg-[#fcfcfc]">
-            <h3 className="text-[15px] font-[600] m-0 text-[#202223]">Products</h3>
-            <span className="text-[#9ca3af] text-[1.1rem]">
-              <FaBoxOpen />
-            </span>
-          </div>
-          <div className="p-[24px]">
-            <div className="relative flex items-center border border-[#d1d5db] rounded-[8px] p-[10px_12px] mb-[15px] focus-within:border-[#fbb03b]">
-              <FaSearch className="text-[#9ca3af]" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="border-none outline-none w-full ml-[10px] text-[14px]"
-              />
-              {search && (
-                <div className="absolute top-full left-0 w-full bg-white border border-[#e5e7eb] rounded-[8px] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] z-10 max-h-[250px] overflow-y-auto mt-[5px]">
-                  {searchResults.map((p) => (
-                    <div
-                      key={p.id}
-                      className="flex items-center gap-[10px] p-[10px_15px] cursor-pointer border-b border-[#f3f4f6] transition-all duration-200 hover:bg-[#f9fafb]"
-                      onClick={() => addToCollection(p)}
-                    >
-                      <img
-                        src={
-                          p.image.startsWith("http")
-                            ? p.image
-                            : `https://orm-backend-gejw.onrender.com${p.image}`
-                        }
-                        alt=""
-                        className="w-[32px] h-[32px] rounded-[4px] object-cover"
-                      />
-                      <span>{p.title}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+        {/* RIGHT COLUMN: UNIT ASSIGNMENT */}
+        <div className="col-span-5 flex flex-col gap-8 max-lg:col-span-12">
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-8">
+            <div className="flex items-center gap-4 mb-2">
+               <FaBoxOpen className="text-orm-gold" />
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Products in Collection</h3>
             </div>
 
-            <div className="flex flex-col">
-              {products.map((p) => (
-                <div key={p.id} className="flex items-center gap-[15px] p-[12px_0] border-b border-[#f3f4f6] last:border-b-0">
-                  <div className="w-[40px] h-[40px] rounded-[6px] overflow-hidden border border-[#e5e7eb]">
-                    <img
-                      src={
-                        p.image.startsWith("http")
-                          ? p.image
-                          : `https://orm-backend-gejw.onrender.com${p.image}`
-                      }
-                      alt={p.title}
-                      className="w-full h-full object-cover"
-                    />
+            <div className="space-y-6">
+              <div className="relative">
+                <div className="flex items-center bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl focus-within:border-orm-gold/50 transition-all">
+                  <FaSearch className="text-white/20" />
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="bg-transparent border-none outline-none ml-3 w-full text-[0.75rem] font-bold text-white placeholder:text-white/10 tracking-tight"
+                  />
+                </div>
+                
+                {search && (
+                  <div className="absolute top-[120%] left-0 w-full bg-orm-surface/90 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl z-50 max-h-[300px] overflow-y-auto p-2 no-scrollbar animate-fadeInUp">
+                    {searchResults.map((p) => (
+                      <div
+                        key={p.id}
+                        className="flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-white/5 group transition-all"
+                        onClick={() => addToCollection(p)}
+                      >
+                        <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/5 bg-orm-dark">
+                          <img src={p.image.startsWith("http") ? p.image : `https://orm-backend-gejw.onrender.com${p.image}`} alt="" className="w-full h-full object-cover" />
+                        </div>
+                        <span className="text-[0.7rem] font-bold text-white/60 group-hover:text-orm-gold transition-colors">{p.title}</span>
+                      </div>
+                    ))}
+                    {searchResults.length === 0 && <div className="p-4 text-center text-[0.6rem] font-black uppercase text-white/20">No products found</div>}
                   </div>
-                  <span className="flex-1 font-[500] text-[14px] text-[#1f2937]">{p.title}</span>
-                  <button
-                    className="bg-none border-none cursor-pointer text-[#9ca3af] text-[14px] transition-all duration-200 hover:text-[#ef4444]"
-                    onClick={() => removeFromCollection(p)}
-                  >
-                    <FaTimes />
-                  </button>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Assigned Products ({products.length})</label>
+                <div className="space-y-2 max-h-[400px] overflow-y-auto no-scrollbar pr-2">
+                  {products.map((p) => (
+                    <div key={p.id} className="flex items-center gap-4 p-3 bg-white/[0.03] border border-white/5 rounded-xl group hover:border-orm-gold/20 transition-all">
+                      <div className="w-12 h-12 rounded-lg overflow-hidden border border-white/5 bg-orm-dark">
+                        <img src={p.image.startsWith("http") ? p.image : `https://orm-backend-gejw.onrender.com${p.image}`} alt={p.title} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                         <span className="block text-[0.7rem] font-bold text-white uppercase tracking-tight truncate">{p.title}</span>
+                         <span className="text-[0.5rem] font-black text-white/10 uppercase tracking-widest">ID: {p.id}</span>
+                      </div>
+                      <button
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-white/20 hover:bg-red-500/10 hover:text-red-500 transition-all active:scale-90"
+                        onClick={() => removeFromCollection(p)}
+                      >
+                        <FaTimes size={10} />
+                      </button>
+                    </div>
+                  ))}
+                  {products.length === 0 && (
+                    <div className="py-12 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-2xl opacity-20">
+                       <FaLayerGroup size={24} className="mb-3" />
+                       <span className="text-[0.55rem] font-black uppercase tracking-widest">No products</span>
+                    </div>
+                  )}
                 </div>
-              ))}
-              {products.length === 0 && (
-                <div className="text-center text-[#9ca3af] p-[20px] italic text-[13px]">
-                  No products in this collection.
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>

@@ -8,11 +8,15 @@ import {
   FaImages,
   FaVideo,
   FaCube,
+  FaCogs,
+  FaTag,
+  FaInfoCircle,
+  FaTrash,
 } from "react-icons/fa";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-  const { slug } = useParams(); // URL now uses slug instead of ID
+  const { slug } = useParams();
 
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -34,12 +38,12 @@ const AddProduct = () => {
   });
 
   const [mainImage, setMainImage] = useState(null);
-  const [galleryImages, setGalleryImages] = useState([]); // New files only
+  const [galleryImages, setGalleryImages] = useState([]);
   const [videoFile, setVideoFile] = useState(null);
   const [model3dFile, setModel3dFile] = useState(null);
 
   const [mainPreview, setMainPreview] = useState(null);
-  const [galleryPreviews, setGalleryPreviews] = useState([]); // List of {id, url} or strings
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
 
   useEffect(() => {
     if (slug) {
@@ -71,7 +75,6 @@ const AddProduct = () => {
             );
           }
 
-          // Fetch gallery and store as objects with IDs
           if (data.images && data.images.length > 0) {
             const existing = data.images.map((img) => ({
               id: img.id,
@@ -111,29 +114,21 @@ const AddProduct = () => {
     setGalleryPreviews([...galleryPreviews, ...newPreviews]);
   };
 
-  // --- DELETE GALLERY IMAGE LOGIC ---
   const removeGalleryImage = async (index, imgObj) => {
     if (imgObj.isExisting) {
-      const confirmDelete = window.confirm(
-        "Delete this image from the server permanently?",
-      );
+      const confirmDelete = window.confirm("Permanently delete image from server?");
       if (!confirmDelete) return;
 
       try {
-        await fetch(
-          `https://orm-backend-gejw.onrender.com/api/product-images/${imgObj.id}/`,
-          {
-            method: "DELETE",
-          },
-        );
+        await fetch(`https://orm-backend-gejw.onrender.com/api/product-images/${imgObj.id}/`, {
+          method: "DELETE",
+        });
         setGalleryPreviews(galleryPreviews.filter((_, i) => i !== index));
       } catch (err) {
-        alert("Failed to delete image");
+        alert("Deletion failed");
       }
     } else {
-      // Remove from new files local state
       setGalleryPreviews(galleryPreviews.filter((_, i) => i !== index));
-      // You'd need to filter galleryImages here based on index if needed
     }
   };
 
@@ -161,10 +156,10 @@ const AddProduct = () => {
       const response = await fetch(url, { method, body: data });
 
       if (response.ok) {
-        alert(isEditMode ? "Product Updated!" : "Product Created!");
+        alert(isEditMode ? "Unit Protocol Updated" : "New Unit Fabricated");
         navigate("/react-admin/products");
       } else {
-        alert("Error saving product.");
+        alert("Fabrication Error Detected");
       }
     } catch (error) {
       console.error(error);
@@ -174,292 +169,294 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="bg-[#ffffff] rounded-[12px] p-[30px] shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-[#e5e7eb] w-full min-h-[85vh] !max-w-full">
-      <div className="flex justify-between items-center mb-[30px]">
-        <div className="flex items-center gap-[15px]">
+    <div className="space-y-10 animate-fadeInUp">
+      {/* HEADER BAR */}
+      <div className="flex justify-between items-center bg-orm-surface/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[2rem] sticky top-0 z-50">
+        <div className="flex items-center gap-6">
           <button
-            className="bg-white border border-[#e5e7eb] p-[10px] rounded-[8px] cursor-pointer text-[#64748b] transition-all duration-200 hover:bg-[#f1f5f9] hover:text-[#111]"
+            className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-white/40 transition-all hover:text-white hover:border-white/20 active:scale-90"
             onClick={() => navigate("/react-admin/products")}
           >
             <FaArrowLeft />
           </button>
           <div>
-            <h2 className="font-['Merriweather',serif] text-[2rem] text-[#111] m-0">{isEditMode ? "Edit Product" : "Add New Product"}</h2>
-            <p className="text-[#6b7280] text-[0.95rem] mt-[5px]">
-              {isEditMode ? `Slug: ${slug}` : "Create a new item"}
-            </p>
+            <div className="flex items-center gap-3 mb-1">
+               <div className="w-2 h-2 bg-orm-gold rounded-full animate-pulse shadow-[0_0_10px_#fbb03b]"></div>
+               <span className="text-[0.55rem] font-black uppercase tracking-[0.4em] text-orm-gold/60">{isEditMode ? "Edit Product" : "New Product"}</span>
+            </div>
+            <h2 className="text-[1.8rem] font-black text-white uppercase tracking-tighter leading-none">
+              {isEditMode ? "Update" : "Add"} <span className="text-orm-gold">Product</span>
+            </h2>
           </div>
         </div>
-        <div className="flex gap-[12px]">
+        <div className="flex gap-4">
           <button
-            className="p-[10px_20px] rounded-[8px] font-[600] text-[0.9rem] cursor-pointer flex items-center gap-[8px] border border-[#e5e7eb] bg-white text-[#64748b] hover:bg-[#f1f5f9] hover:text-[#111] transition-all duration-200"
+            className="px-8 py-4 rounded-xl font-black text-[0.65rem] uppercase tracking-[0.2em] border border-white/10 text-white/40 transition-all hover:bg-white/5 hover:text-white"
             onClick={() => navigate("/react-admin/products")}
           >
-            Cancel
+            Discard
           </button>
           <button
-            className="p-[10px_20px] rounded-[8px] font-[600] text-[0.9rem] cursor-pointer flex items-center gap-[8px] border-none bg-[#fbb03b] text-black hover:bg-[#f59e0b] transition-all duration-200 disabled:bg-[#e5e7eb] disabled:text-[#9ca3af]"
+            className="group relative overflow-hidden bg-orm-gold text-black px-10 py-4 rounded-xl font-black text-[0.65rem] uppercase tracking-[0.2em] transition-all flex items-center gap-3 hover:shadow-[0_10px_30px_rgba(251,176,59,0.3)] hover:-translate-y-1 active:scale-95 disabled:opacity-50"
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? "Saving..." : "Save Product"} <FaSave />
+            <span className="relative z-10 flex items-center gap-3">{loading ? "Saving..." : "Save Product"} <FaSave /></span>
+            <div className="absolute inset-0 bg-white translate-y-[100%] transition-transform duration-500 group-hover:translate-y-0"></div>
           </button>
         </div>
       </div>
 
-      <form className="grid grid-cols-[2fr_1fr] gap-[30px] items-start max-lg:grid-cols-1">
-        <div className="flex flex-col gap-[24px]">
-          <div className="bg-white border border-[#e5e7eb] rounded-[12px] p-[24px] shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
-            <h3 className="font-['Inter',sans-serif] text-[1.1rem] font-[600] text-[#111] mb-[20px] pb-[12px] border-b border-[#f1f5f9]">General Information</h3>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Product Title</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-                required
-              />
+      <form className="grid grid-cols-12 gap-8 items-start">
+        {/* LEFT COLUMN: CORE SPECS */}
+        <div className="col-span-8 flex flex-col gap-8 max-lg:col-span-12">
+          {/* GENERAL INFO */}
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-8">
+            <div className="flex items-center gap-4 mb-2">
+               <FaInfoCircle className="text-orm-gold" />
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Product Details</h3>
             </div>
-            {isEditMode && (
-              <div className="mb-[18px]">
-                <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">URL Slug (Auto-generated)</label>
-                <input
-                  type="text"
-                  value={formData.slug}
-                  disabled
-                  className="w-full p-[12px] bg-[#f0f0f0] border border-[#d1d5db] rounded-[8px] text-[0.95rem] text-[#888] font-['Inter',sans-serif] transition-all duration-200 outline-none"
-                />
+            
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold tracking-tight outline-none focus:border-orm-gold/50 transition-all"
+                    placeholder="Enter product title..."
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Slug</label>
+                  <input
+                    type="text"
+                    value={isEditMode ? formData.slug : "auto-generated"}
+                    disabled
+                    className="w-full bg-white/[0.01] border border-white/5 p-4 rounded-xl text-white/20 text-sm font-mono tracking-tight outline-none cursor-not-allowed"
+                  />
+                </div>
               </div>
-            )}
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Description</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                rows="6"
-                onChange={handleChange}
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-              ></textarea>
+
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Description</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  rows="6"
+                  onChange={handleChange}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-medium leading-relaxed outline-none focus:border-orm-gold/50 transition-all no-scrollbar"
+                  placeholder="Enter product description..."
+                ></textarea>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white border border-[#e5e7eb] rounded-[12px] p-[24px] shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
-            <h3 className="font-['Inter',sans-serif] text-[1.1rem] font-[600] text-[#111] mb-[20px] pb-[12px] border-b border-[#f1f5f9]">Media Gallery</h3>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Main Image</label>
-              <div className="border-2 border-dashed border-[#d1d5db] rounded-[10px] p-[5px] bg-[#f9fafb] min-h-[150px] flex items-center justify-center relative transition-all duration-200 hover:bg-[#fffbeb] hover:border-[#fbb03b]">
-                {mainPreview ? (
-                  <div className="max-w-full max-h-[300px] rounded-[8px]">
-                    <img src={mainPreview} alt="Main" className="max-w-full max-h-[300px] rounded-[8px]" />
-                    <button
-                      type="button"
-                      className="absolute top-[10px] right-[10px] bg-white border border-[#ddd] rounded-full w-[30px] h-[30px] cursor-pointer flex items-center justify-center shadow-[0_2px_5px_rgba(0,0,0,0.1)]"
-                      onClick={() => {
-                        setMainImage(null);
-                        setMainPreview(null);
-                      }}
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                ) : (
-                  <label className="flex flex-col items-center cursor-pointer text-[#6b7280]">
-                    <FaCloudUploadAlt className="text-[2rem] mb-[8px] text-[#94a3b8]" />
-                    <span>Upload Main Image</span>
-                    <input
-                      type="file"
-                      onChange={handleMainImageChange}
-                      accept="image/*"
-                      hidden
-                    />
-                  </label>
-                )}
+          {/* MEDIA FABRICATION */}
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-8">
+            <div className="flex items-center gap-4 mb-2">
+               <FaImages className="text-orm-gold" />
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Media</h3>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8">
+              {/* MAIN VISUAL */}
+              <div className="space-y-4">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Main Image</label>
+                <div className="relative aspect-video rounded-2xl overflow-hidden bg-orm-dark border border-white/5 group">
+                  {mainPreview ? (
+                    <>
+                      <img src={mainPreview} alt="Preview" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                      <button
+                        type="button"
+                        className="absolute top-4 right-4 w-8 h-8 bg-black/60 backdrop-blur-xl text-white rounded-lg flex items-center justify-center transition-all hover:bg-red-500"
+                        onClick={() => { setMainImage(null); setMainPreview(null); }}
+                      >
+                        <FaTimes size={10} />
+                      </button>
+                    </>
+                  ) : (
+                    <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-white/[0.02]">
+                      <FaCloudUploadAlt className="text-3xl text-orm-gold/40 mb-3" />
+                      <span className="text-[0.55rem] font-black uppercase tracking-[0.2em] text-white/20">Upload Image</span>
+                      <input type="file" onChange={handleMainImageChange} accept="image/*" hidden />
+                    </label>
+                  )}
+                </div>
+              </div>
+
+              {/* TECHNICAL ASSETS */}
+              <div className="space-y-6">
+                <div className="space-y-4">
+                   <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">3D Model (.glb)</label>
+                   <label className="flex items-center gap-4 p-4 bg-white/[0.03] border border-white/10 rounded-xl cursor-pointer hover:bg-white/[0.05] transition-all">
+                      <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500"><FaCube size={18} /></div>
+                      <span className="text-[0.65rem] font-bold text-white/60 uppercase tracking-widest truncate">{model3dFile ? model3dFile.name : "Select .glb File"}</span>
+                      <input type="file" onChange={(e) => setModel3dFile(e.target.files[0])} accept=".glb" hidden />
+                   </label>
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Product Video (.mp4)</label>
+                   <label className="flex items-center gap-4 p-4 bg-white/[0.03] border border-white/10 rounded-xl cursor-pointer hover:bg-white/[0.05] transition-all">
+                      <div className="w-10 h-10 rounded-lg bg-orm-gold/10 flex items-center justify-center text-orm-gold"><FaVideo size={16} /></div>
+                      <span className="text-[0.65rem] font-bold text-white/60 uppercase tracking-widest truncate">{videoFile ? videoFile.name : "Select .mp4 File"}</span>
+                      <input type="file" onChange={(e) => setVideoFile(e.target.files[0])} accept="video/mp4" hidden />
+                   </label>
+                </div>
               </div>
             </div>
 
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">3D Model (.glb format)</label>
-              <div
-                className="border-2 border-dashed border-[#d1d5db] rounded-[10px] p-[5px] bg-[#f9fafb] flex items-center justify-center relative transition-all duration-200 hover:bg-[#fffbeb] hover:border-[#fbb03b] h-[100px] border-[#4a90e2]"
-              >
-                <label className="flex flex-col items-center cursor-pointer text-[#6b7280]">
-                  <FaCube
-                    className="text-[1.5rem] mb-[8px] text-[#4a90e2]"
-                  />
-                  <span>
-                    {model3dFile ? model3dFile.name : "Select GLB Model"}
-                  </span>
-                  <input
-                    type="file"
-                    onChange={(e) => setModel3dFile(e.target.files[0])}
-                    accept=".glb"
-                    hidden
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Gallery Video (MP4)</label>
-              <div
-                className="border-2 border-dashed border-[#d1d5db] rounded-[10px] p-[5px] bg-[#f9fafb] flex items-center justify-center relative transition-all duration-200 hover:bg-[#fffbeb] hover:border-[#fbb03b] h-[100px] border-[#fbb03b]"
-              >
-                <label className="flex flex-col items-center cursor-pointer text-[#6b7280]">
-                  <FaVideo className="text-[1.5rem] mb-[8px] text-[#94a3b8]" />
-                  <span>{videoFile ? videoFile.name : "Select MP4 Video"}</span>
-                  <input
-                    type="file"
-                    onChange={(e) => setVideoFile(e.target.files[0])}
-                    accept="video/mp4"
-                    hidden
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Gallery Images</label>
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-[12px]">
+            {/* SECONDARY GALLERY */}
+            <div className="space-y-4">
+              <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Product Gallery</label>
+              <div className="grid grid-cols-6 gap-4">
                 {galleryPreviews.map((img, index) => (
-                  <div key={index} className="relative w-full pb-[100%] rounded-[8px] overflow-hidden border border-[#e5e7eb]">
-                    <img src={img.url} alt="Gallery" className="absolute top-0 left-0 w-full h-full object-cover" />
+                  <div key={index} className="relative aspect-square rounded-xl overflow-hidden border border-white/5 bg-orm-dark group">
+                    <img src={img.url} alt="Gallery" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-125" />
                     <button
                       type="button"
-                      className="absolute top-[4px] right-[4px] bg-[rgba(0,0,0,0.6)] text-white border-none rounded-full w-[20px] h-[20px] text-[0.7rem] cursor-pointer"
+                      className="absolute inset-0 bg-red-500/80 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all"
                       onClick={() => removeGalleryImage(index, img)}
                     >
-                      <FaTimes />
+                      <FaTrash size={12} />
                     </button>
                   </div>
                 ))}
-                <label className="flex flex-col items-center justify-center bg-white border border-dashed border-[#d1d5db] rounded-[8px] cursor-pointer text-[#94a3b8] h-[82px] hover:text-[#fbb03b] hover:border-[#fbb03b]">
-                  <FaImages /> <small>Add</small>
-                  <input
-                    type="file"
-                    multiple
-                    onChange={handleGalleryChange}
-                    accept="image/*"
-                    hidden
-                  />
+                <label className="aspect-square flex flex-col items-center justify-center bg-white/[0.02] border border-dashed border-white/10 rounded-xl cursor-pointer hover:border-orm-gold/40 hover:bg-white/[0.05] transition-all text-white/20 hover:text-orm-gold">
+                  <FaPlus size={16} />
+                  <span className="text-[0.5rem] font-black uppercase mt-2">ADD</span>
+                  <input type="file" multiple onChange={handleGalleryChange} accept="image/*" hidden />
                 </label>
               </div>
             </div>
-
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">YouTube Demo URL</label>
-              <input
-                type="url"
-                name="video_url"
-                value={formData.video_url}
-                onChange={handleChange}
-                placeholder="https://youtube.com/..."
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-              />
-            </div>
           </div>
 
-          <div className="bg-white border border-[#e5e7eb] rounded-[12px] p-[24px] shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
-            <h3 className="font-['Inter',sans-serif] text-[1.1rem] font-[600] text-[#111] mb-[20px] pb-[12px] border-b border-[#f1f5f9]">Technical Specifications</h3>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Benefits Title</label>
-              <input
-                type="text"
-                name="benefits_title"
-                value={formData.benefits_title}
-                onChange={handleChange}
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-              />
+          {/* TECHNICAL SPECS */}
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-8">
+            <div className="flex items-center gap-4 mb-2">
+               <FaCogs className="text-orm-gold" />
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Specifications</h3>
             </div>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Benefits Description</label>
-              <textarea
-                name="benefits_description"
-                value={formData.benefits_description}
-                rows="3"
-                onChange={handleChange}
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-              ></textarea>
-            </div>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Specifications (One per line)</label>
-              <textarea
-                name="specifications"
-                value={formData.specifications}
-                rows="5"
-                onChange={handleChange}
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-              ></textarea>
+            
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Benefits Title</label>
+                <input
+                  type="text"
+                  name="benefits_title"
+                  value={formData.benefits_title}
+                  onChange={handleChange}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold tracking-tight outline-none focus:border-orm-gold/50 transition-all"
+                  placeholder="e.g. Advanced Performance"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Benefits Description</label>
+                <textarea
+                  name="benefits_description"
+                  value={formData.benefits_description}
+                  rows="3"
+                  onChange={handleChange}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-medium outline-none focus:border-orm-gold/50 transition-all no-scrollbar"
+                ></textarea>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Product Specs (Line Delimited)</label>
+                <textarea
+                  name="specifications"
+                  value={formData.specifications}
+                  rows="5"
+                  onChange={handleChange}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-mono outline-none focus:border-orm-gold/50 transition-all no-scrollbar"
+                  placeholder="MATERIAL: STEEL&#10;FINISH: MATTE&#10;COMPATIBILITY: THAR"
+                ></textarea>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-[24px]">
-          <div className="bg-white border border-[#e5e7eb] rounded-[12px] p-[24px] shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
-            <h3 className="font-['Inter',sans-serif] text-[1.1rem] font-[600] text-[#111] mb-[20px] pb-[12px] border-b border-[#f1f5f9]">Organization</h3>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Category</label>
-              <select
-                name="category"
-                onChange={handleChange}
-                value={formData.category}
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-              >
-                <option value="Thar">Mahindra Thar</option>
-                <option value="Scorpio">Scorpio</option>
-                <option value="Hilux">Toyota Hilux</option>
-                <option value="Fortuner">Toyota Fortuner</option>
-                <option value="Jimny">Suzuki Jimny</option>
-                <option value="Defender">Range Rover Defender</option>
-              </select>
-            </div>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Weight</label>
-              <input
-                type="text"
-                name="weight"
-                value={formData.weight}
-                onChange={handleChange}
-                placeholder="e.g. 2.5 kg"
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-              />
-            </div>
-            <div className="flex items-center gap-[10px] mt-[15px] p-[10px] bg-[#f9fafb] rounded-[8px]">
-              <input
-                type="checkbox"
-                id="is_sale"
-                name="is_sale"
-                checked={formData.is_sale}
-                onChange={handleChange}
-                className="accent-[#fbb03b] w-[18px] h-[18px]"
-              />
-              <label htmlFor="is_sale" className="text-[0.85rem] font-[500] text-[#374151]">On Sale</label>
+        {/* RIGHT COLUMN: LOGISTICS */}
+        <div className="col-span-4 flex flex-col gap-8 max-lg:col-span-12">
+          {/* CLASSIFICATION */}
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-6">
+            <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em] mb-4 pb-4 border-b border-white/5">Organization</h3>
+            
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Category</label>
+                <select
+                  name="category"
+                  onChange={handleChange}
+                  value={formData.category}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold tracking-tight outline-none focus:border-orm-gold/50 transition-all appearance-none"
+                >
+                  <option value="Thar" className="bg-orm-dark">Mahindra Thar</option>
+                  <option value="Scorpio" className="bg-orm-dark">Scorpio</option>
+                  <option value="Hilux" className="bg-orm-dark">Toyota Hilux</option>
+                  <option value="Fortuner" className="bg-orm-dark">Toyota Fortuner</option>
+                  <option value="Jimny" className="bg-orm-dark">Suzuki Jimny</option>
+                  <option value="Defender" className="bg-orm-dark">Range Rover Defender</option>
+                </select>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Weight</label>
+                <input
+                  type="text"
+                  name="weight"
+                  value={formData.weight}
+                  onChange={handleChange}
+                  placeholder="e.g. 10kg"
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold tracking-tight outline-none focus:border-orm-gold/50 transition-all"
+                />
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-white/10 group">
+                <div className="flex flex-col">
+                   <span className="text-[0.65rem] font-black text-white uppercase tracking-widest">Sale Status</span>
+                   <span className="text-[0.5rem] font-bold text-white/20 uppercase tracking-[0.2em]">Show on Sale</span>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" name="is_sale" checked={formData.is_sale} onChange={handleChange} className="sr-only peer" />
+                  <div className="w-11 h-6 bg-white/10 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white/20 after:border-white/10 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orm-gold peer-checked:after:bg-black"></div>
+                </label>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white border border-[#e5e7eb] rounded-[12px] p-[24px] shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
-            <h3 className="font-['Inter',sans-serif] text-[1.1rem] font-[600] text-[#111] mb-[20px] pb-[12px] border-b border-[#f1f5f9]">Pricing</h3>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Price (Rs)</label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-                required
-              />
+          {/* VALUATION */}
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-6 shadow-2xl shadow-orm-gold/5">
+            <div className="flex items-center gap-4 mb-2">
+               <FaTag className="text-orm-gold" />
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Pricing</h3>
             </div>
-            <div className="mb-[18px]">
-              <label className="block text-[0.85rem] font-[500] text-[#374151] mb-[8px]">Old Price (Rs)</label>
-              <input
-                type="number"
-                name="old_price"
-                value={formData.old_price}
-                onChange={handleChange}
-                className="w-full p-[12px] bg-white border border-[#d1d5db] rounded-[8px] text-[0.95rem] color-[#1f2937] font-['Inter',sans-serif] transition-all duration-200 focus:border-[#fbb03b] focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] outline-none"
-              />
+            
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Price (RS)</label>
+                <input
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  className="w-full bg-orm-gold/5 border border-orm-gold/20 p-4 rounded-xl text-orm-gold text-lg font-black tracking-tighter outline-none focus:bg-orm-gold/10 transition-all"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Old Price (RS)</label>
+                <input
+                  type="number"
+                  name="old_price"
+                  value={formData.old_price}
+                  onChange={handleChange}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white/40 text-sm font-bold tracking-tight outline-none focus:border-white/20 transition-all"
+                />
+              </div>
             </div>
           </div>
         </div>

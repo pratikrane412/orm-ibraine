@@ -35,7 +35,7 @@ const AdminLogin = () => {
             email: data.email,
           })
         );
-        navigate("/react-admin/dashboard"); // Go to dashboard
+        navigate("/react-admin/dashboard");
       } else {
         setError(data.error || "Invalid Credentials");
       }
@@ -47,63 +47,81 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="h-screen w-full flex justify-center items-center bg-[#f3f4f6] bg-[radial-gradient(at_0%_0%,#fffbeb_0px,transparent_50%),radial-gradient(at_100%_100%,#fdf2f8_0px,transparent_50%)] relative overflow-hidden font-['Inter',sans-serif]">
-      {/* BACKGROUND DECORATION (Optional circles) */}
-      <div className="absolute rounded-full blur-[80px] z-[1] w-[400px] h-[400px] bg-[#fcd34d] opacity-[0.15] top-[-100px] left-[-100px]"></div>
-      <div className="absolute rounded-full blur-[80px] z-[1] w-[300px] h-[300px] bg-[#fbbf24] opacity-[0.1] bottom-[-50px] right-[-50px]"></div>
+    <div className="h-screen w-full flex justify-center items-center bg-orm-dark relative overflow-hidden font-sans selection:bg-orm-gold selection:text-black">
+      {/* CINEMATIC BACKGROUND EFFECTS */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-orm-gold/10 blur-[120px] rounded-full animate-pulse-glow"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-orm-gold/5 blur-[120px] rounded-full animate-pulse-glow"></div>
+      
+      {/* GRID OVERLAY */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none"></div>
 
-      <div className="relative z-[10] bg-[rgba(255,255,255,0.85)] backdrop-blur-[12px] border border-white p-[50px_40px] rounded-[24px] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.05),0_0_0_1px_rgba(0,0,0,0.02)] w-full max-w-[420px] text-center">
-        {/* HEADER */}
-        <div className="auth-header">
-          <div className="w-[60px] h-[60px] bg-[#fffbeb] text-[#d97706] rounded-[16px] flex items-center justify-center text-[1.8rem] mx-auto mb-[20px] shadow-[0_4px_6px_-1px_rgba(217,119,6,0.1)]">
-            <FaUserShield />
-          </div>
-          <h1 className="font-['Merriweather',serif] text-[2rem] text-[#111] m-[0_0_8px_0] tracking-[1px]">
-            ORM <span className="text-[#f59e0b]">Admin</span>
-          </h1>
-          <p className="text-[#6b7280] text-[0.95rem] mb-[30px]">Secure Dashboard Access</p>
-        </div>
-
-        {/* ERROR MESSAGE */}
-        {error && (
-          <div className="bg-[#fef2f2] text-[#ef4444] p-[12px] rounded-[8px] text-[0.9rem] font-[500] mb-[20px] border border-[#fee2e2] flex items-center justify-center gap-[8px]">
-            <FaLock /> {error}
-          </div>
-        )}
-
-        {/* FORM */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-[20px] text-left">
-          <div className="input-group">
-            <label className="block text-[0.85rem] font-[600] text-[#374151] mb-[8px]">Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Enter admin ID"
-              onChange={handleChange}
-              className="w-full p-[14px_16px] bg-white border border-[#e5e7eb] rounded-[12px] text-[1rem] text-[#111] transition-all duration-200 outline-none focus:border-[#f59e0b] focus:shadow-[0_0_0_4px_rgba(245,158,11,0.1)]"
-              required
-            />
+      <div className="relative z-10 w-full max-w-[440px] px-6">
+        <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/5 p-12 rounded-[2rem] shadow-2xl relative overflow-hidden group">
+          {/* TOP DECORATIVE LINE */}
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-orm-gold/40 to-transparent"></div>
+          
+          {/* HEADER */}
+          <div className="text-center mb-10">
+            <div className="w-16 h-16 bg-orm-gold/10 border border-orm-gold/20 rounded-2xl flex items-center justify-center text-orm-gold mx-auto mb-6 shadow-lg shadow-orm-gold/5 animate-fadeInUp">
+              <FaUserShield size={28} />
+            </div>
+            <h1 className="text-[2.2rem] font-black text-white uppercase tracking-tighter mb-2 animate-fadeInUp">
+              ORM <span className="text-orm-gold">Admin</span>
+            </h1>
+            <p className="text-white/30 text-[0.6rem] font-black uppercase tracking-[0.4em] animate-fadeInUp">Secure Dashboard Access</p>
           </div>
 
-          <div className="input-group">
-            <label className="block text-[0.85rem] font-[600] text-[#374151] mb-[8px]">Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              onChange={handleChange}
-              className="w-full p-[14px_16px] bg-white border border-[#e5e7eb] rounded-[12px] text-[1rem] text-[#111] transition-all duration-200 outline-none focus:border-[#f59e0b] focus:shadow-[0_0_0_4px_rgba(245,158,11,0.1)]"
-              required
-            />
+          {/* ERROR MESSAGE */}
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-xl text-[0.7rem] font-bold mb-6 flex items-center gap-3 animate-shake">
+              <FaLock size={12} /> {error}
+            </div>
+          )}
+
+          {/* FORM */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Username</label>
+              <input
+                type="text"
+                name="username"
+                placeholder="Enter admin ID"
+                onChange={handleChange}
+                className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold tracking-tight outline-none focus:border-orm-gold/50 focus:bg-white/[0.05] transition-all placeholder:text-white/10"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                onChange={handleChange}
+                className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold tracking-tight outline-none focus:border-orm-gold/50 focus:bg-white/[0.05] transition-all placeholder:text-white/10"
+                required
+              />
+            </div>
+
+            <button 
+              type="submit" 
+              className="w-full relative overflow-hidden group/btn bg-orm-gold text-black h-14 rounded-xl font-black text-[0.7rem] uppercase tracking-[0.2em] transition-all duration-500 hover:shadow-[0_10px_30px_rgba(251,176,59,0.3)] hover:-translate-y-1 active:scale-95 disabled:opacity-50" 
+              disabled={loading}
+            >
+              <span className="relative z-10">{loading ? "Verifying..." : "Sign In to Dashboard"}</span>
+              <div className="absolute inset-0 bg-white translate-y-[100%] transition-transform duration-500 group-hover/btn:translate-y-0"></div>
+            </button>
+          </form>
+
+          {/* FOOTER ACCENT */}
+          <div className="mt-10 pt-8 border-t border-white/5 text-center">
+            <div className="flex justify-center items-center gap-2 mb-2">
+               <div className="w-1 h-1 bg-orm-gold rounded-full animate-ping"></div>
+               <span className="text-[0.5rem] font-bold text-white/20 uppercase tracking-[0.2em]">Secure Connection</span>
+            </div>
+            <p className="text-[0.55rem] font-black text-white/10 uppercase tracking-widest">© 2026 ORM Admin System</p>
           </div>
-
-          <button type="submit" className="w-full p-[14px] bg-[#f59e0b] text-black font-[700] text-[1rem] border-none rounded-[12px] cursor-pointer mt-[10px] transition-all duration-200 shadow-[0_4px_6px_-1px_rgba(245,158,11,0.2)] hover:bg-[#d97706] hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(245,158,11,0.3)] disabled:bg-[#e5e7eb] disabled:text-[#9ca3af] disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" disabled={loading}>
-            {loading ? "Verifying..." : "Sign In to Dashboard"}
-          </button>
-        </form>
-
-        <div className="mt-[30px] text-[0.75rem] text-[#9ca3af] border-t border-[#f3f4f6] pt-[20px]">
-          <p>Protected by ORM Security Systems</p>
         </div>
       </div>
     </div>

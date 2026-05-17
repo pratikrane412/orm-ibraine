@@ -21,14 +21,14 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // --- MOCK DATA FOR NEW CHARTS (Since backend doesn't provide these yet) ---
+  // --- MOCK DATA FOR NEW CHARTS ---
   const deviceData = [
     { name: "Mobile", value: 2500 },
     { name: "Desktop", value: 2000 },
     { name: "Tablet", value: 50 },
   ];
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28"]; // Blue, Green, Yellow
+  const COLORS = ["#fbb03b", "#ffffff", "#3f3f46"]; // Gold, White, Gray
 
   const funnelData = [
     { name: "Sessions", value: 4570 },
@@ -50,7 +50,12 @@ const Dashboard = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  if (loading) return <div className="text-center padding-[50px] text-[#64748b]">Loading Analytics...</div>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh]">
+      <div className="w-10 h-10 border-t-2 border-orm-gold rounded-full animate-spin mb-4"></div>
+      <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-white/20">Loading Intelligence...</span>
+    </div>
+  );
 
   // Prepare Data for Main Line Chart
   const chartData =
@@ -63,240 +68,146 @@ const Dashboard = () => {
     })) || [];
 
   return (
-    <div className="bg-[#ffffff] rounded-[12px] p-[30px] shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-[#e5e7eb] w-full min-h-[85vh] font-['Inter',sans-serif] text-[#1f2937] pb-[60px] bg-[#f3f4f6]">
-      {/* HEADER */}
-      <div className="flex justify-between items-center mb-[25px]">
+    <div className="space-y-8 animate-fadeInUp">
+      {/* HEADER SECTION */}
+      <div className="flex justify-between items-end">
         <div>
-          <h2 className="font-['Merriweather',serif] text-[28px] m-0 text-[#111] tracking-[-0.5px]">Analytics</h2>
-          <p className="text-[13px] text-[#6b7280] mt-[4px]">Last refreshed: Just now</p>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-2 h-2 bg-orm-gold rounded-full animate-pulse shadow-[0_0_10px_#fbb03b]"></div>
+            <span className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-orm-gold/60">System Analytics</span>
+          </div>
+          <h2 className="text-[2.2rem] font-black text-white uppercase tracking-tighter leading-none">Dashboard <span className="text-orm-gold">Overview</span></h2>
+          <p className="text-[0.7rem] font-bold text-white/20 uppercase tracking-widest mt-2">Last refreshed: Just now</p>
         </div>
-        <div className="flex gap-[10px]">
-          <button className="bg-white border border-[#d1d5db] p-[8px_14px] rounded-[8px] text-[13px] font-[500] cursor-pointer flex items-center gap-[8px] text-[#374151] transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#fbb03b] hover:text-black hover:bg-[#fffbeb]">
-            <FaCalendarAlt /> Today
+        <div className="flex gap-3">
+          <button className="bg-white/[0.03] border border-white/10 px-6 py-3 rounded-xl text-[0.6rem] font-black uppercase tracking-[0.2em] text-white/60 flex items-center gap-3 transition-all hover:bg-white/[0.06] hover:text-white hover:border-white/20">
+            <FaCalendarAlt className="text-orm-gold" /> Filter Period
           </button>
-          <button className="bg-white border border-[#d1d5db] p-[8px_14px] rounded-[8px] text-[13px] font-[500] cursor-pointer flex items-center gap-[8px] text-[#374151] transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#fbb03b] hover:text-black hover:bg-[#fffbeb]">
+          <button className="bg-orm-gold text-black px-4 py-3 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(251,176,59,0.3)] active:scale-95">
             <FaSyncAlt />
           </button>
         </div>
       </div>
 
-      {/* SUMMARY CARDS */}
-      <div className="grid grid-cols-4 gap-[20px] mb-[25px] max-lg:grid-cols-2">
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <span className="text-[11px] font-[700] text-[#6b7280] uppercase tracking-[0.05em] block mb-[8px]">Gross sales</span>
-          <div className="text-[24px] font-[700] text-[#111] font-['Merriweather',serif]">
-            Rs. {Number(stats.summary.gross_sales).toLocaleString()}
+      {/* STRATEGIC KPIS */}
+      <div className="grid grid-cols-4 gap-6 max-lg:grid-cols-2">
+        {[
+          { label: "Gross Revenue", value: `Rs. ${Number(stats.summary.gross_sales).toLocaleString()}`, trend: "↗ 29%", color: "text-orm-gold" },
+          { label: "Returning Rate", value: stats.summary.returning_rate, trend: "0%", color: "text-white" },
+          { label: "Orders Fulfilled", value: stats.summary.fulfilled_rate, trend: null, color: "text-white" },
+          { label: "Total Orders", value: stats.summary.orders_count, trend: null, color: "text-white" },
+        ].map((kpi, i) => (
+          <div key={i} className="group bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] transition-all duration-500 hover:border-orm-gold/30 hover:bg-orm-surface/60">
+            <span className="text-[0.55rem] font-black text-white/20 uppercase tracking-[0.3em] block mb-4">{kpi.label}</span>
+            <div className="flex items-baseline justify-between">
+              <div className={`text-2xl font-black tracking-tighter ${kpi.color}`}>{kpi.value}</div>
+              {kpi.trend && <span className="text-[0.6rem] font-bold px-2 py-0.5 rounded-lg bg-orm-gold/10 text-orm-gold">{kpi.trend}</span>}
+            </div>
+            <div className="mt-6 h-1 w-full bg-white/5 rounded-full overflow-hidden">
+               <div className="h-full bg-orm-gold w-1/3 rounded-full opacity-40 group-hover:opacity-100 transition-all duration-700"></div>
+            </div>
           </div>
-          <span className="text-[12px] font-[600] ml-[8px] p-[2px_6px] rounded-[4px] bg-[#dcfce7] text-[#166534]">↗ 29%</span>
-        </div>
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <span className="text-[11px] font-[700] text-[#6b7280] uppercase tracking-[0.05em] block mb-[8px]">Returning customer rate</span>
-          <div className="text-[24px] font-[700] text-[#111] font-['Merriweather',serif]">{stats.summary.returning_rate}</div>
-          <span className="text-[12px] font-[600] ml-[8px] p-[2px_6px] rounded-[4px] bg-[#f3f4f6] text-[#6b7280]">– 0%</span>
-        </div>
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <span className="text-[11px] font-[700] text-[#6b7280] uppercase tracking-[0.05em] block mb-[8px]">Orders fulfilled</span>
-          <div className="text-[24px] font-[700] text-[#111] font-['Merriweather',serif]">{stats.summary.fulfilled_rate}</div>
-        </div>
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <span className="text-[11px] font-[700] text-[#6b7280] uppercase tracking-[0.05em] block mb-[8px]">Orders</span>
-          <div className="text-[24px] font-[700] text-[#111] font-['Merriweather',serif]">{stats.summary.orders_count}</div>
-        </div>
+        ))}
       </div>
 
-      {/* MAIN CHART ROW */}
-      <div className="grid grid-cols-[2fr_1fr] gap-[25px] mb-[25px] max-lg:grid-cols-1">
-        {/* LEFT: CHART CONTAINER */}
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)] h-[420px] flex flex-col">
-          <div className="mb-[20px] flex justify-between items-center">
-            <h3 className="text-[15px] font-[600] m-0 text-[#374151]">Total sales over time</h3>
-            <span className="text-[28px] font-[700] text-[#111] font-['Merriweather',serif]">
-              Rs. {Number(stats.summary.gross_sales).toLocaleString()}
-            </span>
+      {/* ANALYTICS GRID */}
+      <div className="grid grid-cols-3 gap-6">
+        {/* MAIN REVENUE CHART */}
+        <div className="col-span-2 bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] max-lg:col-span-3">
+          <div className="flex justify-between items-center mb-10">
+            <div>
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Total Sales</h3>
+               <p className="text-[0.6rem] font-bold text-white/20 uppercase tracking-widest mt-1">7 Day Sales Analysis</p>
+            </div>
+            <div className="text-right">
+               <div className="text-xl font-black text-white tracking-tighter">Rs. {Number(stats.summary.gross_sales).toLocaleString()}</div>
+               <span className="text-[0.55rem] font-black text-orm-gold uppercase tracking-widest">Aggregate Sales</span>
+            </div>
           </div>
 
-          <div style={{ width: "100%", height: 300 }}>
+          <div className="h-[300px] w-full">
             {chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData}>
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    vertical={false}
-                    stroke="#e5e7eb"
-                  />
-                  <XAxis
-                    dataKey="date"
-                    tick={{ fontSize: 12, fill: "#9ca3af" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 12, fill: "#9ca3af" }}
-                    axisLine={false}
-                    tickLine={false}
-                    tickFormatter={(val) => `₹${val}`}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      borderRadius: "8px",
-                      border: "none",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                    }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="sales"
-                    stroke="#fbb03b"
-                    strokeWidth={3}
-                    dot={{
-                      r: 4,
-                      fill: "#fbb03b",
-                      strokeWidth: 2,
-                      stroke: "#fff",
-                    }}
-                    activeDot={{ r: 6, fill: "#f59e0b" }}
-                  />
+                  <defs>
+                    <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#fbb03b" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#fbb03b" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff05" />
+                  <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#ffffff20", fontWeight: "bold" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 10, fill: "#ffffff20", fontWeight: "bold" }} axisLine={false} tickLine={false} tickFormatter={(val) => `₹${val/1000}k`} />
+                  <Tooltip contentStyle={{ backgroundColor: "#121212", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", fontSize: "12px" }} />
+                  <Line type="monotone" dataKey="sales" stroke="#fbb03b" strokeWidth={4} dot={{ r: 4, fill: "#fbb03b", strokeWidth: 0 }} activeDot={{ r: 6, fill: "#ffffff", strokeWidth: 0 }} />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex items-center justify-center h-full color-[#9ca3af] bg-[#f9fafb] rounded-[8px]">No sales data yet.</div>
+              <div className="flex items-center justify-center h-full text-[0.6rem] font-black text-white/10 uppercase tracking-widest border border-dashed border-white/10 rounded-2xl">No sales data yet.</div>
             )}
           </div>
         </div>
 
-        {/* RIGHT: BREAKDOWN */}
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <h3 className="text-[15px] font-[600] m-[0_0_20px_0] font-['Merriweather',serif]">Total sales breakdown</h3>
-          <div className="flex flex-col">
-            <div className="flex justify-between p-[12px_0] border-b border-[#f3f4f6] text-[14px] text-[#4b5563]">
-              <span>Gross sales</span>
-              <span className="font-[500] text-[#111] font-['Inter',sans-serif]">
-                Rs. {Number(stats.summary.gross_sales).toLocaleString()}
-              </span>
-            </div>
-            <div className="flex justify-between p-[12px_0] border-b border-[#f3f4f6] text-[14px] text-[#fbb03b] font-[600]">
-              <span>Net sales</span>
-              <span className="font-[500] text-[#111] font-['Inter',sans-serif]">
-                Rs. {Number(stats.summary.gross_sales).toLocaleString()}
-              </span>
-            </div>
-            <div className="flex justify-between p-[12px_0] text-[16px] text-black border-t-2 border-[#e5e7eb] pt-[15px] mt-[5px] font-[700]">
-              <span>Total sales</span>
-              <span className="font-[500] text-[#111] font-['Inter',sans-serif]">
-                Rs. {Number(stats.summary.gross_sales).toLocaleString()}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ROW 3: DETAILED ANALYTICS (Correctly Placed) */}
-      <div className="grid grid-cols-3 gap-[25px] mb-[25px] max-lg:grid-cols-1">
-        {/* 1. SESSIONS OVER TIME (Mock Line) */}
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <h3 className="text-[15px] font-[600] m-0 text-[#374151]">Sessions over time</h3>
-          <div style={{ width: "100%", height: 200 }}>
-            <ResponsiveContainer>
-              <LineChart
-                data={
-                  chartData.length > 0
-                    ? chartData
-                    : [{ sales: 0 }, { sales: 10 }, { sales: 5 }]
-                }
-              >
-                <Line
-                  type="monotone"
-                  dataKey="sales"
-                  stroke="#8884d8"
-                  dot={false}
-                  strokeWidth={2}
-                />
-                <XAxis hide />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* 2. CONVERSION FUNNEL (Bar Chart) */}
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <h3 className="text-[15px] font-[600] m-0 text-[#374151]">Conversion rate breakdown</h3>
-          <div style={{ width: "100%", height: 200 }}>
-            <ResponsiveContainer>
-              <BarChart data={funnelData}>
-                <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} />
-                <Tooltip />
-                <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* 3. DEVICE TYPE (Donut Chart) */}
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <h3 className="text-[15px] font-[600] m-0 text-[#374151]">Sessions by device</h3>
-          <div style={{ width: "100%", height: 200, position: "relative" }}>
-            <ResponsiveContainer>
-              <PieChart>
-                <Pie
-                  data={deviceData}
-                  innerRadius={50}
-                  outerRadius={70}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {deviceData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Legend
-                  verticalAlign="middle"
-                  align="right"
-                  layout="vertical"
-                />
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-            {/* Center Text */}
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "38%",
-                transform: "translate(-50%, -50%)",
-                textAlign: "center",
-              }}
-            >
-              <span style={{ fontSize: "18px", fontWeight: "bold" }}>4.5K</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* BOTTOM ROW: PRODUCTS */}
-      <div className="grid grid-cols-[2fr_1fr] gap-[25px] mb-[25px] max-lg:grid-cols-1">
-        <div className="bg-white rounded-[16px] p-[24px] border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)]">
-          <h3 className="text-[15px] font-[600] m-0 text-[#374151]">Total sales by product</h3>
-          <ul className="list-none p-0 mt-[10px]">
+        {/* TOP PRODUCTS LIST */}
+        <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] max-lg:col-span-3">
+          <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em] mb-8">Top Products</h3>
+          <div className="space-y-6">
             {stats.top_products.map((p, idx) => (
-              <li key={idx} className="flex items-center justify-between mb-[18px]">
-                <div className="flex-1 pr-[25px]">
-                  <span className="block text-[13px] mb-[6px] text-[#374151] font-[500]">{p.product__title}</span>
-                  <div className="w-full h-[8px] bg-[#f3f4f6] rounded-[4px] overflow-hidden">
-                    <div className="h-full bg-[linear-gradient(90deg,#fbb03b,#f59e0b)] rounded-[4px]" style={{ width: "80%" }}></div>
-                  </div>
+              <div key={idx} className="group">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-[0.65rem] font-bold text-white/60 truncate pr-4 group-hover:text-orm-gold transition-colors uppercase tracking-tight">{p.product__title}</span>
+                  <span className="text-[0.7rem] font-black text-white shrink-0">₹{Number(p.revenue).toLocaleString()}</span>
                 </div>
-                <span className="text-[14px] font-[600] font-['Inter',sans-serif] min-w-[80px] text-right">
-                  Rs. {Number(p.revenue).toLocaleString()}
-                </span>
-              </li>
+                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-orm-gold/40 to-orm-gold rounded-full" style={{ width: `${Math.max(20, 100 - (idx * 15))}%` }}></div>
+                </div>
+              </div>
             ))}
             {stats.top_products.length === 0 && (
-              <p className="text-center color-[#9ca3af] padding-[40px]">No sales yet.</p>
+              <div className="py-20 text-center text-[0.6rem] font-black text-white/10 uppercase tracking-widest">No Active Units</div>
             )}
-          </ul>
+          </div>
+        </div>
+
+        {/* SESSIONS BY DEVICE (DONUT) */}
+        <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] max-lg:col-span-3">
+          <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em] mb-8">Sessions by device</h3>
+          <div className="h-[200px] relative">
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie data={deviceData} innerRadius={60} outerRadius={80} paddingAngle={8} dataKey="value">
+                  {deviceData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />)}
+                </Pie>
+                <Tooltip contentStyle={{ backgroundColor: "#121212", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px" }} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+               <span className="text-xl font-black text-white tracking-tighter">4.5K</span>
+               <span className="text-[0.5rem] font-black text-white/20 uppercase tracking-widest">Total Sesh</span>
+            </div>
+          </div>
+          <div className="flex justify-center gap-6 mt-6">
+             {deviceData.map((d, i) => (
+               <div key={i} className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: COLORS[i] }}></div>
+                  <span className="text-[0.55rem] font-black text-white/40 uppercase tracking-widest">{d.name}</span>
+               </div>
+             ))}
+          </div>
+        </div>
+
+        {/* CONVERSION FUNNEL */}
+        <div className="col-span-2 bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] max-lg:col-span-3">
+          <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em] mb-8">Conversion Rate</h3>
+          <div className="h-[200px]">
+             <ResponsiveContainer>
+                <BarChart data={funnelData}>
+                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff05" />
+                   <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#ffffff20", fontWeight: "bold" }} axisLine={false} tickLine={false} />
+                   <Bar dataKey="value" fill="#fbb03b" radius={[12, 12, 0, 0]} barSize={40} />
+                </BarChart>
+             </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>

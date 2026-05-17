@@ -6,22 +6,25 @@ import {
   FaCalendarAlt,
   FaCheckCircle,
   FaTrash,
+  FaSave,
+  FaPercent,
+  FaWallet,
 } from "react-icons/fa";
 
 const CreateDiscount = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // Get ID from URL
-  const isEditMode = !!id; // Boolean flag
+  const { id } = useParams();
+  const isEditMode = !!id;
 
   const [formData, setFormData] = useState({
     code: "",
     discount_percentage: "",
     valid_from: "",
     valid_to: "",
-    minimum_purchase_amount: "0", // Added Field
+    minimum_purchase_amount: "0",
   });
+  const [loading, setLoading] = useState(false);
 
-  // --- FETCH DATA IF EDITING ---
   useEffect(() => {
     if (isEditMode) {
       const token = localStorage.getItem("orm_admin_token");
@@ -30,10 +33,7 @@ const CreateDiscount = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          // Format dates for input (remove the 'Z' or offset if needed for datetime-local)
-          const formatForInput = (isoString) =>
-            isoString ? isoString.slice(0, 16) : "";
-
+          const formatForInput = (isoString) => isoString ? isoString.slice(0, 16) : "";
           setFormData({
             code: data.code,
             discount_percentage: data.discount_percentage,
@@ -57,21 +57,17 @@ const CreateDiscount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const token = localStorage.getItem("orm_admin_token");
-
     const payload = { ...formData };
-    if (payload.valid_from)
-      payload.valid_from = new Date(payload.valid_from).toISOString();
-    if (payload.valid_to)
-      payload.valid_to = new Date(payload.valid_to).toISOString();
+    if (payload.valid_from) payload.valid_from = new Date(payload.valid_from).toISOString();
+    if (payload.valid_to) payload.valid_to = new Date(payload.valid_to).toISOString();
 
     try {
       const url = isEditMode
         ? `https://orm-backend-gejw.onrender.com/api/coupons/${id}/`
         : "https://orm-backend-gejw.onrender.com/api/coupons/";
-
       const method = isEditMode ? "PATCH" : "POST";
-
       const res = await fetch(url, {
         method: method,
         headers: {
@@ -81,18 +77,20 @@ const CreateDiscount = () => {
         body: JSON.stringify(payload),
       });
       if (res.ok) {
-        alert(isEditMode ? "Discount Updated!" : "Discount Created!");
+        alert(isEditMode ? "Offer Protocol Updated" : "Tactical Offer Generated");
         navigate("/react-admin/discount");
       } else {
-        alert("Failed. Check inputs.");
+        alert("Validation Error Detected");
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Delete this coupon permanently?")) return;
+    if (!window.confirm("Permanently incinerate this offer?")) return;
     const token = localStorage.getItem("orm_admin_token");
     await fetch(`https://orm-backend-gejw.onrender.com/api/coupons/${id}/`, {
       method: "DELETE",
@@ -102,168 +100,171 @@ const CreateDiscount = () => {
   };
 
   return (
-    <div className="font-['Inter',sans-serif] text-[#202223] pb-[80px] bg-transparent shadow-none border-none">
-      <div className="mb-[25px] flex justify-between items-center">
-        <div className="flex items-center gap-[15px]">
+    <div className="space-y-10 animate-fadeInUp pb-20">
+      {/* HEADER BAR */}
+      <div className="flex justify-between items-center bg-orm-surface/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[2rem] sticky top-0 z-50">
+        <div className="flex items-center gap-6">
           <button
             onClick={() => navigate("/react-admin/discount")}
-            className="w-[36px] h-[36px] border border-[#d1d5db] rounded-[8px] bg-white flex items-center justify-center cursor-pointer text-[#5c5f62] transition-all duration-200 hover:bg-[#f1f2f3] hover:border-[#9ca3af]"
+            className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-white/40 transition-all hover:text-white hover:border-white/20 active:scale-90"
           >
             <FaArrowLeft />
           </button>
-          <h1 className="font-['Merriweather',serif] text-[24px] font-[700] m-0 text-[#111]">{isEditMode ? "Edit discount" : "Create discount"}</h1>
+          <div>
+            <div className="flex items-center gap-3 mb-1">
+               <div className="w-2 h-2 bg-orm-gold rounded-full animate-pulse shadow-[0_0_10px_#fbb03b]"></div>
+               <span className="text-[0.55rem] font-black uppercase tracking-[0.4em] text-orm-gold/60">{isEditMode ? "Edit Discount" : "New Discount"}</span>
+            </div>
+            <h2 className="text-[1.8rem] font-black text-white uppercase tracking-tighter leading-none">
+              {isEditMode ? "Edit" : "Create"} <span className="text-orm-gold">Discount</span>
+            </h2>
+          </div>
         </div>
-        {isEditMode && (
-          <button className="bg-[#fef2f2] text-[#dc2626] border border-[#fecaca] p-[8px_16px] rounded-[6px] font-[600] text-[13px] cursor-pointer flex items-center gap-[8px] transition-all duration-200 hover:bg-[#fee2e2] hover:border-[#ef4444]" onClick={handleDelete}>
-            <FaTrash /> Delete
+        <div className="flex gap-4">
+          {isEditMode && (
+            <button className="px-8 py-4 rounded-xl font-black text-[0.65rem] uppercase tracking-[0.2em] border border-red-500/20 text-red-500/60 transition-all hover:bg-red-500/10 hover:text-red-500" onClick={handleDelete}>
+              Delete
+            </button>
+          )}
+          <button
+            className="group relative overflow-hidden bg-orm-gold text-black px-10 py-4 rounded-xl font-black text-[0.65rem] uppercase tracking-[0.2em] transition-all flex items-center gap-3 hover:shadow-[0_10px_30px_rgba(251,176,59,0.3)] hover:-translate-y-1 active:scale-95 disabled:opacity-50"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            <span className="relative z-10 flex items-center gap-3">{loading ? "Saving..." : "Save Discount"} <FaSave /></span>
+            <div className="absolute inset-0 bg-white translate-y-[100%] transition-transform duration-500 group-hover:translate-y-0"></div>
           </button>
-        )}
+        </div>
       </div>
 
-      <div className="grid grid-cols-[2fr_1fr] gap-[25px] items-start max-lg:grid-cols-1">
-        <div className="flex flex-col gap-[20px]">
-          {/* 1. AMOUNT OFF CARD */}
-          <div className="bg-white border border-[#e1e3e5] rounded-[12px] shadow-[0_2px_4px_rgba(0,0,0,0.02)] overflow-hidden">
-            <div className="p-[16px_20px] border-b border-[#e1e3e5] flex justify-between items-center bg-[#fbfbfb]">
-              <h3 className="text-[15px] font-[600] m-0 text-[#202223]">Amount off order</h3>
-              <span className="bg-[#e4e5e7] text-[#454f5b] text-[11px] p-[2px_8px] rounded-[10px] font-[600]">Product Discount</span>
+      <div className="grid grid-cols-12 gap-8 items-start">
+        {/* LEFT COLUMN: CORE SPECS */}
+        <div className="col-span-8 flex flex-col gap-8 max-lg:col-span-12">
+          {/* DISCOUNT DEFINITION */}
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-8">
+            <div className="flex items-center gap-4 mb-2">
+               <FaTag className="text-orm-gold" />
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Coupon Details</h3>
             </div>
-
-            <div className="p-[20px]">
-              <div className="mb-[20px]">
-                <label className="block text-[13px] font-[500] text-[#202223] mb-[8px]">Discount code</label>
-                <div className="flex gap-[10px]">
+            
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Discount Code</label>
+                <div className="flex gap-3">
                   <input
                     type="text"
                     name="code"
                     value={formData.code}
                     onChange={handleChange}
-                    placeholder="e.g. SPRINGSALE"
-                    className="w-full p-[12px] !important border border-[#d1d5db] !important rounded-[8px] !important text-[14px] !important text-[#111827] !important bg-white !important outline-none transition-all duration-200 font-['Inter',sans-serif] !important focus:border-[#fbb03b] !important focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] !important font-[600] tracking-[0.5px] uppercase"
+                    className="flex-1 bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-black tracking-widest uppercase outline-none focus:border-orm-gold/50 transition-all"
+                    placeholder="e.g. SUMMER2024"
                   />
                   <button
                     type="button"
                     onClick={generateCode}
-                    className="bg-transparent border-none text-[#007ace] font-[600] text-[13px] cursor-pointer whitespace-nowrap hover:underline"
+                    className="px-6 rounded-xl bg-white/5 text-orm-gold text-[0.6rem] font-black uppercase tracking-widest hover:bg-white/10 transition-all"
                   >
                     Generate
                   </button>
                 </div>
-                <p className="text-[12px] text-[#6d7175] mt-[6px]">
-                  Customers must enter this code at checkout.
-                </p>
               </div>
 
-              <div className="mb-[20px]">
-                <label className="block text-[13px] font-[500] text-[#202223] mb-[8px]">Discount value</label>
-                <div className="relative w-full">
-                  <input
-                    type="number"
-                    name="discount_percentage"
-                    value={formData.discount_percentage}
-                    onChange={handleChange}
-                    placeholder="10"
-                    className="w-full p-[12px] !important border border-[#d1d5db] !important rounded-[8px] !important text-[14px] !important text-[#111827] !important bg-white !important outline-none transition-all duration-200 font-['Inter',sans-serif] !important focus:border-[#fbb03b] !important focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] !important"
-                  />
-                  <span className="absolute right-[12px] top-1/2 translate-y-[-50%] text-[#8c9196] text-[14px]">%</span>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Discount Percentage (%)</label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      name="discount_percentage"
+                      value={formData.discount_percentage}
+                      onChange={handleChange}
+                      className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold outline-none focus:border-orm-gold/50 transition-all"
+                      placeholder="10"
+                    />
+                    <FaPercent className="absolute right-4 top-1/2 -translate-y-1/2 text-white/10" size={12} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Minimum Purchase (RS)</label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      name="minimum_purchase_amount"
+                      value={formData.minimum_purchase_amount}
+                      onChange={handleChange}
+                      className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold outline-none focus:border-orm-gold/50 transition-all"
+                      placeholder="0.00"
+                    />
+                    <FaWallet className="absolute right-4 top-1/2 -translate-y-1/2 text-white/10" size={12} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 2. MINIMUM PURCHASE CARD (New) */}
-          <div className="bg-white border border-[#e1e3e5] rounded-[12px] shadow-[0_2px_4px_rgba(0,0,0,0.02)] overflow-hidden">
-            <div className="p-[16px_20px] border-b border-[#e1e3e5] flex justify-between items-center bg-[#fbfbfb]">
-              <h3 className="text-[15px] font-[600] m-0 text-[#202223]">Minimum purchase requirements</h3>
+          {/* ACTIVE WINDOW */}
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-8">
+            <div className="flex items-center gap-4 mb-2">
+               <FaCalendarAlt className="text-orm-gold" />
+               <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">Active Dates</h3>
             </div>
-            <div className="p-[20px]">
-              <div className="mb-[20px]">
-                <label className="block text-[13px] font-[500] text-[#202223] mb-[8px]">Minimum purchase amount (Rs.)</label>
+            
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">Start Date</label>
                 <input
-                  type="number"
-                  name="minimum_purchase_amount"
-                  value={formData.minimum_purchase_amount}
+                  type="datetime-local"
+                  name="valid_from"
+                  value={formData.valid_from}
                   onChange={handleChange}
-                  className="w-full p-[12px] !important border border-[#d1d5db] !important rounded-[8px] !important text-[14px] !important text-[#111827] !important bg-white !important outline-none transition-all duration-200 font-['Inter',sans-serif] !important focus:border-[#fbb03b] !important focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] !important"
-                  placeholder="0.00"
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold outline-none focus:border-orm-gold/50 transition-all"
                 />
-                <p className="text-[12px] text-[#6d7175] mt-[6px]">Leave as 0 for no minimum requirement.</p>
               </div>
-            </div>
-          </div>
-
-          {/* 3. DATES CARD */}
-          <div className="bg-white border border-[#e1e3e5] rounded-[12px] shadow-[0_2px_4px_rgba(0,0,0,0.02)] overflow-hidden">
-            <div className="p-[16px_20px] border-b border-[#e1e3e5] flex justify-between items-center bg-[#fbfbfb]">
-              <h3 className="text-[15px] font-[600] m-0 text-[#202223]">Active dates</h3>
-            </div>
-            <div className="p-[20px]">
-              <div className="grid grid-cols-2 gap-[20px]">
-                <div className="mb-[20px]">
-                  <label className="block text-[13px] font-[500] text-[#202223] mb-[8px]">Start date</label>
-                  <input
-                    type="datetime-local"
-                    name="valid_from"
-                    value={formData.valid_from}
-                    onChange={handleChange}
-                    className="w-full p-[12px] !important border border-[#d1d5db] !important rounded-[8px] !important text-[14px] !important text-[#111827] !important bg-white !important outline-none transition-all duration-200 font-['Inter',sans-serif] !important focus:border-[#fbb03b] !important focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] !important"
-                  />
-                </div>
-                <div className="mb-[20px]">
-                  <label className="block text-[13px] font-[500] text-[#202223] mb-[8px]">End date</label>
-                  <input
-                    type="datetime-local"
-                    name="valid_to"
-                    value={formData.valid_to}
-                    onChange={handleChange}
-                    className="w-full p-[12px] !important border border-[#d1d5db] !important rounded-[8px] !important text-[14px] !important text-[#111827] !important bg-white !important outline-none transition-all duration-200 font-['Inter',sans-serif] !important focus:border-[#fbb03b] !important focus:shadow-[0_0_0_3px_rgba(251,176,59,0.1)] !important"
-                  />
-                </div>
+              <div className="space-y-2">
+                <label className="text-[0.55rem] font-black text-white/40 uppercase tracking-[0.3em] ml-1">End Date</label>
+                <input
+                  type="datetime-local"
+                  name="valid_to"
+                  value={formData.valid_to}
+                  onChange={handleChange}
+                  className="w-full bg-white/[0.03] border border-white/10 p-4 rounded-xl text-white text-sm font-bold outline-none focus:border-orm-gold/50 transition-all"
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col">
-          <div className="bg-white border border-[#e1e3e5] rounded-[12px] p-[20px] shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
-            <h3 className="text-[15px] m-[0_0_15px_0]">Summary</h3>
-            <div className="flex flex-col">
-              <div
-                className={formData.code ? "text-[18px] font-[700] text-[#202223] mb-[15px] tracking-[1px]" : "text-[14px] text-[#9ca3af] italic mb-[15px]"}
-              >
-                {formData.code || "No code yet"}
-              </div>
-              <ul className="list-none p-0 mb-[25px]">
-                <li className="flex items-center gap-[10px] text-[13px] text-[#5c5f62] mb-[10px] pb-[10px] border-b border-dashed border-[#e1e3e5]">
-                  <FaTag className="text-[#8c9196]" />
-                  <span>
-                    {formData.discount_percentage
-                      ? `${formData.discount_percentage}% Off`
-                      : "No discount set"}
-                  </span>
-                </li>
-                <li className="flex items-center gap-[10px] text-[13px] text-[#5c5f62] mb-[10px] pb-[10px] border-b border-dashed border-[#e1e3e5]">
-                  <FaCheckCircle className="text-[#8c9196]" />{" "}
-                  <span>Applies to entire order</span>
-                </li>
-                <li className="flex items-center gap-[10px] text-[13px] text-[#5c5f62] mb-[10px] pb-[10px] border-b border-dashed border-[#e1e3e5] last:border-none">
-                  <FaCalendarAlt className="text-[#8c9196]" />{" "}
-                  <span>
-                    {formData.valid_from ? "Scheduled" : "No active dates"}
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div className="flex flex-col">
-              <button className="w-full bg-[#fbb03b] text-black font-[600] p-[12px] border-none rounded-[8px] cursor-pointer mb-[10px] text-[14px] transition-all duration-200 hover:bg-[#f59e0b]" onClick={handleSubmit}>
-                {isEditMode ? "Update Discount" : "Save Discount"}
-              </button>
-              <button
-                className="w-full bg-white border border-[#d1d5db] text-[#374151] font-[600] p-[10px] rounded-[8px] cursor-pointer text-[14px] hover:bg-[#f9fafb]"
-                onClick={() => navigate("/react-admin/discount")}
-              >
-                Discard
-              </button>
+        {/* RIGHT COLUMN: SUMMARY */}
+        <div className="col-span-4 flex flex-col gap-8 max-lg:col-span-12">
+          <div className="bg-orm-surface/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] space-y-8 sticky top-32">
+            <h3 className="text-[0.8rem] font-black text-white uppercase tracking-[0.2em] mb-4 pb-4 border-b border-white/5">Summary</h3>
+            
+            <div className="space-y-6">
+               <div className="bg-orm-dark p-6 rounded-2xl border border-white/5 text-center">
+                  <div className="text-[0.5rem] font-black text-white/20 uppercase tracking-[0.3em] mb-2">Coupon Code</div>
+                  <div className={`text-xl font-black tracking-widest ${formData.code ? "text-orm-gold" : "text-white/10 italic"}`}>
+                     {formData.code || "No code set"}
+                  </div>
+               </div>
+
+               <div className="space-y-4">
+                  <div className="flex items-center gap-3 text-white/60">
+                     <FaCheckCircle className="text-orm-gold" size={10} />
+                     <span className="text-[0.65rem] font-bold uppercase tracking-widest">
+                        {formData.discount_percentage ? `${formData.discount_percentage}% Discount` : "No value set"}
+                     </span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/60">
+                     <FaCheckCircle className="text-orm-gold" size={10} />
+                     <span className="text-[0.65rem] font-bold uppercase tracking-widest">Global Order Application</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/60">
+                     <FaCheckCircle className="text-orm-gold" size={10} />
+                     <span className="text-[0.65rem] font-bold uppercase tracking-widest">
+                        {formData.minimum_purchase_amount > 0 ? `Min Purchase: RS. ${formData.minimum_purchase_amount}` : "No minimum"}
+                     </span>
+                  </div>
+               </div>
             </div>
           </div>
         </div>
