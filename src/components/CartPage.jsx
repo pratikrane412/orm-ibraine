@@ -9,116 +9,82 @@ const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart();
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-orm-dark text-white min-h-screen">
       <Navbar />
-
-      {/* 1. HERO SECTION */}
-      <div className="relative w-full h-[300px] bg-[url('/image/banner.jpg')] bg-cover bg-center mt-[80px] flex items-center pl-[10%] max-md:h-[200px] max-md:pl-0 max-md:justify-center max-md:text-center max-md:mt-[70px]">
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="relative z-[2]">
-          <h1 className="font-merriweather text-[3.5rem] text-white capitalize max-md:text-[2rem] max-[420px]:text-[1.7rem]">
-            Shopping <span className="text-orm-gold">Cart</span>
-          </h1>
+      <div className="h-[220px] bg-[url('/image/banner.jpg')] bg-cover bg-center relative flex items-center justify-center text-center mt-[70px] max-md:h-[150px]">
+        <div className="absolute inset-0 bg-gradient-to-b from-orm-dark via-orm-dark/40 to-orm-dark"></div>
+        <div className="relative z-[2] px-6">
+          <h1 className="text-[2.2rem] text-white font-black uppercase tracking-tight max-md:text-[1.8rem]">Shopping <span className="text-orm-gold">Cart</span></h1>
+          <div className="w-16 h-1 bg-orm-gold mx-auto rounded-full mt-3"></div>
         </div>
       </div>
 
-      <div className="w-[90%] max-w-[1400px] mx-auto py-[60px] text-white min-h-[50vh] max-md:w-[95%] max-md:py-[40px]">
-        {/* Header Row */}
-        <div className="flex justify-between items-center border-b border-[#333] pb-[20px] mb-[40px] max-md:flex-col max-md:gap-[10px] max-md:text-center max-md:mb-[30px]">
-          <h2 className="font-merriweather text-[2rem] max-md:text-[1.6rem]">Shopping Cart</h2>
-          <Link to="/products/thar" className="text-orm-gold font-lato font-medium flex items-center gap-[8px] transition-all duration-300 hover:text-[#ffc107] hover:gap-[12px] max-md:text-[0.9rem]">
-            Go Back Shopping <FaArrowRight />
+      <div className="w-[92%] max-w-[1300px] mx-auto py-[60px] min-h-[50vh]">
+        <div className="flex justify-between items-end mb-[40px] max-md:flex-col max-md:items-center max-md:gap-4">
+          <div>
+            <h2 className="text-[1.8rem] font-black leading-tight max-md:text-[1.5rem]">Review Selection</h2>
+            <p className="text-white/40 text-xs tracking-widest uppercase mt-1">{cartItems.length} Mutant components ready</p>
+          </div>
+          <Link to="/collections/thar" className="group flex items-center gap-3 text-orm-gold font-bold uppercase tracking-[0.15em] text-[0.65rem] transition-all hover:text-white">
+            <FaArrowRight className="rotate-180" size={10} /> Continue Exploration
           </Link>
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="text-center p-[50px] max-md:p-[40px_20px]">
-            <h3 className="font-merriweather mb-[20px] text-[2rem] max-md:text-[1.5rem]">Your Cart is Empty.</h3>
-            <Link to="/products/thar" className="bg-orm-gold text-black p-[10px_20px] no-underline rounded-[5px] font-bold max-md:p-[10px_24px] max-md:text-[0.9rem]">
-              Start Shopping
-            </Link>
+          <div className="text-center py-20 bg-white/[0.02] rounded-[2rem] border border-white/5">
+            <h3 className="mb-8 text-[1.8rem] font-black opacity-20">Arsenal is empty</h3>
+            <Link to="/collections/thar" className="bg-orm-gold text-black px-10 py-4 rounded-full font-black uppercase tracking-[0.15em] text-[0.65rem] shadow-xl transition-all hover:bg-white hover:-translate-y-0.5">Equip Your Vehicle</Link>
           </div>
         ) : (
-          <div className="flex gap-[40px] lg:flex-row flex-col max-md:gap-[30px]">
-            {/* 2. LEFT SIDE: CART ITEMS LIST */}
-            <div className="flex-[3] flex flex-col gap-0">
+          <div className="grid grid-cols-12 gap-10 max-lg:flex max-lg:flex-col">
+            <div className="col-span-8 flex flex-col gap-5">
               {cartItems.map((item) => (
-                <div key={item.id} className="flex items-center bg-[#0a0a0a] border border-[#222] rounded-[10px] p-[15px_25px] mb-[20px] max-md:flex-col max-md:text-center max-md:gap-[15px] max-md:p-[15px]">
-                  {/* Image */}
-                  <div className="w-[120px] h-[80px] rounded-[8px] overflow-hidden mr-[20px] max-md:w-full max-md:h-[180px] max-md:mr-0 max-[420px]:h-[160px]">
-                    <img
-                      src={
-                        item.image.startsWith("http")
-                          ? item.image
-                          : `https://orm-backend-gejw.onrender.com${item.image}`
-                      }
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
+                <div key={item.id} className="group relative flex items-center bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-[1.5rem] p-6 transition-all hover:bg-white/[0.04] max-md:flex-col">
+                  <div className="w-[140px] aspect-[4/3] rounded-xl overflow-hidden mr-8 bg-orm-dark max-md:w-full max-md:mr-0 max-md:mb-6">
+                    <img src={item.image.startsWith("http") ? item.image : `https://orm-backend-gejw.onrender.com${item.image}`} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   </div>
-
-                  {/* Details */}
                   <div className="flex-[2]">
-                    <h3 className="font-merriweather text-[1.1rem] m-0 leading-[1.4] max-md:text-[1rem]">{item.title}</h3>
+                    <span className="text-orm-gold text-[0.5rem] font-black uppercase tracking-[0.15em] mb-1.5 block opacity-60">Verified Component</span>
+                    <h3 className="text-lg font-black text-white mb-1.5 leading-tight group-hover:text-orm-gold transition-colors">{item.title}</h3>
+                    <p className="text-white/20 text-[0.65rem] font-bold uppercase tracking-widest">SKU: {item.id}</p>
                   </div>
-
-                  {/* Quantity Control */}
-                  <div className="flex-1 flex items-center gap-[20px] max-md:justify-center max-md:w-full max-md:gap-[15px]">
-                    <div className="flex items-center bg-[#fff8e7] rounded-[30px] p-[5px_10px] gap-[15px] text-black font-bold max-md:p-[6px_12px] max-md:gap-[12px]">
-                      <button onClick={() => updateQuantity(item.id, "dec")} className="bg-none border-none cursor-pointer text-[0.8rem] flex items-center max-md:text-[0.75rem]">
-                        <FaMinus />
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, "inc")} className="bg-none border-none cursor-pointer text-[0.8rem] flex items-center max-md:text-[0.75rem]">
-                        <FaPlus />
-                      </button>
+                  <div className="flex-1 flex items-center justify-center gap-6 max-md:w-full max-md:my-6">
+                    <div className="flex items-center bg-white/[0.05] border border-white/10 rounded-xl h-10 px-5 gap-5 text-white font-bold text-sm">
+                      <button onClick={() => updateQuantity(item.id, "dec")} className="text-white/20 hover:text-white transition-colors"><FaMinus size={10} /></button>
+                      <span className="w-3 text-center">{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.id, "inc")} className="text-white/20 hover:text-white transition-colors"><FaPlus size={10} /></button>
                     </div>
-                    {/* Delete Button */}
-                    <button
-                      className="bg-none border-none text-orm-gold cursor-pointer text-[1.1rem] transition-colors duration-300 hover:text-red-600 max-md:text-[1rem]"
-                      onClick={() => removeFromCart(item.id)}
-                    >
-                      <FaTrashAlt />
-                    </button>
                   </div>
-
-                  {/* Price */}
-                  <div className="flex-1 text-right font-merriweather text-[1.2rem] text-white max-md:text-center max-md:w-full max-md:text-[1.1rem]">
-                    Rs. {Number(item.price * item.quantity).toLocaleString()}
+                  <div className="flex-1 flex flex-col items-end gap-3 max-md:items-center max-md:w-full">
+                    <span className="font-black text-xl text-white tracking-tighter">Rs. {(item.price * item.quantity).toLocaleString()}</span>
+                    <button className="text-white/20 hover:text-red-500 transition-colors flex items-center gap-2 font-bold uppercase text-[0.55rem] tracking-widest" onClick={() => removeFromCart(item.id)}><FaTrashAlt size={10} /> Remove</button>
                   </div>
                 </div>
               ))}
             </div>
-
-            {/* 3. RIGHT SIDE: ORDER SUMMARY */}
-            <div className="flex-1 bg-[#0a0a0a] border border-[#333] rounded-[10px] p-[25px] h-fit lg:w-auto w-full max-md:p-[20px] max-[420px]:p-[18px]">
-              <h3 className="font-merriweather text-[1.5rem] border-b border-[#333] pb-[15px] mb-[20px] max-md:text-[1.4rem]">Cart Total</h3>
-              <div className="flex justify-between mb-[30px] font-lato font-medium max-md:text-[0.9rem]">
-                <span>Estimated total</span>
-                <span className="text-[#ccc]">
-                  Rs. {cartTotal.toLocaleString()}.00
-                </span>
+            <div className="col-span-4">
+              <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/5 rounded-[2rem] p-8 h-fit sticky top-[90px]">
+                <h3 className="text-xl font-black border-b border-white/5 pb-6 mb-6">Arsenal Summary</h3>
+                <div className="flex flex-col gap-4 mb-8">
+                  <div className="flex justify-between items-center text-white/40 font-bold text-[0.65rem] uppercase tracking-widest"><span>Subtotal</span><span className="text-white">Rs. {cartTotal.toLocaleString()}</span></div>
+                  <div className="flex justify-between items-center text-white/40 font-bold text-[0.65rem] uppercase tracking-widest"><span>Logistics</span><span className="text-orm-gold">Complementary</span></div>
+                  <div className="h-[1px] bg-white/5 my-1"></div>
+                  <div className="flex justify-between items-end"><span className="text-base font-bold">Estimated total</span><span className="font-black text-2xl text-orm-gold tracking-tighter">Rs. {cartTotal.toLocaleString()}</span></div>
+                </div>
+                <Link to="/checkout" className="w-full relative overflow-hidden group/btn bg-white text-black py-4 rounded-xl font-black text-[0.7rem] uppercase tracking-[0.15em] flex items-center justify-center gap-3 transition-all hover:shadow-lg hover:-translate-y-0.5">
+                  <span className="relative z-10">Proceed to Checkout</span>
+                  <FaArrowRight className="relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1.5" size={10} />
+                  <div className="absolute inset-0 bg-orm-gold translate-y-[100%] transition-transform duration-500 group-hover/btn:translate-y-0"></div>
+                </Link>
+                <p className="text-[0.55rem] text-white/20 font-bold text-center mt-6 uppercase tracking-[0.15em] leading-relaxed">Taxes and Duties finalized at procurement</p>
               </div>
-
-              <Link
-                to="/checkout"
-                className="w-full !bg-orm-gold !text-black border-none p-[16px] rounded-[50px] font-lato font-bold text-[1.1rem] cursor-pointer flex items-center justify-center gap-[10px] transition-all duration-300 !no-underline shadow-[0_4px_15px_rgba(251,176,59,0.3)] hover:!bg-[#ffc107] hover:translate-y-[-2px] hover:shadow-[0_6px_20px_rgba(251,176,59,0.5)] max-md:p-[14px] max-md:text-[1rem] max-[420px]:text-[0.95rem]"
-              >
-                Process To Checkout <FaArrowRight />
-              </Link>
-
-              <p className="text-[0.8rem] text-[#888] mt-[15px] leading-[1.4] max-md:text-[0.75rem] max-md:text-center">
-                Taxes, Discounts and shipping calculated at checkout
-              </p>
             </div>
           </div>
         )}
       </div>
-
       <Footer />
     </div>
   );
 };
 
 export default CartPage;
-

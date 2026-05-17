@@ -28,7 +28,6 @@ const ProductShowcase = () => {
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     addToCart(product);
-    alert(`${product.title} added to cart!`);
   };
 
   const renderStars = (rating) => {
@@ -36,11 +35,9 @@ const ProductShowcase = () => {
     const safeRating = rating || 5;
     for (let i = 1; i <= 5; i++) {
       if (i <= safeRating) {
-        stars.push(<FaStar key={i} className="text-orm-gold" />);
-      } else if (i === Math.ceil(safeRating) && !Number.isInteger(safeRating)) {
-        stars.push(<FaStarHalfAlt key={i} className="text-orm-gold" />);
+        stars.push(<FaStar key={i} className="text-orm-gold text-[0.55rem]" />);
       } else {
-        stars.push(<FaStar key={i} className="text-gray-600" />);
+        stars.push(<FaStar key={i} className="text-white/10 text-[0.55rem]" />);
       }
     }
     return stars;
@@ -55,88 +52,104 @@ const ProductShowcase = () => {
 
   return (
     <section
-      className="relative bg-orm-dark py-[100px] text-white min-h-[600px] overflow-hidden bg-cover bg-center bg-no-repeat max-[768px]:pt-[60px] max-[768px]:pb-[80px]"
+      className="relative bg-orm-dark py-[120px] text-white min-h-[600px] overflow-hidden bg-cover bg-center bg-fixed max-md:py-[80px]"
       style={{ backgroundImage: `url(${bgImg})` }}
     >
-      {/* Subtle Overlay */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] z-[1]"></div>
+      {/* Sophisticated Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-orm-dark via-orm-dark/80 to-orm-dark z-[1]"></div>
 
       <div className="w-[92%] max-w-[1400px] mx-auto relative z-[2]">
-        <div className="text-center mb-[60px] max-[768px]:mb-[40px]">
-          <h2 className="font-merriweather text-[3.5rem] font-black uppercase leading-[1.1] mb-4 max-[1024px]:text-[2.8rem] max-[768px]:text-[2rem]">
-            Must-Have <span className="text-orm-gold">Upgrades</span>
-          </h2>
-          <div className="w-20 h-1 bg-orm-gold mx-auto rounded-full"></div>
-          <p className="mt-6 font-sans text-white/60 max-w-xl mx-auto max-[768px]:text-sm">
-            Premium modifications engineered for elite performance and rugged durability.
-          </p>
+        <div className="flex justify-between items-end mb-[48px] max-[768px]:flex-col max-[768px]:items-center max-[768px]:text-center max-[768px]:gap-4">
+          <div className="max-w-xl">
+            <div className="inline-block px-2.5 py-0.5 bg-orm-gold/10 border border-orm-gold/20 rounded-full mb-3">
+              <span className="text-orm-gold text-[0.5rem] font-bold tracking-[0.3em] uppercase">Curated selection</span>
+            </div>
+            <h2 className="text-[2.2rem] font-black uppercase tracking-tighter leading-[1.1] mb-3 max-md:text-[1.8rem]">
+              The <span className="text-orm-gold">Essential</span> Mutants
+            </h2>
+            <p className="text-white/50 text-sm leading-relaxed max-w-lg max-md:text-xs">
+              Precision-crafted modifications for those who refuse to settle for the ordinary.
+            </p>
+          </div>
+          
+          <button 
+            className="group flex items-center gap-3 text-white/60 hover:text-white transition-colors duration-300 font-bold uppercase tracking-[0.15em] text-[0.65rem]"
+            onClick={() => navigate("/collections/thar")}
+          >
+            View All Upgrades
+            <span className="w-8 h-[1px] bg-white/10 group-hover:w-10 group-hover:bg-orm-gold transition-all duration-300"></span>
+          </button>
         </div>
 
         {loading ? (
           <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orm-gold"></div>
+             <div className="w-10 h-10 border-t-2 border-orm-gold rounded-full animate-spin"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-4 gap-[30px] max-[1200px]:grid-cols-2 max-[768px]:flex max-[768px]:gap-[20px] max-[768px]:overflow-x-auto max-[768px]:pb-10 max-[768px]:[scroll-snap-type:x_mandatory] scrollbar-none">
+          <div className="grid grid-cols-4 gap-6 max-[1200px]:grid-cols-2 max-[768px]:flex max-[768px]:overflow-x-auto max-[768px]:pb-8 no-scrollbar">
             {products.map((product) => (
               <div
                 key={product.id}
-                className="group bg-orm-surface/80 backdrop-blur-xl border border-orm-gray rounded-2xl overflow-hidden transition-all duration-500 shadow-orm-premium cursor-pointer hover:-translate-y-2 hover:border-orm-gold-premium/50 max-[768px]:min-w-[85%] max-[768px]:[scroll-snap-align:center]"
+                className="group relative bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[1.5rem] overflow-hidden transition-all duration-700 hover:-translate-y-2 hover:border-orm-gold/30 hover:bg-white/[0.04] max-[768px]:min-w-[260px]"
                 onClick={() => handleCardClick(product)}
               >
-                <div className="relative w-full h-[280px] overflow-hidden bg-[#121212] max-[768px]:h-[240px]">
+                {/* Image Section - Vertically Shorter */}
+                <div className="relative aspect-[16/11] overflow-hidden bg-[#121212]">
                   <img 
                     src={getImageUrl(product.image)} 
                     alt={product.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-orm-dark via-transparent to-transparent opacity-60"></div>
                   
-                  {/* Badge */}
-                  {product.is_sale && (
-                    <div className="absolute top-4 left-4 bg-orm-gold text-black font-bold text-[0.7rem] px-3 py-1.5 rounded-lg uppercase tracking-widest shadow-lg">
-                      Sale
-                    </div>
-                  )}
-                  
-                  {/* Action Buttons Overlay */}
-                  <div className="absolute top-4 right-4 flex flex-col gap-2 translate-x-12 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                  {/* Floating Elements */}
+                  <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+                    {product.is_sale && (
+                      <div className="bg-white text-black font-black text-[0.5rem] px-2.5 py-1 rounded-full uppercase tracking-[0.2em] shadow-2xl">
+                        Sale
+                      </div>
+                    )}
                     <button
-                      className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-orm-gold hover:text-black transition-all"
-                      onClick={(e) => e.stopPropagation()}
+                      className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all duration-500 opacity-0 group-hover:opacity-100"
+                      onClick={(e) => { e.stopPropagation(); }}
                     >
-                      <FaHeart className="text-sm" />
+                      <FaHeart size={10} />
                     </button>
                   </div>
                 </div>
 
-                <div className="p-6">
-                  <span className="text-[0.65rem] font-bold text-orm-gold uppercase tracking-[0.2em] mb-2 block">Premium Part</span>
-                  <h3 className="font-merriweather text-lg font-bold text-white mb-4 line-clamp-1 group-hover:text-orm-gold transition-colors duration-300">
+                {/* Content Section - Tightened */}
+                <div className="p-5">
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="flex gap-0.5">
+                      {renderStars(product.rating)}
+                    </div>
+                    <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-[0.2em]">SKU: {product.id}</span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-white mb-3 line-clamp-2 min-h-[2.5rem] group-hover:text-orm-gold transition-colors duration-300 max-md:text-sm">
                     {product.title}
                   </h3>
                   
-                  <div className="flex justify-between items-end mb-6">
-                    <div className="flex flex-col gap-1">
-                      {product.old_price && (
-                        <span className="text-xs text-white/30 line-through">
-                          Rs. {Number(product.old_price).toLocaleString()}
-                        </span>
-                      )}
-                      <span className="font-sans font-bold text-xl text-white">
-                        Rs. {Number(product.price).toLocaleString()}
+                  <div className="flex items-end gap-1.5 mb-5">
+                    <span className="font-sans font-black text-lg text-white tracking-tighter max-md:text-base">
+                      Rs. {Number(product.price).toLocaleString()}
+                    </span>
+                    {product.old_price && (
+                      <span className="text-[0.75rem] text-white/20 line-through tracking-tighter mb-0.5">
+                        Rs. {Number(product.old_price).toLocaleString()}
                       </span>
-                    </div>
-                    <div className="flex gap-0.5 text-[0.7rem]">
-                      {renderStars(product.rating)}
-                    </div>
+                    )}
                   </div>
 
                   <button
-                    className="w-full bg-white/5 border border-orm-gray text-white py-3.5 rounded-xl font-sans font-bold text-xs uppercase tracking-widest cursor-pointer transition-all duration-300 hover:bg-orm-gold hover:text-black hover:border-orm-gold hover:shadow-orm-gold-glow flex items-center justify-center gap-2 group/btn"
+                    className="w-full relative overflow-hidden group/btn bg-white/[0.03] border border-white/10 text-white py-3 rounded-xl font-sans font-bold text-[0.6rem] uppercase tracking-[0.2em] transition-all duration-500 hover:text-black hover:border-orm-gold"
                     onClick={(e) => handleAddToCart(e, product)}
                   >
-                    <FaShoppingCart className="transition-transform duration-300 group-hover/btn:-translate-y-0.5" /> 
-                    Add to Cart
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <FaShoppingCart size={10} /> Secure Order
+                    </span>
+                    <div className="absolute inset-0 bg-orm-gold translate-y-[100%] transition-transform duration-500 group-hover/btn:translate-y-0"></div>
                   </button>
                 </div>
               </div>

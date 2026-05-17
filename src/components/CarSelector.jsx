@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaChevronRight } from "react-icons/fa";
 
 const carData = [
   {
@@ -6,35 +7,40 @@ const carData = [
     name: "Suzuki Jimny",
     img: "/image/bg5.png",
     thumb: "/image/bg5.png",
-    position: "top-[20%] left-[15%] max-[1024px]:top-[18%] max-[1024px]:left-[10%] max-[768px]:top-[14%] max-[768px]:left-[6%] max-[480px]:top-[10%] max-[480px]:left-[5%]",
+    desc: "The legendary compact 4x4. Engineered for agility and unmatched off-road capability in a lightweight frame.",
+    tag: "Agile Terrain Dominator"
   },
   {
     id: "defender",
     name: "Range Rover Defender",
     img: "/image/bg3.png",
     thumb: "/image/bg3.png",
-    position: "top-[25%] right-[15%] max-[1024px]:top-[18%] max-[1024px]:right-[10%] max-[768px]:top-[14%] max-[768px]:right-[6%] max-[480px]:top-[10%] max-[480px]:right-[5%]",
+    desc: "Luxury meets raw power. A sophisticated icon redesigned for modern exploration and extreme endurance.",
+    tag: "Luxury Off-Road Icon"
   },
   {
     id: "hilux",
     name: "Toyota Hilux",
     img: "/image/bg2.png",
     thumb: "/image/bg2.png",
-    position: "bottom-[25%] left-[18%] max-[1024px]:bottom-[15%] max-[1024px]:left-[12%] max-[768px]:bottom-[20%] max-[768px]:left-[6%] max-[480px]:bottom-[18%] max-[480px]:left-[5%]",
+    desc: "Unstoppable utility. Built for the toughest jobs and the most demanding terrains on the planet.",
+    tag: "Unstoppable Utility"
   },
   {
     id: "fortuner",
     name: "Toyota Fortuner",
     img: "/image/bg4.png",
     thumb: "/image/bg4.png",
-    position: "bottom-[25%] right-[18%] max-[1024px]:bottom-[15%] max-[1024px]:right-[12%] max-[768px]:bottom-[20%] max-[768px]:right-[6%] max-[480px]:bottom-[18%] max-[480px]:right-[5%]",
+    desc: "Commanding presence. A powerhouse of comfort and aggression, elevated for superior terrain control.",
+    tag: "Aggressive Performance"
   },
   {
     id: "scorpio",
-    name: "Scorpio",
+    name: "Mahindra Scorpio-N",
     img: "/image/bg1.png",
     thumb: "/image/bg1.png",
-    position: "bottom-[10%] left-1/2 -translate-x-1/2 hover:-translate-x-1/2 max-[768px]:bottom-[6%] max-[480px]:bottom-[5%]",
+    desc: "The big daddy of SUVs. Engineering excellence designed to dominate the urban jungle and the wild beyond.",
+    tag: "Terrain Master"
   },
 ];
 
@@ -42,56 +48,94 @@ const CarSelector = () => {
   const [activeCar, setActiveCar] = useState(carData[4]);
 
   return (
-    <section className="relative w-full h-screen bg-black overflow-hidden max-[768px]:h-[52dvh] max-[768px]:min-h-[340px] max-[768px]:max-h-[440px] max-[480px]:h-[48dvh] max-[480px]:min-h-[300px]">
-      {/* Background Image Layer */}
-      <div
-        className="w-full h-full bg-cover bg-center transition-[background-image] duration-500 ease-in-out max-[768px]:bg-[center_55%] max-[480px]:bg-[center_60%]"
-        style={{ backgroundImage: `url(${activeCar.img})` }}
-      ></div>
+    <section className="relative w-full h-[750px] bg-orm-dark overflow-hidden flex flex-col justify-end max-md:h-[600px]">
+      {/* Background Image Layer with Smooth Crossfade */}
+      {carData.map((car) => (
+        <div
+          key={car.id}
+          className={`absolute inset-0 bg-cover bg-center transition-all duration-[1500ms] ease-in-out ${
+            activeCar.id === car.id ? "opacity-100 scale-105" : "opacity-0 scale-100"
+          }`}
+          style={{ 
+            backgroundImage: `url(${car.img})`,
+          }}
+        >
+           {/* Moody Cinematic Overlays */}
+           <div className="absolute inset-0 bg-gradient-to-t from-orm-dark via-orm-dark/40 to-transparent z-[1]"></div>
+           <div className="absolute inset-0 bg-black/30 z-[1]"></div>
+        </div>
+      ))}
 
-      {/* Dark Overlay to make it moody like the video */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(0,0,0,0)_40%,rgba(0,0,0,0.85)_100%)] pointer-events-none"></div>
-
-      {/* Thumbnails Container */}
-      <div className="absolute inset-0 pointer-events-none">
-        {carData.map((car) => (
-          <div
-            key={car.id}
-            className={`absolute pointer-events-auto cursor-pointer flex flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110 hover:z-10 ${
-              car.position
-            } ${activeCar.id === car.id ? "z-[5]" : ""}`}
-            onClick={() => setActiveCar(car)}
-          >
-            {/* Tooltip (Only visible if active) */}
-            <div
-              className={`bg-orm-gold text-black font-lato font-[700] text-[0.9rem] px-[16px] py-[6px] rounded-[4px] mb-[12px] transition-all duration-300 ease-in-out pointer-events-none whitespace-nowrap relative max-[768px]:text-[0.75rem] max-[768px]:px-[12px] max-[768px]:py-[4px] max-[768px]:mb-[8px] after:content-[''] after:absolute after:bottom-[-6px] after:left-1/2 after:-translate-x-1/2 after:border-l-[6px] after:border-l-transparent after:border-r-[6px] after:border-r-transparent after:border-t-[6px] after:border-t-orm-gold ${
-                activeCar.id === car.id
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-[10px]"
-              }`}
-            >
-              {car.name}
-            </div>
-
-            {/* Circle Image */}
-            <div
-              className={`rounded-full overflow-hidden bg-black border-[3px] shadow-[0_6px_18px_rgba(0,0,0,0.6)] transition-all duration-300 ease-in-out max-[768px]:border-[2px] ${
-                activeCar.id === car.id
-                  ? "w-[85px] h-[85px] border-orm-gold max-[768px]:w-[65px] max-[768px]:h-[65px] max-[480px]:w-[56px] max-[480px]:h-[56px]"
-                  : "w-[70px] h-[70px] border-white/30 max-[768px]:w-[55px] max-[768px]:h-[55px] max-[480px]:w-[48px] max-[480px]:h-[48px]"
-              }`}
-            >
-              <img
-                src={car.thumb}
-                alt={car.name}
-                className={`w-full h-full object-cover transition-opacity duration-300 ease-in-out ${
-                  activeCar.id === car.id ? "opacity-100" : "opacity-70"
-                }`}
-              />
-            </div>
+      {/* Main Content Overlay */}
+      <div className="relative z-10 w-[92%] max-w-[1400px] mx-auto mb-[160px] px-6 max-md:mb-[180px]">
+        <div key={activeCar.id} className="max-w-[500px] animate-fadeInUp">
+          <div className="inline-flex items-center gap-2.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-4 backdrop-blur-md">
+             <div className="w-1.5 h-1.5 bg-orm-gold rounded-full animate-pulse shadow-[0_0_8px_#fbb03b]"></div>
+             <span className="text-orm-gold text-[0.55rem] font-black uppercase tracking-[0.2em]">{activeCar.tag}</span>
           </div>
-        ))}
+
+          <h2 className="text-[2.8rem] font-black text-white uppercase tracking-tighter leading-none mb-4 drop-shadow-2xl max-md:text-[2rem]">
+            Explore the <span className="text-orm-gold">{activeCar.name}</span>
+          </h2>
+          
+          <p className="text-[0.9rem] leading-relaxed text-white/60 mb-8 font-medium max-md:text-[0.8rem]">
+            {activeCar.desc}
+          </p>
+
+          <button className="group relative overflow-hidden bg-white text-black px-10 py-3.5 rounded-full font-black text-[0.65rem] uppercase tracking-[0.2em] transition-all duration-500 hover:shadow-[0_15px_40px_rgba(255,255,255,0.1)] hover:-translate-y-1">
+             <span className="relative z-10 flex items-center gap-3">
+                View Configuration <FaChevronRight size={10} />
+             </span>
+             <div className="absolute inset-0 bg-orm-gold translate-y-[100%] transition-transform duration-500 group-hover:translate-y-0"></div>
+          </button>
+        </div>
       </div>
+
+      {/* Structured Selection Bar - No Scroll */}
+      <div className="relative z-20 w-full bg-gradient-to-t from-orm-dark via-orm-dark/80 to-transparent pb-8 pt-10 border-t border-white/5">
+        <div className="w-[92%] max-w-[1400px] mx-auto flex items-center justify-center gap-4 px-6 max-md:grid max-md:grid-cols-3 max-sm:grid-cols-2">
+          {carData.map((car) => (
+            <div
+              key={car.id}
+              className={`group relative w-[180px] cursor-pointer transition-all duration-500 max-md:w-full ${
+                activeCar.id === car.id ? "opacity-100" : "opacity-40 hover:opacity-100"
+              }`}
+              onClick={() => setActiveCar(car)}
+            >
+              {/* Thumbnail Container */}
+              <div className={`relative h-[60px] rounded-xl overflow-hidden border-2 transition-all duration-500 ${
+                activeCar.id === car.id ? "border-orm-gold scale-105 shadow-[0_0_20px_rgba(251,176,59,0.2)]" : "border-white/10"
+              }`}>
+                <img
+                  src={car.thumb}
+                  alt={car.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className={`absolute inset-0 transition-opacity ${activeCar.id === car.id ? "bg-transparent" : "bg-black/40 group-hover:bg-transparent"}`}></div>
+              </div>
+              
+              {/* Name Label */}
+              <div className="mt-2.5 text-center">
+                 <span className={`text-[0.6rem] font-black uppercase tracking-widest transition-colors ${
+                   activeCar.id === car.id ? "text-orm-gold" : "text-white/40 group-hover:text-white/80"
+                 }`}>
+                   {car.name}
+                 </span>
+              </div>
+              
+              {/* Active Indicator Line */}
+              {activeCar.id === car.id && (
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-orm-gold rounded-full shadow-[0_0_10px_#fbb03b]"></div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* High-Tech Blueprint Accents */}
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent z-[5]"></div>
+      <div className="absolute top-1/2 left-[4%] h-[150px] w-[1px] bg-gradient-to-b from-transparent via-orm-gold/20 to-transparent z-[5] hidden lg:block"></div>
+      <div className="absolute top-1/2 right-[4%] h-[150px] w-[1px] bg-gradient-to-b from-transparent via-orm-gold/20 to-transparent z-[5] hidden lg:block"></div>
     </section>
   );
 };

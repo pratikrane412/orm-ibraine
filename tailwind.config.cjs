@@ -19,9 +19,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        merriweather: ["Merriweather", "serif"],
-        lato: ["Lato", "sans-serif"],
-        sans: ["Inter", "system-ui", "sans-serif"], // Modern UI font
+        sans: ["Satoshi", "system-ui", "sans-serif"], // Satoshi is now the exclusive font
       },
       spacing: {
         'nav': '80px',

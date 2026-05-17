@@ -49,7 +49,7 @@ const BlogPage = () => {
       <div className="relative w-full h-[300px] bg-[url('/image/banner.jpg')] bg-cover bg-center mt-[80px] flex items-center justify-center text-center">
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative z-[2] text-white">
-          <h1 className="font-merriweather text-[3.5rem] m-0 uppercase max-md:text-[2.5rem]">
+          <h1 className="text-[3.5rem] m-0 uppercase max-md:text-[2.5rem]">
             Latest <span className="text-orm-gold">News</span>
           </h1>
           <p>Updates from the Off-Road World</p>
@@ -73,10 +73,10 @@ const BlogPage = () => {
                   <span className="absolute top-[15px] left-[15px] bg-orm-gold text-black px-[10px] py-[4px] text-[0.8rem] font-bold rounded-[4px]">Off-Road</span>
                 </div>
                 <div className="p-[20px]">
-                  <h3 className="font-merriweather text-[1.4rem] mb-[10px] leading-[1.3]">{post.title}</h3>
+                  <h3 className="text-[1.4rem] mb-[10px] leading-[1.3]">{post.title}</h3>
 
                   {/* USE stripHtml HERE */}
-                  <p className="font-lato text-[0.95rem] text-[#ccc] mb-[20px] leading-[1.6]">
+                  <p className="text-[0.95rem] text-[#ccc] mb-[20px] leading-[1.6]">
                     {stripHtml(post.content).substring(0, 120)}...
                   </p>
 

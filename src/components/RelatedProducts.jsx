@@ -9,7 +9,6 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-// Removed: import "../styles/RelatedProducts.css";
 
 const RelatedProducts = ({ currentProduct }) => {
   const [products, setProducts] = useState([]);
@@ -35,83 +34,91 @@ const RelatedProducts = ({ currentProduct }) => {
   const handleAddToCart = (e, item) => {
     e.stopPropagation();
     addToCart(item);
-    alert(`${item.title} added to cart!`);
+    alert(`${item.title} added to arsenal!`);
   };
 
   return (
-    <section className="bg-black py-[80px] w-full">
-      <div className="w-[95%] max-w-[1400px] mx-auto">
-        <h2 className="font-['Merriweather',_serif] text-[2.2rem] font-bold text-white text-left mb-[40px] uppercase border-b border-[#333] pb-[15px] max-md:text-[1.6rem] max-md:text-center">
-          Must-Have {currentProduct.category}{" "}
-          <span className="text-[#fbb03b]">Upgrades</span>
-        </h2>
-
-        <div className="flex items-center gap-[15px] max-md:flex-col">
-          <button className="bg-transparent border-none text-white text-[1.8rem] cursor-pointer p-[10px] max-md:hidden">
-            <FaChevronLeft />
-          </button>
-
-          <div className="grid grid-cols-4 gap-[20px] w-full max-md:grid-cols-1 max-md:gap-[25px]">
-            {products.map((item) => (
-              <div
-                key={item.id}
-                className="bg-[#0a0a0a] border border-[#222] rounded-[12px] overflow-hidden relative cursor-pointer transition-all duration-300 hover:-translate-y-[8px] hover:border-[#fbb03b] group"
-                onClick={() => handleCardClick(item.slug)}
-              >
-                {item.is_sale && <span className="absolute top-[15px] left-0 bg-[#fbb03b] text-black font-['Merriweather',_serif] font-bold px-[15px] py-[4px] rounded-r-[15px] z-[2]">Sale</span>}
-
-                <div className="w-full h-[220px] opacity-[0.4] transition-opacity duration-300 group-hover:opacity-100 max-md:h-[200px]">
-                  <img
-                    className="w-full h-full object-cover"
-                    src={
-                      item.image.startsWith("http")
-                        ? item.image
-                        : `https://orm-backend-gejw.onrender.com${item.image}`
-                    }
-                    alt={item.title}
-                  />
-                  <button
-                    className="absolute top-[10px] right-[10px] w-[35px] h-[35px] rounded-full bg-white/20 border-none text-white flex items-center justify-center z-[2]"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <FaHeart />
-                  </button>
-                </div>
-
-                <div className="p-[20px]">
-                  <h4 className="font-['Merriweather',_serif] text-[1.15rem] font-semibold mb-[10px] text-white capitalize border-b border-[#333] pb-[10px] whitespace-nowrap overflow-hidden text-ellipsis transition-colors duration-300 group-hover:text-[#fbb03b]">{item.title}</h4>
-
-                  <div className="flex items-center">
-                    <span className="font-['Merriweather',_serif] text-white font-bold text-[1.2rem] inline-block mt-[10px] group-hover:text-[#fbb03b]">
-                      Rs. {Number(item.price).toLocaleString()}
-                    </span>
-                    {item.old_price && (
-                      <span className="font-['Merriweather',_serif] text-[#666] line-through text-[0.9rem] ml-[10px] mt-[10px]">
-                        Rs. {Number(item.old_price).toLocaleString()}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="mt-[10px] flex gap-[3px]">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} color="#fbb03b" size={12} />
-                    ))}
-                  </div>
-
-                  <button
-                    className="w-full bg-[#fff8e7] text-black border-none py-[14px] rounded-[8px] font-['Merriweather',_serif] font-bold text-[1rem] uppercase tracking-[1px] cursor-pointer flex items-center justify-center gap-[10px] mt-[15px] transition-colors duration-300 hover:bg-[#fbb03b]"
-                    onClick={(e) => handleAddToCart(e, item)}
-                  >
-                    <FaShoppingCart /> Add to Cart
-                  </button>
-                </div>
+    <section className="bg-orm-dark py-[60px] w-full border-t border-white/5 max-md:py-[40px]">
+      <div className="w-[92%] max-w-[1400px] mx-auto">
+        <div className="flex justify-between items-end mb-[32px] max-md:flex-col max-md:items-center max-md:text-center max-md:gap-4">
+           <div>
+              <div className="inline-block px-2.5 py-0.5 bg-orm-gold/10 border border-orm-gold/20 rounded-full mb-2.5">
+                <span className="text-orm-gold text-[0.5rem] font-black uppercase tracking-[0.2em]">Complementary Gear</span>
               </div>
-            ))}
-          </div>
+              <h2 className="font-merriweather text-[1.8rem] font-black text-white uppercase tracking-tighter max-md:text-[1.6rem]">Essential <span className="text-orm-gold">Upgrades</span></h2>
+           </div>
+           
+           <div className="flex gap-2.5">
+              <button className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:text-white hover:border-white/40 transition-all max-md:hidden">
+                <FaChevronLeft size={12} />
+              </button>
+              <button className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:text-white hover:border-white/40 transition-all max-md:hidden">
+                <FaChevronRight size={12} />
+              </button>
+           </div>
+        </div>
 
-          <button className="bg-transparent border-none text-white text-[1.8rem] cursor-pointer p-[10px] max-md:hidden">
-            <FaChevronRight />
-          </button>
+        <div className="grid grid-cols-4 gap-4 w-full max-lg:grid-cols-2 max-md:grid-cols-1">
+          {products.map((item) => (
+            <div
+              key={item.id}
+              className="group relative bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-[1.2rem] overflow-hidden transition-all duration-700 cursor-pointer hover:border-orm-gold/30 hover:bg-white/[0.04] hover:-translate-y-1 shadow-lg"
+              onClick={() => handleCardClick(item.slug)}
+            >
+              <div className="relative aspect-[16/11] overflow-hidden bg-orm-dark">
+                {item.is_sale && (
+                  <div className="absolute top-2.5 left-2.5 bg-white text-black font-black text-[0.45rem] px-2 py-0.5 rounded-full uppercase tracking-[0.2em] shadow-2xl z-10">
+                    Sale
+                  </div>
+                )}
+                
+                <img
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  src={
+                    item.image.startsWith("http")
+                      ? item.image
+                      : `https://orm-backend-gejw.onrender.com${item.image}`
+                  }
+                  alt={item.title}
+                />
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-orm-dark via-transparent to-transparent opacity-60"></div>
+                
+                <button
+                  className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center z-10 transition-all opacity-0 group-hover:opacity-100"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaHeart size={9} />
+                </button>
+              </div>
+
+              <div className="p-4">
+                <span className="text-orm-gold text-[0.45rem] font-bold uppercase tracking-[0.2em] mb-1.5 block opacity-60">Curated Match</span>
+                <h4 className="font-merriweather text-[0.85rem] font-bold mb-2 text-white min-h-[2.2rem] line-clamp-2 group-hover:text-orm-gold transition-colors duration-500 max-md:text-sm">{item.title}</h4>
+
+                <div className="flex items-end gap-1.5 mb-4">
+                  <span className="text-white font-black text-base tracking-tighter">
+                    Rs. {Number(item.price).toLocaleString()}
+                  </span>
+                  {item.old_price && (
+                    <span className="text-white/20 line-through text-[0.65rem] mb-0.5 tracking-tighter">
+                      Rs. {Number(item.old_price).toLocaleString()}
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  className="w-full relative overflow-hidden group/btn bg-white/[0.05] border border-white/10 text-white py-2.5 rounded-lg font-sans font-black text-[0.55rem] uppercase tracking-[0.2em] transition-all hover:text-black hover:border-orm-gold"
+                  onClick={(e) => handleAddToCart(e, item)}
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                     <FaShoppingCart size={9} /> Deploy Unit
+                  </span>
+                  <div className="absolute inset-0 bg-orm-gold translate-y-[100%] transition-transform duration-500 group-hover/btn:translate-y-0"></div>
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

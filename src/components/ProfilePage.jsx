@@ -3,117 +3,92 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ProfileSidebar from "./ProfileSidebar";
 import ProfileSettings from "./ProfileSettings";
-import MyOrders from "./MyOrders"; // Import the new component
+import MyOrders from "./MyOrders"; 
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-// Removed: import "../styles/ProfilePage.css";
+import { FiShoppingBag } from "react-icons/fi";
+import { FaMoneyBillWave } from "react-icons/fa";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const { logout, user } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) {
-    navigate("/login");
-    return null;
-  }
+  if (!user) { navigate("/login"); return null; }
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
+  const handleLogout = () => { logout(); navigate("/"); };
 
   const renderContent = () => {
     switch (activeTab) {
-      case "profile":
-        return <ProfileSettings />;
-
-      case "orders":
-        return <MyOrders />; // Use the real component
-
-      case "dashboard":
-        return (
-          <div className="profile-content-box">
-            <h2 className="font-['Merriweather',_sans-serif] text-[2.2rem] mb-[30px] text-white tracking-[1px] uppercase border-b-2 border-[#fbb03b] pb-[10px] inline-block font-bold">Dashboard</h2>
-            <div className="flex gap-[20px]">
-              <div className="flex-1 bg-[#111] p-[20px] rounded-[10px]">
-                <h4 className="text-[#888] font-medium">Total Orders</h4>
-                <h1 className="text-[#fbb03b] text-[2.5rem] font-bold">5</h1>{" "}
-                {/* Fetch real count later */}
+      case "profile": return <ProfileSettings />;
+      case "orders": return <MyOrders />;
+      case "dashboard": return (
+          <div className="flex flex-col gap-8">
+            <div>
+              <div className="inline-block px-3 py-0.5 bg-orm-gold/10 border border-orm-gold/20 rounded-full mb-3"><span className="text-orm-gold text-[0.55rem] font-black uppercase tracking-[0.2em]">Operational Status</span></div>
+              <h2 className="font-merriweather text-2xl font-black text-white uppercase tracking-tighter">Command <span className="text-orm-gold">Dashboard</span></h2>
+            </div>
+            <div className="grid grid-cols-2 gap-5 max-md:grid-cols-1">
+              <div className="bg-white/[0.03] p-8 rounded-[1.5rem] border border-white/5 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity"><FiShoppingBag size={40} /></div>
+                <h4 className="text-white/30 text-[0.6rem] font-black uppercase tracking-[0.15em] mb-3">Total Deployments</h4>
+                <h1 className="text-white text-3xl font-black tracking-tighter">05</h1>
               </div>
-              <div className="flex-1 bg-[#111] p-[20px] rounded-[10px]">
-                <h4 className="text-[#888] font-medium">Wallet</h4>
-                <h1 className="text-[#fbb03b] text-[2.5rem] font-bold">Rs. 0</h1>
+              <div className="bg-white/[0.03] p-8 rounded-[1.5rem] border border-white/5 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity"><FaMoneyBillWave size={40} /></div>
+                <h4 className="text-white/30 text-[0.6rem] font-black uppercase tracking-[0.15em] mb-3">Mutant Credits</h4>
+                <h1 className="text-orm-gold text-3xl font-black tracking-tighter">Rs. 0</h1>
               </div>
             </div>
           </div>
         );
-
-      case "address":
-        return (
-          <div className="profile-content-box">
-            <h2 className="font-['Merriweather',_sans-serif] text-[2.2rem] mb-[30px] text-white tracking-[1px] uppercase border-b-2 border-[#fbb03b] pb-[10px] inline-block font-bold">My Addresses</h2>
-            {/* You can build an AddressForm component here similar to ProfileSettings */}
-            <p className="font-['Lato',_sans-serif] text-[0.9rem] text-[#888] mb-[20px] leading-[1.5]">
-              Manage your shipping and billing addresses.
-            </p>
-            <button className="bg-[#fbb03b] text-black px-[40px] py-[14px] font-['Lato',_sans-serif] font-bold border-none rounded-[50px] cursor-pointer self-start mt-[10px] transition-all text-[1rem] tracking-[0.5px] uppercase hover:bg-[#ffc107] hover:-translate-y-[3px] hover:shadow-[0_5px_15px_rgba(251,176,59,0.3)]">
-              + Add New Address
-            </button>
+      case "address": return (
+          <div className="flex flex-col gap-6">
+            <div>
+              <div className="inline-block px-3 py-0.5 bg-orm-gold/10 border border-orm-gold/20 rounded-full mb-3"><span className="text-orm-gold text-[0.55rem] font-black uppercase tracking-[0.2em]">Drop Zones</span></div>
+              <h2 className="font-merriweather text-2xl font-black text-white uppercase tracking-tighter">Logistics <span className="text-orm-gold">Addresses</span></h2>
+            </div>
+            <p className="font-sans text-white/40 text-[0.8rem] leading-relaxed max-w-sm uppercase tracking-widest font-bold">Manage delivery sectors for gear deployment.</p>
+            <button className="bg-orm-gold text-black px-8 py-3.5 font-sans font-black text-[0.65rem] uppercase tracking-[0.15em] border-none rounded-xl cursor-pointer self-start transition-all hover:shadow-lg hover:-translate-y-0.5 active:scale-95">+ Establish New Sector</button>
           </div>
         );
-
-      case "track":
-        return (
-          <div className="profile-content-box">
-            <h2 className="font-['Merriweather',_sans-serif] text-[2.2rem] mb-[30px] text-white tracking-[1px] uppercase border-b-2 border-[#fbb03b] pb-[10px] inline-block font-bold">Track Your Order</h2>
-            <div className="flex gap-[10px] mt-[20px]">
-              <input
-                type="text"
-                placeholder="Enter Order ID"
-                className="p-[10px] flex-1 bg-[#111] border border-[#333] text-white rounded-[5px] outline-none focus:border-[#fbb03b]"
-              />
-              <button className="bg-[#fbb03b] text-black px-[40px] py-[14px] font-['Lato',_sans-serif] font-bold border-none rounded-[50px] cursor-pointer transition-all text-[1rem] tracking-[0.5px] uppercase hover:bg-[#ffc107] hover:-translate-y-[3px] hover:shadow-[0_5px_15px_rgba(251,176,59,0.3)] mt-0">
-                Track
-              </button>
+      case "track": return (
+          <div className="flex flex-col gap-6">
+            <div>
+              <div className="inline-block px-3 py-0.5 bg-orm-gold/10 border border-orm-gold/20 rounded-full mb-3"><span className="text-orm-gold text-[0.55rem] font-black uppercase tracking-[0.2em]">Satellite Tracking</span></div>
+              <h2 className="font-merriweather text-2xl font-black text-white uppercase tracking-tighter">Deployment <span className="text-orm-gold">Status</span></h2>
+            </div>
+            <div className="flex gap-3 max-md:flex-col">
+              <input type="text" placeholder="Deployment ID" className="h-12 flex-1 bg-white/[0.05] border border-white/10 text-white rounded-xl px-5 outline-none focus:border-orm-gold/50 text-[0.85rem]" />
+              <button className="bg-white text-black px-8 h-12 font-sans font-black text-[0.65rem] uppercase tracking-[0.15em] border-none rounded-xl cursor-pointer transition-all hover:bg-orm-gold">Initiate Tracking</button>
             </div>
           </div>
         );
-
-      case "account":
-        return <ProfileSettings />; // Same as profile for now
-
-      default:
-        return <ProfileSettings />;
+      default: return <ProfileSettings />;
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="bg-orm-dark text-white min-h-screen font-sans">
       <Navbar />
-
-      <div className="w-[90%] max-w-[1400px] mx-auto pt-[120px] pb-[80px] min-h-[80vh] text-white">
-        <div className="mb-[40px]">
-          <h1 className="font-['Merriweather',_sans-serif] text-[3rem] capitalize text-white font-bold">
-            My <span className="text-[#fbb03b]">Account</span>
-          </h1>
+      <div className="h-[220px] bg-[url('/image/banner.jpg')] bg-cover bg-center relative flex items-center justify-center text-center mt-[70px] max-md:h-[150px]">
+        <div className="absolute inset-0 bg-gradient-to-b from-orm-dark via-orm-dark/40 to-orm-dark"></div>
+        <div className="relative z-[2] px-6">
+          <h1 className="font-merriweather text-[2.2rem] text-white font-black uppercase tracking-tighter leading-none max-md:text-[1.8rem]">Base <span className="text-orm-gold">Operations</span></h1>
+          <div className="w-16 h-1 bg-orm-gold mx-auto rounded-full mt-4"></div>
         </div>
+      </div>
 
-        <div className="flex gap-[40px] items-start max-lg:flex-col">
-          <div className="flex-1 max-w-[300px] max-lg:max-w-full w-full">
-            <ProfileSidebar
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              handleLogout={handleLogout}
-            />
+      <div className="w-[92%] max-w-[1300px] mx-auto py-[60px] min-h-[70vh]">
+        <div className="grid grid-cols-12 gap-10 max-lg:flex max-lg:flex-col">
+          <div className="col-span-3">
+            <ProfileSidebar activeTab={activeTab} setActiveTab={setActiveTab} handleLogout={handleLogout} />
           </div>
-
-          <div className="flex-[3] bg-[#0a0a0a] border border-[#222] rounded-[12px] p-[50px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] max-md:p-[25px] w-full">
+          <div className="col-span-9 bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-[2rem] p-10 shadow-2xl max-md:p-6">
             {renderContent()}
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );

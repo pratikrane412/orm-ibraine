@@ -1,41 +1,26 @@
 import React from "react";
-import { 
-  FiUser, FiGrid, FiShoppingBag, FiTruck, FiMapPin, FiSettings, FiLogOut 
-} from "react-icons/fi";
-// Removed: import "../styles/ProfilePage.css";
+import { FiUser, FiGrid, FiShoppingBag, FiTruck, FiMapPin, FiLogOut } from "react-icons/fi";
 
 const ProfileSidebar = ({ activeTab, setActiveTab, handleLogout }) => {
   const menuItems = [
-    { id: "profile", label: "Profile", icon: <FiUser /> },
-    { id: "dashboard", label: "Dashboard", icon: <FiSettings /> }, 
-    { id: "orders", label: "Orders", icon: <FiShoppingBag /> },
-    { id: "track", label: "Track Your Order", icon: <FiTruck /> },
-    { id: "address", label: "My Address", icon: <FiMapPin /> },
+    { id: "profile", label: "Identity Profile", icon: <FiUser /> },
+    { id: "dashboard", label: "Command Center", icon: <FiGrid /> }, 
+    { id: "orders", label: "History", icon: <FiShoppingBag /> },
+    { id: "track", label: "Satellite Tracking", icon: <FiTruck /> },
+    { id: "address", label: "Logistics", icon: <FiMapPin /> },
   ];
 
   return (
-    <div className="flex flex-col gap-[15px]">
+    <div className="flex flex-col gap-2">
       {menuItems.map((item) => (
-        <button
-          key={item.id}
-          className={`flex items-center gap-[15px] w-full px-[20px] py-[15px] font-['Lato',_sans-serif] text-[1rem] font-medium rounded-[8px] cursor-pointer transition-all text-left border ${
-            activeTab === item.id 
-              ? "bg-[#fbb03b] text-black border-[#fbb03b] shadow-[0_0_15px_rgba(251,176,59,0.2)] font-bold" 
-              : "bg-[#111] text-[#ccc] border-[#333] hover:border-[#fbb03b] hover:text-white hover:translate-x-[5px]"
-          }`}
-          onClick={() => setActiveTab(item.id)}
-        >
-          <span className="text-[1.2rem] flex items-center">{item.icon}</span>
+        <button key={item.id} className={`flex items-center gap-4 w-full px-6 py-4 font-sans text-[0.7rem] font-black uppercase tracking-widest rounded-xl transition-all text-left border-2 ${activeTab === item.id ? "bg-orm-gold text-black border-orm-gold shadow-md" : "bg-white/[0.03] text-white/40 border-white/5 hover:border-white/10"}`} onClick={() => setActiveTab(item.id)}>
+          <span className="text-base">{item.icon}</span>
           {item.label}
         </button>
       ))}
-
-      <button 
-        className="flex items-center gap-[15px] w-full px-[20px] py-[15px] font-['Lato',_sans-serif] text-[1rem] font-medium rounded-[8px] cursor-pointer transition-all text-left border mt-[20px] border-[#333] text-[#ff4d4d] hover:bg-[#ff4d4d] hover:text-white hover:border-[#ff4d4d]" 
-        onClick={handleLogout}
-      >
-        <span className="text-[1.2rem] flex items-center"><FiLogOut /></span>
-        Logout
+      <button className="flex items-center gap-4 w-full px-6 py-4 font-sans text-[0.7rem] font-black uppercase tracking-widest rounded-xl transition-all text-left border-2 mt-6 border-red-500/10 text-red-500/40 hover:bg-red-500 hover:text-white" onClick={handleLogout}>
+        <span className="text-base"><FiLogOut /></span>
+        Terminate Session
       </button>
     </div>
   );

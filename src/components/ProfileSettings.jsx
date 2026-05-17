@@ -5,20 +5,18 @@ import { FaLock, FaUser, FaEnvelope } from "react-icons/fa"; // Added icons for 
 const ProfileSettings = () => {
   const { user, token, login } = useAuth();
   
-  // State for read-only data
   const [profileData, setProfileData] = useState({
     first_name: "",
     last_name: "",
     email: ""
   });
 
-  // State for password change
   const [passwords, setPasswords] = useState({
     newPassword: "",
     confirmPassword: ""
   });
 
-  const [message, setMessage] = useState({ text: "", type: "" }); // type: 'success' or 'error'
+  const [message, setMessage] = useState({ text: "", type: "" });
 
   useEffect(() => {
     if (user) {
@@ -38,13 +36,12 @@ const ProfileSettings = () => {
     e.preventDefault();
     setMessage({ text: "", type: "" });
 
-    // Validation
     if (!passwords.newPassword) {
-      setMessage({ text: "Please enter a new password to update.", type: "error" });
+      setMessage({ text: "Identification key required for update.", type: "error" });
       return;
     }
     if (passwords.newPassword !== passwords.confirmPassword) {
-      setMessage({ text: "Passwords do not match.", type: "error" });
+      setMessage({ text: "Keys do not synchronize.", type: "error" });
       return;
     }
 
@@ -55,106 +52,108 @@ const ProfileSettings = () => {
           "Content-Type": "application/json",
           "Authorization": `Token ${token}`
         },
-        body: JSON.stringify({ password: passwords.newPassword }), // Only sending password
+        body: JSON.stringify({ password: passwords.newPassword }),
       });
 
       const data = await response.json();
       
       if (response.ok) {
-        setMessage({ text: "Password updated successfully!", type: "success" });
+        setMessage({ text: "Access key successfully recalibrated.", type: "success" });
         setPasswords({ newPassword: "", confirmPassword: "" });
-        // Update context just in case backend returns updated user object
         login(data.user, token);
       } else {
-        setMessage({ text: "Failed to update password.", type: "error" });
+        setMessage({ text: "Update protocol rejected.", type: "error" });
       }
     } catch (error) {
       console.error(error);
-      setMessage({ text: "Server Error. Try again later.", type: "error" });
+      setMessage({ text: "Server interference detected.", type: "error" });
     }
   };
 
   return (
-    <div className="profile-content-box">
-      <h2 className="font-['Merriweather',_serif] text-[2.2rem] mb-[30px] text-white tracking-[1px] uppercase border-b-2 border-[#fbb03b] pb-[10px] inline-block font-bold">Account Information</h2>
+    <div className="flex flex-col gap-12">
+      <div>
+        <div className="inline-block px-4 py-1 bg-orm-gold/10 border border-orm-gold/20 rounded-full mb-4">
+          <span className="text-orm-gold text-[0.6rem] font-black uppercase tracking-[0.3em]">Operational Identity</span>
+        </div>
+        <h2 className="font-merriweather text-3xl font-black text-white uppercase tracking-tighter leading-tight">Master <span className="text-orm-gold">Profile</span></h2>
+      </div>
       
       {/* PERSONAL DETAILS (READ ONLY) */}
-      <div className="mb-[30px]">
-        <h3 className="font-['Merriweather',_serif] text-[1.4rem] text-[#fbb03b] mt-[20px] mb-[5px] tracking-[0.5px] font-bold">Personal Details</h3>
-        <p className="font-['Lato',_sans-serif] text-[0.9rem] text-[#888] mb-[20px] leading-[1.5]">These details are managed by your account administrator and cannot be changed.</p>
+      <div className="space-y-8">
+        <div className="flex flex-col gap-2">
+           <h3 className="font-sans text-[0.7rem] font-black text-white/30 uppercase tracking-[0.3em]">Core Credentials</h3>
+           <p className="text-[0.75rem] text-white/20 uppercase tracking-widest italic">Locked by system administrator for security</p>
+        </div>
         
-        <div className="flex flex-col gap-[20px]">
-          <div className="flex gap-[20px] max-md:flex-col">
-            <div className="flex-1 flex flex-col gap-[10px]">
-              <label className="font-['Lato',_sans-serif] text-[0.95rem] text-[#ccc] font-medium flex items-center gap-[8px]"><FaUser /> First Name</label>
-              <input 
-                type="text" 
-                value={profileData.first_name} 
-                disabled 
-                className="p-[15px] bg-[#0d0d0d] border border-[#222] text-[#777] rounded-[6px] font-bold opacity-80 cursor-not-allowed pointer-events-none"
-              />
-            </div>
-            <div className="flex-1 flex flex-col gap-[10px]">
-              <label className="font-['Lato',_sans-serif] text-[0.95rem] text-[#ccc] font-medium flex items-center gap-[8px]"><FaUser /> Last Name</label>
-              <input 
-                type="text" 
-                value={profileData.last_name} 
-                disabled 
-                className="p-[15px] bg-[#0d0d0d] border border-[#222] text-[#777] rounded-[6px] font-bold opacity-80 cursor-not-allowed pointer-events-none"
-              />
+        <div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
+          <div className="space-y-4">
+            <label className="font-sans text-[0.65rem] font-bold text-white/30 uppercase tracking-[0.2em] ml-2 flex items-center gap-3"><FaUser className="text-orm-gold" /> First Name</label>
+            <div className="h-16 flex items-center px-8 bg-white/[0.03] border border-white/10 rounded-2xl text-white/40 font-sans font-black text-[0.8rem] uppercase tracking-widest opacity-60">
+               {profileData.first_name}
             </div>
           </div>
+          <div className="space-y-4">
+            <label className="font-sans text-[0.65rem] font-bold text-white/30 uppercase tracking-[0.2em] ml-2 flex items-center gap-3"><FaUser className="text-orm-gold" /> Last Name</label>
+            <div className="h-16 flex items-center px-8 bg-white/[0.03] border border-white/10 rounded-2xl text-white/40 font-sans font-black text-[0.8rem] uppercase tracking-widest opacity-60">
+               {profileData.last_name}
+            </div>
+          </div>
+        </div>
 
-          <div className="flex flex-col gap-[10px]">
-            <label className="font-['Lato',_sans-serif] text-[0.95rem] text-[#ccc] font-medium flex items-center gap-[8px]"><FaEnvelope /> Email Address</label>
-            <input 
-              type="email" 
-              value={profileData.email} 
-              disabled 
-              className="p-[15px] bg-[#0d0d0d] border border-[#222] text-[#777] rounded-[6px] font-bold opacity-80 cursor-not-allowed pointer-events-none"
-            />
+        <div className="space-y-4">
+          <label className="font-sans text-[0.65rem] font-bold text-white/30 uppercase tracking-[0.2em] ml-2 flex items-center gap-3"><FaEnvelope className="text-orm-gold" /> Secure Communication Channel</label>
+          <div className="h-16 flex items-center px-8 bg-white/[0.03] border border-white/10 rounded-2xl text-white/40 font-sans font-bold text-[0.85rem] opacity-60">
+             {profileData.email}
           </div>
         </div>
       </div>
 
-      <div className="w-full h-[1px] bg-[#222] my-[40px]"></div>
+      <div className="h-[1px] bg-white/5"></div>
 
       {/* PASSWORD CHANGE (EDITABLE) */}
-      <div className="mb-[30px]">
-        <h3 className="font-['Merriweather',_serif] text-[1.4rem] text-[#fbb03b] mt-[20px] mb-[5px] tracking-[0.5px] font-bold">Security Settings</h3>
-        <p className="font-['Lato',_sans-serif] text-[0.9rem] text-[#888] mb-[20px] leading-[1.5]">Ensure your account is using a long, random password to stay secure.</p>
+      <div className="space-y-8">
+        <div className="flex flex-col gap-2">
+           <h3 className="font-sans text-[0.7rem] font-black text-white/30 uppercase tracking-[0.3em]">Access Security</h3>
+           <p className="text-[0.75rem] text-white/20 uppercase tracking-widest italic">Maintain periodic passkey rotation</p>
+        </div>
 
         {message.text && (
-          <div className={`p-[12px] rounded-[6px] mb-[20px] font-['Lato',_sans-serif] text-[0.95rem] font-medium text-center ${message.type === 'success' ? 'bg-[rgba(44,255,44,0.1)] text-[#2cff7b] border border-[#2cff7b]' : 'bg-[rgba(255,68,68,0.1)] text-[#ff4d4d] border border-[#ff4d4d]'}`}>
+          <div className={`p-6 rounded-2xl font-sans text-[0.7rem] font-black uppercase tracking-widest text-center ${message.type === 'success' ? 'bg-orm-gold/10 text-orm-gold border border-orm-gold/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
             {message.text}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
-          <div className="flex flex-col gap-[10px]">
-            <label className="font-['Lato',_sans-serif] text-[0.95rem] text-[#ccc] font-medium flex items-center gap-[8px]"><FaLock /> New Password</label>
-            <input 
-              type="password" 
-              name="newPassword" 
-              placeholder="Enter new password"
-              value={passwords.newPassword} 
-              onChange={handlePasswordChange} 
-              className="p-[15px] bg-[#111] border border-[#444] text-white rounded-[6px] text-[1rem] font-['Lato',_sans-serif] outline-none transition-all focus:border-[#fbb03b] focus:shadow-[0_0_10px_rgba(251,176,59,0.1)] focus:bg-[#151515]"
-            />
-          </div>
-          <div className="flex flex-col gap-[10px]">
-            <label className="font-['Lato',_sans-serif] text-[0.95rem] text-[#ccc] font-medium flex items-center gap-[8px]"><FaLock /> Confirm New Password</label>
-            <input 
-              type="password" 
-              name="confirmPassword" 
-              placeholder="Confirm new password"
-              value={passwords.confirmPassword} 
-              onChange={handlePasswordChange} 
-              className="p-[15px] bg-[#111] border border-[#444] text-white rounded-[6px] text-[1rem] font-['Lato',_sans-serif] outline-none transition-all focus:border-[#fbb03b] focus:shadow-[0_0_10px_rgba(251,176,59,0.1)] focus:bg-[#151515]"
-            />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          <div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
+            <div className="space-y-4">
+              <label className="font-sans text-[0.65rem] font-bold text-white/30 uppercase tracking-[0.2em] ml-2 flex items-center gap-3"><FaLock className="text-orm-gold" /> New Passkey</label>
+              <input 
+                type="password" 
+                name="newPassword" 
+                placeholder="........"
+                value={passwords.newPassword} 
+                onChange={handlePasswordChange} 
+                className="w-full h-16 bg-white/[0.05] border border-white/10 text-white rounded-2xl px-8 outline-none focus:border-orm-gold/50 transition-all font-sans font-medium placeholder:text-white/10"
+              />
+            </div>
+            <div className="space-y-4">
+              <label className="font-sans text-[0.65rem] font-bold text-white/30 uppercase tracking-[0.2em] ml-2 flex items-center gap-3"><FaLock className="text-orm-gold" /> Confirm Passkey</label>
+              <input 
+                type="password" 
+                name="confirmPassword" 
+                placeholder="........"
+                value={passwords.confirmPassword} 
+                onChange={handlePasswordChange} 
+                className="w-full h-16 bg-white/[0.05] border border-white/10 text-white rounded-2xl px-8 outline-none focus:border-orm-gold/50 transition-all font-sans font-medium placeholder:text-white/10"
+              />
+            </div>
           </div>
 
-          <button type="submit" className="bg-[#fbb03b] text-black px-[40px] py-[14px] font-['Lato',_sans-serif] font-bold border-none rounded-[50px] cursor-pointer self-start mt-[10px] transition-all text-[1rem] tracking-[0.5px] uppercase hover:bg-[#ffc107] hover:-translate-y-[3px] hover:shadow-[0_5px_20px_rgba(251,176,59,0.3)]">Update Password</button>
+          <button type="submit" className="group relative overflow-hidden bg-orm-gold text-black px-12 py-5 rounded-2xl font-sans font-black text-[0.7rem] uppercase tracking-[0.2em] border-none cursor-pointer self-start transition-all duration-500 hover:shadow-[0_15px_40px_rgba(251,176,59,0.3)] hover:-translate-y-1 active:scale-95">
+             <span className="relative z-10">Recalibrate Access</span>
+             <div className="absolute inset-0 bg-white translate-y-[100%] transition-transform duration-500 group-hover:translate-y-0"></div>
+          </button>
         </form>
       </div>
     </div>

@@ -11,36 +11,12 @@ import { useWishlist } from "../context/WishlistContext";
 import roadBg from "/image/road.png";
 
 const categoryConfig = {
-  thar: {
-    title: "Mahindra Thar & Roxx",
-    backendCategory: "Thar",
-    headerBg: "/image/banner.jpg",
-  },
-  scorpio: {
-    title: "Scorpio",
-    backendCategory: "Scorpio",
-    headerBg: "/image/banner.jpg",
-  },
-  hilux: {
-    title: "Toyota Hilux",
-    backendCategory: "Hilux",
-    headerBg: "/image/banner.jpg",
-  },
-  fortuner: {
-    title: "Toyota Fortuner",
-    backendCategory: "Fortuner",
-    headerBg: "/image/banner.jpg",
-  },
-  jimny: {
-    title: "Suzuki Jimny",
-    backendCategory: "Jimny",
-    headerBg: "/image/banner.jpg",
-  },
-  defender: {
-    title: "Range Rover Defender",
-    backendCategory: "Defender",
-    headerBg: "/image/banner.jpg",
-  },
+  thar: { title: "Mahindra Thar & Roxx", backendCategory: "Thar", headerBg: "/image/banner.jpg" },
+  scorpio: { title: "Scorpio", backendCategory: "Scorpio", headerBg: "/image/banner.jpg" },
+  hilux: { title: "Toyota Hilux", backendCategory: "Hilux", headerBg: "/image/banner.jpg" },
+  fortuner: { title: "Toyota Fortuner", backendCategory: "Fortuner", headerBg: "/image/banner.jpg" },
+  jimny: { title: "Suzuki Jimny", backendCategory: "Jimny", headerBg: "/image/banner.jpg" },
+  defender: { title: "Range Rover Defender", backendCategory: "Defender", headerBg: "/image/banner.jpg" },
 };
 
 const sidebarCategories = [
@@ -56,15 +32,12 @@ const ProductCategoryPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categoryCounts, setCategoryCounts] = useState({});
-
   const { categoryName } = useParams();
   const navigate = useNavigate();
-
   const { addToCart } = useCart();
   const { addToWishlist, isInWishlist } = useWishlist();
 
-  const currentCategory =
-    categoryConfig[categoryName] || categoryConfig["thar"];
+  const currentCategory = categoryConfig[categoryName] || categoryConfig["thar"];
 
   useEffect(() => {
     setLoading(true);
@@ -86,15 +59,12 @@ const ProductCategoryPage = () => {
     window.scrollTo(0, 0);
   };
 
-  // This function expects a slug string
-  const handleProductClick = (slug) => {
-    navigate(`/product/${slug}`);
-  };
+  const handleProductClick = (slug) => { navigate(`/product/${slug}`); };
 
   const handleAddToCartBtn = (e, item) => {
     e.stopPropagation();
     addToCart(item);
-    alert(`${item.title} added to cart!`);
+    alert(`${item.title} added to arsenal!`);
   };
 
   const handleWishlistClick = (e, item) => {
@@ -103,125 +73,79 @@ const ProductCategoryPage = () => {
   };
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-orm-dark text-white min-h-screen">
       <Navbar />
-
-      <div
-        className="h-[300px] bg-cover bg-center relative flex items-center justify-start pl-[10%] mt-[80px] md:h-[300px] max-md:h-[200px] max-md:px-[20px] max-md:justify-center max-md:text-center"
-        style={{ backgroundImage: `url(${currentCategory.headerBg})` }}
-      >
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="relative z-[2]">
-          <h1 className="font-merriweather text-[4rem] text-white uppercase max-md:text-[2rem] max-md:leading-[1.2] max-sm:text-[1.7rem]">
-            {currentCategory.title}{" "}
-            <span className="text-orm-gold">Accessories</span>
+      <div className="h-[250px] bg-cover bg-center relative flex items-center justify-center text-center mt-[70px] max-md:h-[180px]" style={{ backgroundImage: `url(${currentCategory.headerBg})` }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-orm-dark via-orm-dark/40 to-orm-dark"></div>
+        <div className="relative z-[2] px-6">
+          <h1 className="text-[2.8rem] text-white font-bold uppercase tracking-tight leading-tight max-md:text-[1.8rem]">
+            {currentCategory.title} <span className="text-orm-gold">Accessories</span>
           </h1>
+          <div className="w-16 h-1 bg-orm-gold mx-auto rounded-full mt-4"></div>
         </div>
       </div>
 
-      <div
-        className="relative w-full bg-cover bg-center bg-no-repeat py-[80px] max-md:py-[40px]"
-        style={{ backgroundImage: `url(${roadBg})` }}
-      >
-        <div className="absolute inset-0 bg-black/20 z-[1] max-md:bg-black/35"></div>
-
-        <div className="flex w-[90%] max-w-[1400px] mx-auto gap-[40px] relative z-[2] max-md:flex-col max-md:w-[95%] max-md:gap-[30px]">
-          <aside className="flex-1 max-w-[320px] bg-[#0f0f0f]/95 p-[30px_20px] rounded-[12px] border border-[#222] h-fit max-md:max-w-none max-md:p-[20px] max-md:rounded-[10px] max-sm:p-[18px]">
-            <div className="flex items-center bg-black border border-[#333] p-[10px_15px] rounded-[8px] mb-[30px]">
-              <FaSearch className="text-orm-gold mr-[12px]" />
-              <input type="text" placeholder="Search Product" className="bg-transparent border-none text-white outline-none w-full" />
+      <div className="relative w-full bg-cover bg-center bg-fixed py-[80px] max-md:py-[50px]" style={{ backgroundImage: `url(${roadBg})` }}>
+        <div className="absolute inset-0 bg-orm-dark/80 backdrop-blur-sm z-[1]"></div>
+        <div className="flex w-[92%] max-w-[1400px] mx-auto gap-[32px] relative z-[2] max-md:flex-col">
+          {/* Refined Sidebar - More Compact */}
+          <aside className="flex-1 max-w-[280px] h-fit max-md:max-w-none">
+            <div className="bg-white/[0.03] backdrop-blur-3xl p-6 rounded-[1.5rem] border border-white/5 sticky top-[90px]">
+              <div className="flex items-center bg-white/[0.05] border border-white/10 px-4 py-2.5 rounded-xl mb-6 group focus-within:border-orm-gold/50 transition-all">
+                <FaSearch size={12} className="text-white/20 group-focus-within:text-orm-gold" />
+                <input type="text" placeholder="Search Mutant Parts" className="bg-transparent border-none text-white text-[0.7rem] outline-none w-full ml-3 font-sans placeholder:text-white/20" />
+              </div>
+              <h3 className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-white/30 mb-4 px-2">Categories</h3>
+              <ul className="flex flex-col gap-1">
+                {sidebarCategories.map((cat, index) => (
+                  <li key={index} className={`group flex justify-between items-center px-4 py-2.5 rounded-xl transition-all cursor-pointer ${cat.slug === categoryName ? "bg-orm-gold text-black shadow-md" : "bg-transparent text-white/50 hover:bg-white/[0.05] hover:text-white"}`} onClick={() => handleCategoryClick(cat.slug)}>
+                    <span className="font-bold text-[0.75rem] tracking-tight">{cat.name}</span>
+                    <span className={`text-[0.55rem] font-black px-2 py-0.5 rounded-lg ${cat.slug === categoryName ? "bg-black text-white" : "bg-white/5 text-white/30 group-hover:bg-white/10"}`}>{categoryCounts[cat.dbKey] || 0}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <h3 className="font-merriweather text-[1.4rem] mb-[20px] text-white max-md:text-[1.2rem] max-md:text-center">
-              Product <span className="text-orm-gold">Categories:</span>
-            </h3>
-
-            <ul className="list-none p-0">
-              {sidebarCategories.map((cat, index) => (
-                <li
-                  key={index}
-                  className={`flex justify-between p-[12px_15px] border-b border-[#222] font-lato text-white cursor-pointer transition-all duration-300 rounded-[5px] hover:text-orm-gold hover:bg-orm-gold/5 max-md:p-[12px] max-md:text-[0.95rem] ${cat.slug === categoryName ? "bg-orm-gold !text-black font-bold" : ""}`}
-                  onClick={() => handleCategoryClick(cat.slug)}
-                >
-                  <span>{cat.name}</span>
-                  <span className="count">
-                    {categoryCounts[cat.dbKey] || 0}
-                  </span>
-                </li>
-              ))}
-            </ul>
           </aside>
 
+          {/* Product Grid - Compact Cards */}
           <main className="flex-[3]">
-            <div className="flex justify-between items-center mb-[20px] text-[#ccc] max-md:flex-col max-md:items-start max-md:gap-[15px] max-md:text-[0.9rem]">
-              <span>Showing {products.length} Results</span>
-              <select className="bg-black border border-[#333] text-white p-[8px_15px] rounded-[5px] max-md:w-full">
-                <option>Default Sorting</option>
+            <div className="flex justify-between items-center mb-10 max-md:flex-col max-md:gap-4 max-md:text-center">
+              <span className="text-white/40 font-bold text-[0.7rem] uppercase tracking-widest">{products.length} Mutants found</span>
+              <select className="bg-white/[0.05] border border-white/10 text-white font-bold text-[0.65rem] px-5 py-3 rounded-xl outline-none focus:border-orm-gold/50 cursor-pointer">
+                <option>Newest Arrivals</option>
                 <option>Price: Low to High</option>
                 <option>Price: High to Low</option>
               </select>
             </div>
 
-            <hr className="border-[#333] mb-[30px]" />
-
             {loading ? (
-              <div className="loading">Loading {currentCategory.title}...</div>
+              <div className="flex justify-center items-center py-20"><div className="w-8 h-8 border-t-2 border-orm-gold rounded-full animate-spin"></div></div>
             ) : (
-              <div className="grid grid-cols-3 gap-[25px] max-[1100px]:grid-cols-2 max-md:grid-cols-1 max-md:gap-[20px]">
-                {products.length > 0 ? (
-                  products.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group bg-[#0a0a0a]/95 border border-[#222] rounded-[12px] overflow-hidden relative transition-all duration-400 cursor-pointer hover:border-orm-gold hover:translate-y-[-8px] hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] max-md:rounded-[10px]"
-                      // CHANGE: Passing item.slug instead of item.id
-                      onClick={() => handleProductClick(item.slug)}
-                    >
-                      {item.is_sale && <span className="absolute top-[15px] left-0 bg-orm-gold text-black p-[5px_15px] font-bold rounded-r-[20px] z-[3]">Sale</span>}
-                      <div className="relative h-[230px] opacity-40 transition-opacity duration-400 group-hover:opacity-100 max-md:h-[200px] max-sm:h-[180px]">
-                        <img
-                          src={
-                            item.image.startsWith("http")
-                              ? item.image
-                              : `https://orm-backend-gejw.onrender.com${item.image}`
-                          }
-                          alt={item.title}
-                          className="w-full h-full object-cover"
-                        />
-                        <button
-                          className="absolute top-[12px] right-[12px] bg-white border-none w-[35px] h-[35px] rounded-full flex items-center justify-center z-[3] max-md:w-[32px] max-md:h-[32px]"
-                          onClick={(e) => handleWishlistClick(e, item)}
-                          style={{
-                            color: isInWishlist(item.id) ? "#fbb03b" : "#333",
-                          }}
-                        >
-                          <FaHeart />
-                        </button>
-                      </div>
-
-                      <div className="p-[20px] max-sm:p-[16px]">
-                        <h4 className="font-merriweather text-[1.2rem] mb-[10px] text-white transition-colors duration-300 group-hover:text-orm-gold max-md:text-[1.05rem]">{item.title}</h4>
-                        <div className="price-row">
-                          <span className="text-white font-bold text-[1.1rem] transition-colors duration-300 group-hover:text-orm-gold max-md:text-[1rem]">
-                            Rs. {Number(item.price).toLocaleString()}
-                          </span>
-                          {item.old_price && (
-                            <span className="text-[#666] line-through text-[0.9rem] ml-[10px]">
-                              Rs. {Number(item.old_price).toLocaleString()}
-                            </span>
-                          )}
-                        </div>
-                        <button
-                          className="w-full bg-white p-[12px] font-bold rounded-[6px] border-none mt-[15px] cursor-pointer transition-all duration-300 hover:bg-orm-gold max-md:p-[14px] max-md:text-[0.95rem]"
-                          onClick={(e) => handleAddToCartBtn(e, item)}
-                        >
-                          <FaShoppingCart /> Add to Cart
-                        </button>
-                      </div>
+              <div className="grid grid-cols-3 gap-6 max-[1200px]:grid-cols-2 max-md:grid-cols-1">
+                {products.length > 0 ? products.map((item) => (
+                  <div key={item.id} className="group relative bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-[1.5rem] overflow-hidden transition-all duration-700 cursor-pointer hover:border-orm-gold/30 hover:bg-white/[0.04] hover:-translate-y-2 shadow-xl" onClick={() => handleProductClick(item.slug)}>
+                    <div className="relative aspect-[16/11] overflow-hidden bg-[#121212]">
+                      <img src={item.image.startsWith("http") ? item.image : `https://orm-backend-gejw.onrender.com${item.image}`} alt={item.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-orm-dark via-transparent to-transparent opacity-60"></div>
+                      {item.is_sale && <div className="absolute top-3 left-3 bg-white text-black font-black text-[0.5rem] px-2.5 py-1 rounded-full uppercase tracking-[0.2em] shadow-2xl z-10">Sale</div>}
+                      <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center z-10 transition-all opacity-0 group-hover:opacity-100" onClick={(e) => handleWishlistClick(e, item)}>
+                        <FaHeart size={10} className={isInWishlist(item.id) ? "text-orm-gold" : "text-white"} />
+                      </button>
                     </div>
-                  ))
-                ) : (
-                  <div className="no-products">No products found.</div>
-                )}
+                    <div className="p-5">
+                      <span className="text-orm-gold text-[0.5rem] font-bold uppercase tracking-[0.2em] mb-2 block opacity-60">Premium Part</span>
+                      <h4 className="text-base font-bold mb-3 text-white min-h-[2.5rem] line-clamp-2 group-hover:text-orm-gold transition-colors max-md:text-sm">{item.title}</h4>
+                      <div className="flex items-end gap-2 mb-5">
+                        <span className="text-white font-black text-lg tracking-tighter max-md:text-base">Rs. {Number(item.price).toLocaleString()}</span>
+                        {item.old_price && <span className="text-white/20 line-through text-[0.7rem] mb-0.5 tracking-tighter">Rs. {Number(item.old_price).toLocaleString()}</span>}
+                      </div>
+                      <button className="w-full relative overflow-hidden group/btn bg-white/[0.05] border border-white/10 text-white py-3 rounded-xl font-black text-[0.6rem] uppercase tracking-[0.2em] transition-all hover:text-black hover:border-orm-gold" onClick={(e) => handleAddToCartBtn(e, item)}>
+                        <span className="relative z-10 flex items-center justify-center gap-2"><FaShoppingCart size={10} /> Buy Mutant</span>
+                        <div className="absolute inset-0 bg-orm-gold translate-y-[100%] transition-transform duration-500 group-hover/btn:translate-y-0"></div>
+                      </button>
+                    </div>
+                  </div>
+                )) : <div className="col-span-full py-20 text-center"><p className="text-white/20 text-sm font-bold uppercase tracking-widest">No mutants found.</p></div>}
               </div>
             )}
           </main>
@@ -233,4 +157,3 @@ const ProductCategoryPage = () => {
 };
 
 export default ProductCategoryPage;
-

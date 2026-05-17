@@ -75,7 +75,7 @@ const BlogDetails = () => {
         <div
           className="min-h-[60vh] flex items-center justify-center text-white"
         >
-          <h2 className="text-[2rem] font-merriweather">Article Not Found</h2>
+          <h2 className="text-[2rem]">Article Not Found</h2>
         </div>
         <Footer />
       </div>
@@ -89,12 +89,12 @@ const BlogDetails = () => {
       <div className="w-full h-[350px] bg-[#1a1a1a] bg-[url('/image/banner.jpg')] bg-cover bg-center relative flex flex-col items-center justify-center text-center mt-[80px]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black z-[1]"></div>
         <div className="relative z-[10] w-[90%] max-w-[800px]">
-          <h1 className="font-merriweather text-[4rem] mb-[10px] text-orm-gold uppercase shadow-[2px_2px_10px_rgba(0,0,0,0.8)] max-md:text-[2.5rem]">{post.title}</h1>
+          <h1 className="text-[4rem] mb-[10px] text-orm-gold uppercase shadow-[2px_2px_10px_rgba(0,0,0,0.8)] max-md:text-[2.5rem]">{post.title}</h1>
           <p className="text-[1rem] text-white tracking-[2px] uppercase font-medium bg-black/50 p-[5px_15px] rounded-[4px] inline-block">Home / Blog / {post.title}</p>
         </div>
       </div>
 
-      <div className="flex gap-[40px] w-[90%] max-w-[1100px] mx-auto my-[40px] pb-[80px] text-white font-inter items-start max-[900px]:flex-col max-[900px]:w-[95%]">
+      <div className="flex gap-[40px] w-[90%] max-w-[1100px] mx-auto my-[40px] pb-[80px] text-white items-start max-[900px]:flex-col max-[900px]:w-[95%]">
         {/* LEFT: MAIN CONTENT */}
         <div className="flex-[2.5]">
           <div className="w-full h-[350px] rounded-[8px] overflow-hidden mb-[20px] border border-[#333]">
@@ -118,7 +118,7 @@ const BlogDetails = () => {
             </div>
 
             {/* Title again in body is optional if it's already in Hero */}
-            <h2 className="font-merriweather text-[2rem] mb-[20px] text-white leading-[1.2]">{post.title}</h2>
+            <h2 className="text-[2rem] mb-[20px] text-white leading-[1.2]">{post.title}</h2>
 
             <div className="text-[1rem] leading-[1.6] text-[#d1d5db] mb-[40px] [&_h1]:text-[1.8rem] [&_h1]:mt-[25px] [&_h1]:mb-[10px] [&_h2]:text-[1.5rem] [&_h2]:mt-[20px] [&_h2]:mb-[10px] [&_p]:mb-[15px]">
               {/* 3. Safe Parsing */}
@@ -130,7 +130,7 @@ const BlogDetails = () => {
             </div>
 
             <div className="flex items-center gap-[15px] py-[15px] border-y border-[#333] mb-[40px]">
-              <span className="font-merriweather text-[1rem] text-white">Share Post:</span>
+              <span className="text-[1rem] text-white">Share Post:</span>
               <a href="#" className="text-[#888] text-[1rem] transition-colors duration-200 bg-[#1a1a1a] w-[35px] h-[35px] flex items-center justify-center rounded-full hover:text-black hover:bg-orm-gold">
                 <FaFacebookF />
               </a>
@@ -148,13 +148,13 @@ const BlogDetails = () => {
 
           {/* COMMENT FORM */}
           <div className="bg-[#0a0a0a] p-[30px] border border-[#222] rounded-[8px]">
-            <h3 className="font-merriweather mb-[20px] text-[1.5rem] text-white border-l-[3px] border-orm-gold pl-[10px]">Leave a Comment</h3>
+            <h3 className="mb-[20px] text-[1.5rem] text-white border-l-[3px] border-orm-gold pl-[10px]">Leave a Comment</h3>
             <form className="comment-form">
               <div className="flex gap-[15px] mb-[15px]">
-                <input type="text" placeholder="Your Name" className="w-full p-[12px] !bg-[#111] !border-[#333] border !text-white rounded-[4px] outline-none text-[0.9rem] font-inter focus:!border-orm-gold" />
-                <input type="email" placeholder="Your Email" className="w-full p-[12px] !bg-[#111] !border-[#333] border !text-white rounded-[4px] outline-none text-[0.9rem] font-inter focus:!border-orm-gold" />
+                <input type="text" placeholder="Your Name" className="w-full p-[12px] !bg-[#111] !border-[#333] border !text-white rounded-[4px] outline-none text-[0.9rem] focus:!border-orm-gold" />
+                <input type="email" placeholder="Your Email" className="w-full p-[12px] !bg-[#111] !border-[#333] border !text-white rounded-[4px] outline-none text-[0.9rem] focus:!border-orm-gold" />
               </div>
-              <textarea rows="5" placeholder="Enter Your Comment" className="w-full p-[12px] !bg-[#111] !border-[#333] border !text-white rounded-[4px] outline-none text-[0.9rem] font-inter focus:!border-orm-gold"></textarea>
+              <textarea rows="5" placeholder="Enter Your Comment" className="w-full p-[12px] !bg-[#111] !border-[#333] border !text-white rounded-[4px] outline-none text-[0.9rem] focus:!border-orm-gold"></textarea>
               <button type="submit" className="bg-orm-gold text-black px-[25px] py-[10px] border-none font-bold cursor-pointer rounded-[4px] text-[0.9rem] mt-[15px]">
                 SUBMIT COMMENT
               </button>
@@ -165,7 +165,7 @@ const BlogDetails = () => {
         {/* RIGHT: SIDEBAR */}
         <div className="flex-1 max-w-[300px] flex flex-col gap-[25px] sticky top-[100px] max-[900px]:max-w-full max-[900px]:w-full">
           <div className="bg-[#0a0a0a] p-[20px] rounded-[8px] text-white border border-[#222]">
-            <h3 className="font-merriweather text-[1.2rem] mb-[15px] border-b border-[#333] pb-[8px] relative after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-[40px] after:h-[2px] after:bg-orm-gold">Search</h3>
+            <h3 className="text-[1.2rem] mb-[15px] border-b border-[#333] pb-[8px] relative after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-[40px] after:h-[2px] after:bg-orm-gold">Search</h3>
             <div className="flex !bg-[#111] !border-[#333] border rounded-[4px] p-0 overflow-hidden">
               <input type="text" placeholder="Search..." className="flex-1 p-[10px] !bg-[#111] !text-white !border-none outline-none text-[0.9rem]" />
               <button className="!bg-orm-gold border-none w-[40px] cursor-pointer text-black flex items-center justify-center">
@@ -175,7 +175,7 @@ const BlogDetails = () => {
           </div>
 
           <div className="bg-[#0a0a0a] p-[20px] rounded-[8px] text-white border border-[#222]">
-            <h3 className="font-merriweather text-[1.2rem] mb-[15px] border-b border-[#333] pb-[8px] relative after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-[40px] after:h-[2px] after:bg-orm-gold">Latest Post</h3>
+            <h3 className="text-[1.2rem] mb-[15px] border-b border-[#333] pb-[8px] relative after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-[40px] after:h-[2px] after:bg-orm-gold">Latest Post</h3>
             <div className="flex flex-col gap-[15px]">
               {recentPosts.length > 0 ? (
                 recentPosts.map((p) => (
@@ -197,7 +197,7 @@ const BlogDetails = () => {
           </div>
 
           <div className="bg-[#0a0a0a] p-[20px] rounded-[8px] text-white border border-[#222]">
-            <h3 className="font-merriweather text-[1.2rem] mb-[15px] border-b border-[#333] pb-[8px] relative after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-[40px] after:h-[2px] after:bg-orm-gold">Categories</h3>
+            <h3 className="text-[1.2rem] mb-[15px] border-b border-[#333] pb-[8px] relative after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-[40px] after:h-[2px] after:bg-orm-gold">Categories</h3>
             <ul className="list-none p-0">
               <li className="p-[8px_0] border-b border-dashed border-[#333] cursor-pointer text-[#ccc] text-[0.9rem]">Off-Road Tips</li>
               <li className="p-[8px_0] border-b border-dashed border-[#333] cursor-pointer text-[#ccc] text-[0.9rem]">Car Maintenance</li>

@@ -40,83 +40,85 @@ const VideoSection = () => {
 
   const handleScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
-    const cardWidth = e.target.firstChild.offsetWidth + 16; // card + gap
+    const cardWidth = e.target.firstChild.offsetWidth + 16;
     const index = Math.round(scrollLeft / cardWidth);
     setActiveDot(index);
   };
 
   return (
-    <section className="bg-black py-[80px] text-white flex flex-col items-center">
-      <div className="text-center max-w-[800px] mb-[50px] px-[20px]">
-        <h2 className="font-merriweather text-[2.8rem] mb-[15px] max-[768px]:text-[2rem]">
-          The Ultimate Off-<span className="text-orm-gold">Road Collection.</span>
+    <section className="bg-orm-dark py-[140px] text-white flex flex-col items-center overflow-hidden">
+      <div className="text-center max-w-[900px] mb-[80px] px-6 relative">
+        <div className="inline-block px-4 py-1 bg-white/[0.03] border border-white/10 rounded-full mb-8 backdrop-blur-md">
+           <span className="text-orm-gold text-[0.7rem] font-bold tracking-[0.4em] uppercase">Field Reports</span>
+        </div>
+        <h2 className="font-merriweather text-[4.5rem] font-black leading-[1.1] mb-8 tracking-tighter uppercase max-md:text-[2.5rem]">
+          The <span className="text-orm-gold">Operational</span> Archive
         </h2>
-        <p className="font-lato text-[#ccc] text-[1rem] leading-[1.5]">
-          Discover ORM upgrades that deliver bold style, ultimate protection,
-          and powerful performance for your Jeep and every off-road adventure.
+        <p className="font-sans text-white/40 text-lg leading-relaxed max-w-2xl mx-auto uppercase tracking-widest text-xs font-bold">
+          Witness ORM engineering in extreme environments. Bold style, ultimate protection, and undisputed performance.
         </p>
       </div>
 
       {/* DESKTOP GRID / MOBILE SCROLL */}
       <div
-        className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-[25px] w-[90%] max-w-[1400px] scrollbar-none max-[768px]:flex max-[768px]:overflow-x-auto max-[768px]:gap-[16px] max-[768px]:px-[12px] max-[768px]:[scroll-snap-type:x_mandatory] max-[768px]:scroll-smooth"
+        className="grid grid-cols-3 gap-8 w-[94%] max-w-[1600px] max-lg:grid-cols-2 max-md:flex max-md:overflow-x-auto max-md:pb-10 no-scrollbar"
         onScroll={handleScroll}
       >
         {videos.map((video) => (
           <div
             key={video.id}
-            className="h-[280px] w-full rounded-[15px] overflow-hidden relative bg-black shadow-[0_4px_15px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-in-out hover:-translate-y-[5px] max-[768px]:min-w-[85%] max-[768px]:h-[240px] max-[768px]:[scroll-snap-align:center] max-[768px]:hover:transform-none"
+            className="group relative h-[450px] rounded-[3rem] overflow-hidden bg-white/[0.02] border border-white/5 shadow-2xl transition-all duration-700 hover:-translate-y-4 hover:border-orm-gold/30 max-md:min-w-[85%] max-md:h-[350px]"
           >
             {playingVideoId === video.id ? (
-              <div className="w-full h-full border-none">
+              <div className="w-full h-full">
                 <iframe
                   src={video.videoUrl}
                   title={video.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  playsInline
-                  webkit-playsinline="true"
                   className="w-full h-full border-none"
                 />
               </div>
             ) : (
               <div
-                className="w-full h-full bg-cover bg-center relative cursor-pointer"
+                className="w-full h-full bg-cover bg-center relative cursor-pointer overflow-hidden"
                 style={{ backgroundImage: `url(${video.bgImage})` }}
                 onClick={() => handlePlay(video.id)}
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/85"></div>
+                {/* Cinematic Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-orm-dark via-orm-dark/40 to-transparent transition-opacity duration-700 group-hover:opacity-60"></div>
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-700"></div>
 
-                <div className="absolute top-[15px] left-[15px] right-[15px] flex justify-between z-[2]">
-                  <div className="flex items-center gap-[10px]">
+                <div className="absolute top-8 left-8 right-8 flex justify-between items-center z-[2]">
+                  <div className="flex items-center gap-4 bg-black/40 backdrop-blur-xl px-4 py-2 rounded-full border border-white/10">
                     <img
                       src={ormLogoSmall}
                       alt="logo"
-                      className="w-[30px] h-[30px] rounded-full bg-black"
+                      className="w-6 h-6 rounded-full grayscale opacity-60"
                     />
-                    <span className="font-lato text-[0.9rem]">Watch now...</span>
+                    <span className="font-sans text-[0.6rem] font-black uppercase tracking-[0.2em] text-white/60">Field Intel</span>
                   </div>
-                  <div className="flex items-center gap-[10px]">
-                    <FaRegClock />
-                    <FaShare />
+                  <div className="flex items-center gap-4 text-white/40">
+                    <FaRegClock size={14} className="hover:text-white transition-colors" />
+                    <FaShare size={14} className="hover:text-white transition-colors" />
                   </div>
                 </div>
 
                 <div className="absolute inset-0 flex justify-center items-center">
-                  <div className="w-[60px] h-[40px] bg-[#ff0000] rounded-[10px] flex justify-center items-center">
-                    <FaPlay className="text-white text-[1rem]" />
+                  <div className="w-20 h-20 bg-white/10 backdrop-blur-2xl rounded-full border border-white/20 flex justify-center items-center transition-all duration-500 group-hover:scale-110 group-hover:bg-orm-gold group-hover:border-orm-gold group-hover:shadow-[0_0_50px_rgba(251,176,59,0.5)]">
+                    <FaPlay className="text-white group-hover:text-black transition-colors ml-1" size={20} />
                   </div>
                 </div>
 
-                <div className="absolute bottom-[20px] left-[20px] z-[2]">
+                <div className="absolute bottom-10 left-10 z-[2] transition-transform duration-700 group-hover:translate-x-2">
                   <h3
-                    className={`font-merriweather text-[1.8rem] leading-[1.1] max-[768px]:text-[1.4rem] ${
+                    className={`font-merriweather text-[2.5rem] leading-[1] font-black uppercase tracking-tighter ${
                       video.isGold ? "text-orm-gold" : "text-white"
-                    }`}
+                    } max-md:text-[1.8rem]`}
                   >
                     {video.title}
                     <br />
-                    {video.subtitle}
+                    <span className="opacity-40">{video.subtitle}</span>
                   </h3>
                 </div>
               </div>
@@ -126,12 +128,12 @@ const VideoSection = () => {
       </div>
 
       {/* MOBILE DOTS */}
-      <div className="hidden max-[768px]:flex justify-center gap-[8px] mt-[16px]">
+      <div className="hidden max-md:flex justify-center gap-4 mt-8">
         {videos.map((_, i) => (
           <span
             key={i}
-            className={`w-[8px] h-[8px] rounded-full transition-colors duration-300 ${
-              i === activeDot ? "bg-orm-gold" : "bg-[#555]"
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              i === activeDot ? "w-8 bg-orm-gold" : "w-3 bg-white/10"
             }`}
           />
         ))}

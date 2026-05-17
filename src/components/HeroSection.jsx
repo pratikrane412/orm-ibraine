@@ -4,72 +4,104 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   const handleShopNow = () => {
-    navigate("/products/thar");
+    navigate("/collections/thar");
     window.scrollTo(0, 0);
   };
 
   return (
     <section
-      className="relative text-white py-[80px] px-0 flex justify-center items-center overflow-hidden bg-[#0f0f0f] max-[1024px]:py-[60px] max-[768px]:py-[32px] max-[768px]:pb-[56px] max-[480px]:py-[28px] max-[480px]:pb-[48px]"
+      className="relative text-white py-[120px] px-0 flex justify-center items-center overflow-hidden bg-orm-dark max-md:py-[80px]"
       style={{
         backgroundImage: "url('/image/productbg.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
       }}
     >
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-[rgba(0,0,0,0.15)] z-[1]"></div>
+      {/* Premium Cinematic Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-orm-dark via-orm-dark/85 to-orm-dark z-[1]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(251,176,59,0.05)_0%,transparent_50%)] z-[1]"></div>
 
-      <div className="w-[90%] max-w-[1300px] flex items-center justify-between gap-[48px] relative z-[2] max-[1024px]:flex-col max-[1024px]:text-center max-[1024px]:gap-[36px] max-[768px]:gap-[28px]">
-        {/* LEFT SIDE - TEXT */}
-        <div className="flex-1 max-w-[620px] text-left max-[1024px]:max-w-full max-[1024px]:text-center max-[768px]:max-w-[92%] max-[768px]:mx-auto">
-          <h2 className="font-merriweather text-[3.2rem] font-bold leading-[1.15] mb-[22px] drop-shadow-[2px_2px_12px_rgba(0,0,0,0.8)] max-[1024px]:text-[2.6rem] max-[1024px]:max-w-[20ch] max-[1024px]:mx-auto max-[768px]:text-[1.95rem] max-[768px]:mb-[16px] max-[768px]:max-w-[18ch] max-[480px]:text-[1.7rem] max-[480px]:max-w-[16ch]">
+      <div className="w-[92%] max-w-[1400px] flex items-center justify-between gap-[60px] relative z-[2] max-[1024px]:flex-col max-[1024px]:text-center">
+        {/* LEFT SIDE - TEXT CONTENT */}
+        <div className="flex-1 max-w-[620px] text-left max-[1024px]:max-w-full max-[1024px]:text-center animate-fadeInUp">
+          <div className="inline-flex items-center gap-3 px-3 py-1 bg-white/[0.03] border border-white/10 rounded-full mb-6 backdrop-blur-md">
+            <div className="w-1.5 h-1.5 bg-orm-gold rounded-full animate-pulse shadow-[0_0_8px_#fbb03b]"></div>
+            <span className="text-orm-gold text-[0.6rem] font-black uppercase tracking-[0.3em]">Engineering Excellence</span>
+          </div>
+
+          <h2 className="text-[2.8rem] font-black leading-[1.1] mb-[28px] tracking-tight max-md:text-[2.2rem] max-sm:text-[1.8rem]">
             What is <span className="text-orm-gold">ORM?</span>
           </h2>
 
-          <p className="font-lato text-[0.98rem] leading-[1.7] text-[#e2e2e2] mb-[18px] text-justify [text-justify:inter-word] max-[1024px]:max-w-[48ch] max-[1024px]:mx-auto max-[768px]:text-[0.92rem] max-[768px]:leading-[1.6] max-[768px]:max-w-[42ch] max-[480px]:text-[0.9rem] max-[480px]:leading-[1.55] max-[480px]:max-w-[38ch]">
-            <span className="text-orm-gold font-semibold">Off-Road Mutants</span> is a 4x4 vehicle
-            performance and styling platform. ORM is more than a brand; it’s a
-            performance-focused automotive accessories platform engineered to
-            enhance 4x4 vehicle's driving dynamics, handling, and control for
-            drivers who demand confidence on every terrain.
-          </p>
+          <div className="space-y-5">
+            <p className="text-[0.95rem] leading-[1.8] text-white/70 font-medium max-md:text-[0.9rem]">
+              <span className="text-white font-black border-b border-orm-gold/30">Off-Road Mutants</span> is a specialized 
+              vehicle performance and styling platform. ORM is more than a brand; it’s a 
+              performance-focused automotive collective engineered to enhance 4x4 driving 
+              dynamics, handling, and control for those who demand absolute confidence 
+              on every terrain.
+            </p>
 
-          <p className="font-lato text-[0.98rem] leading-[1.7] text-[#e2e2e2] mb-[18px] text-justify [text-justify:inter-word] max-[1024px]:max-w-[48ch] max-[1024px]:mx-auto max-[768px]:text-[0.92rem] max-[768px]:leading-[1.6] max-[768px]:max-w-[42ch] max-[480px]:text-[0.9rem] max-[480px]:leading-[1.55] max-[480px]:max-w-[38ch]">
-            At Off-Road Mutants (ORM), we believe every vehicle has the
-            potential to become a true off-road powerhouse. Our modification
-            process goes far beyond adding accessories. Built with precision
-            engineering and forged for endurance, the ORM 2” Lift Kit gives your
-            Thar the perfect elevation to dominate rocks, mud, and rugged
-            trails.
-          </p>
+            <p className="text-[0.95rem] leading-[1.8] text-white/70 font-medium max-md:text-[0.9rem]">
+              At <span className="text-white font-black border-b border-orm-gold/30">ORM</span>, we believe every vehicle 
+              possesses the potential to become a masterpiece of engineering. Our modification 
+              process blends precision manufacturing with aesthetic aggression, giving your 
+              vehicle the perfect elevation to dominate any landscape.
+            </p>
+          </div>
 
-          <button className="bg-orm-gold text-black font-lato text-[0.95rem] font-bold py-[13px] px-[34px] rounded-[50px] border-none cursor-pointer mt-[14px] inline-flex items-center gap-[8px] transition-all duration-200 hover:bg-orm-yellow hover:-translate-y-[2px] hover:shadow-[0_6px_18px_rgba(251,176,59,0.3)] max-[768px]:py-[12px] max-[768px]:px-[30px]" onClick={handleShopNow}>
-            Shop Now &rarr;
-          </button>
+          <div className="mt-10">
+            <button 
+              className="group relative overflow-hidden bg-orm-gold text-black font-black py-4 px-10 rounded-full uppercase tracking-[0.2em] transition-all duration-500 hover:shadow-[0_15px_40px_rgba(251,176,59,0.3)] hover:-translate-y-1 active:scale-95" 
+              onClick={handleShopNow}
+            >
+              <span className="relative z-10 flex items-center gap-3">
+                Explore Configuration <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+              </span>
+              <div className="absolute inset-0 bg-white translate-y-[100%] transition-transform duration-500 group-hover:translate-y-0"></div>
+            </button>
+          </div>
         </div>
 
-        {/* RIGHT SIDE - 3D MODEL IN CIRCLE */}
-        <div className="flex-1 flex justify-center items-center">
-          <div className="w-[460px] h-[460px] rounded-full border-[4px] border-orm-gold overflow-hidden relative bg-transparent shadow-[inset_0_0_40px_rgba(0,0,0,0.9),0_0_28px_rgba(0,0,0,0.6)] max-[1024px]:w-[380px] max-[1024px]:h-[380px] max-[768px]:w-[260px] max-[768px]:h-[260px] max-[768px]:border-[3px] max-[480px]:w-[230px] max-[480px]:h-[230px]">
-            {/* Vignette */}
-            <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,transparent_55%,rgba(0,0,0,0.6)_100%)] pointer-events-none z-10"></div>
-            <model-viewer
-              src="/model/orm-model.glb"
-              alt="Thar ORM Leveling Kit"
-              auto-rotate
-              camera-controls
-              disable-zoom
-              rotation-per-second="25deg"
-              shadow-intensity="1"
-              camera-orbit="45deg 55deg 105%"
-              style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: "transparent",
-              }}
-            ></model-viewer>
+        {/* RIGHT SIDE - TECHNICAL 3D VISUAL */}
+        <div className="flex-1 flex justify-center items-center relative">
+          {/* Technical Halo Effect */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-orm-gold/5 blur-[100px] rounded-full pointer-events-none animate-pulse-glow"></div>
+          
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-tr from-orm-gold/40 via-transparent to-white/20 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+            
+            <div className="w-[380px] h-[380px] rounded-full border border-white/10 overflow-hidden relative bg-white/[0.02] backdrop-blur-xl shadow-[0_30px_100px_rgba(0,0,0,0.8)] max-[1024px]:w-[320px] max-[1024px]:h-[320px] max-sm:w-[260px] max-sm:h-[260px] transition-transform duration-700 group-hover:scale-[1.02]">
+              {/* Vignette Overlay */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle,transparent_60%,rgba(0,0,0,0.4)_100%)] z-10 pointer-events-none"></div>
+              
+              <model-viewer
+                src="/model/orm-model.glb"
+                alt="Thar ORM Leveling Kit"
+                auto-rotate
+                camera-controls
+                disable-zoom
+                rotation-per-second="25deg"
+                shadow-intensity="2"
+                exposure="1.2"
+                environment-image="neutral"
+                camera-orbit="45deg 75deg 105%"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+              ></model-viewer>
+            </div>
+            
+            {/* Haptic Status Indicator */}
+            <div className="absolute -bottom-4 -right-4 bg-white/[0.05] backdrop-blur-2xl border border-white/10 px-6 py-3 rounded-2xl shadow-2xl transition-all duration-500 hover:bg-white/[0.08] hidden md:block">
+               <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+                  <span className="text-[0.6rem] font-black text-white/40 uppercase tracking-[0.2em]">3D Render Active</span>
+               </div>
+               <p className="font-bold text-[0.75rem] text-white mt-1 uppercase tracking-wider">SKU: ORM-LEVEL-01</p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,4 @@
 import React from "react";
-// Removed: import "../styles/ProductSpecsSection.css";
-// Import your background image
 import bgImg from "/image/productbg.png";
 
 const ProductSpecsSection = ({ product }) => {
@@ -8,7 +6,6 @@ const ProductSpecsSection = ({ product }) => {
 
   const BASE_URL = "https://orm-backend-gejw.onrender.com";
 
-  // Helper function to handle URLs properly
   const formatUrl = (path) => {
     if (!path) return "";
     return path.startsWith("http") ? path : `${BASE_URL}${path}`;
@@ -19,62 +16,74 @@ const ProductSpecsSection = ({ product }) => {
     : [];
 
   const imageUrl = formatUrl(product.image);
-  const modelUrl = formatUrl(product.model_3d); // NEW: 3D Model URL
+  const modelUrl = formatUrl(product.model_3d);
 
   return (
     <section
-      className="relative bg-black text-white py-[80px] pb-[100px] flex justify-center overflow-hidden bg-cover bg-center bg-no-repeat bg-scroll max-md:py-[60px]"
+      className="relative bg-orm-dark text-white py-[80px] flex justify-center overflow-hidden bg-cover bg-center bg-fixed max-md:py-[50px]"
       style={{ backgroundImage: `url(${bgImg})` }}
     >
-      <div className="absolute top-0 left-0 w-full h-full bg-black/85 z-[1]"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-orm-dark via-orm-dark/90 to-orm-dark/70 z-[1]"></div>
 
-      <div className="w-[90%] max-w-[1400px] flex items-center justify-between gap-[60px] relative z-[2] max-lg:flex-col max-lg:text-left max-md:gap-[40px]">
+      <div className="w-[92%] max-w-[1300px] flex items-center justify-between gap-[40px] relative z-[2] max-lg:flex-col max-lg:text-left">
         {/* --- LEFT: TEXT CONTENT --- */}
-        <div className="flex-1 max-w-[650px]">
-          <h2 className="font-['Merriweather',_serif] text-[2.8rem] leading-[1.2] mb-[20px] capitalize text-white font-bold max-lg:text-[2.2rem] max-md:text-[2rem]">
+        <div className="flex-1 max-w-[600px]">
+          <div className="inline-block px-3 py-0.5 bg-orm-gold/10 border border-orm-gold/20 rounded-full mb-4">
+             <span className="text-orm-gold text-[0.55rem] font-black uppercase tracking-[0.2em]">Engineering Breakdown</span>
+          </div>
+
+          <h2 className="font-merriweather text-[2.4rem] leading-[1.2] mb-[24px] capitalize text-white font-black tracking-tight max-lg:text-[2rem] max-md:text-[1.8rem]">
             {product.benefits_title || `Upgrade Your ${product.title}`}
           </h2>
 
-          <p className="font-['Lato',_sans-serif] text-[1rem] leading-[1.7] text-[#ccc] mb-[25px] whitespace-pre-line">
+          <p className="font-sans text-[0.9rem] leading-[1.7] text-white/70 mb-[30px] whitespace-pre-line max-md:text-[0.85rem]">
             {product.benefits_description || product.description}
           </p>
 
-          <h3 className="font-['Merriweather',_serif] text-[1.4rem] text-[#fbb03b] mb-[20px] uppercase font-bold">Key Benefits:</h3>
+          <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-[1.5rem] p-6 shadow-xl">
+            <h3 className="font-sans text-[0.65rem] text-orm-gold mb-[16px] uppercase font-black tracking-[0.15em]">Key Advantages</h3>
 
-          <ul className="list-none p-0">
-            {specsList.length > 0 ? (
-              specsList.map((item, index) => (
-                <li key={index} className="relative pl-[25px] mb-[12px] font-['Lato',_sans-serif] text-[1rem] text-[#e0e0e0] before:content-['•'] before:absolute before:left-0 before:text-[#fbb03b] before:text-[1.5rem] before:top-[-2px]">
-                  {item}
+            <ul className="list-none p-0 flex flex-col gap-3">
+              {specsList.length > 0 ? (
+                specsList.map((item, index) => (
+                  <li key={index} className="relative pl-[20px] font-sans text-[0.85rem] font-bold text-white/80 before:content-[''] before:absolute before:left-0 before:top-[6px] before:w-1.5 before:h-1.5 before:bg-orm-gold before:rounded-full max-md:text-[0.8rem]">
+                    {item}
+                  </li>
+                ))
+              ) : (
+                <li className="relative pl-[20px] font-sans text-[0.85rem] font-bold text-white/80 before:content-[''] before:absolute before:left-0 before:top-[6px] before:w-1.5 before:h-1.5 before:bg-orm-gold before:rounded-full">
+                  High Performance & Durability
                 </li>
-              ))
-            ) : (
-              <li className="relative pl-[25px] mb-[12px] font-['Lato',_sans-serif] text-[1rem] text-[#e0e0e0] before:content-['•'] before:absolute before:left-0 before:text-[#fbb03b] before:text-[1.5rem] before:top-[-2px]">
-                High Performance & Durability
-              </li>
-            )}
-          </ul>
+              )}
+            </ul>
+          </div>
         </div>
 
         {/* --- RIGHT: 3D MODEL OR IMAGE --- */}
         <div className="flex-1 flex justify-end max-lg:w-full max-lg:justify-center">
-          <div className="relative w-full h-[500px] max-w-[650px] border-2 border-[#fbb03b] rounded-[25px] p-[5px] bg-black shadow-[0_0_30px_rgba(251,176,59,0.15)] overflow-hidden max-lg:h-[400px] max-md:h-[280px] max-md:rounded-[18px]">
-            {product.model_3d ? (
-              <model-viewer
-                src={modelUrl}
-                camera-controls
-                auto-rotate
-                ar
-                shadow-intensity="1"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  background: "transparent",
-                }}
-              ></model-viewer>
-            ) : (
-              <img src={imageUrl} alt={product.title} className="w-full h-full object-contain rounded-[20px]" />
-            )}
+          <div className="relative group">
+            <div className="absolute -inset-2 bg-orm-gold/20 blur-2xl rounded-[2rem] opacity-30 group-hover:opacity-50 transition-opacity"></div>
+            <div className="relative w-full h-[400px] max-w-[500px] border border-orm-gold/50 rounded-[2rem] p-[5px] bg-white/[0.03] backdrop-blur-sm shadow-2xl overflow-hidden max-lg:h-[350px] max-md:h-[280px]">
+              {product.model_3d ? (
+                <model-viewer
+                  src={modelUrl}
+                  camera-controls
+                  auto-rotate
+                  shadow-intensity="1.5"
+                  exposure="1.2"
+                  environment-image="neutral"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    background: "transparent",
+                  }}
+                ></model-viewer>
+              ) : (
+                <div className="w-full h-full rounded-[1.5rem] overflow-hidden">
+                   <img src={imageUrl} alt={product.title} className="w-full h-full object-cover grayscale-[20%] transition-transform duration-700 hover:scale-105 hover:grayscale-0" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
