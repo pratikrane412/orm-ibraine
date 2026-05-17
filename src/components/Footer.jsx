@@ -68,7 +68,7 @@ const Footer = () => {
 
       <div className="relative py-12 border-t border-white/5">
         <h1
-          className="text-[8vw] font-black text-center uppercase m-0 bg-cover bg-fixed bg-center bg-clip-text text-transparent opacity-10 transition-all duration-1000 select-none"
+          className="text-[8vw] font-black text-center uppercase m-0 bg-cover bg-center bg-clip-text text-transparent transition-all duration-1000 select-none"
           style={{ backgroundImage: `url(${maskImages[currentImg]})` }}
         >
           OFF ROAD MUTANTS
